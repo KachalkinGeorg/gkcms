@@ -580,14 +580,6 @@ select {
 	background-position: 0 50%;
 }
 
-#container #mainblock .post .post-info span.post-views {
-	background-image: url('../img/views.png');
-}
-
-#container #mainblock .post .post-info span.post-comments {
-	background-image: url('../img/comments.png');
-}
-
 #container #mainblock .post .post-meta {
 	-webkit-border-radius: 10px;
 	-moz-border-radius: 10px;
