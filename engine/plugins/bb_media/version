@@ -1,0 +1,17 @@
+;
+; Version description file for plugin @@ Next Generation CMS
+;
+
+ID: bb_media
+Name: MEDIA bb code
+Version: 0.09
+Acts: index, news_short, news_full
+Config: config.php
+File: bb_media.php
+Install: install.php
+Type: plugin
+Title: BB код [MEDIA]
+Description: BB код [MEDIA]
+Author: Vitaly A. Ponomarev
+Author_URI: 
+Icon: <i class='fa fa-youtube-play fa-2x'></i>

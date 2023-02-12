@@ -1,0 +1,21 @@
+;
+; Version description file for plugin @@ Next Geration CMS
+;
+
+ID: rating
+Name: Рейтинг новостей, статей, пользователей и комментариев
+Name_EN: News rating
+Version: 0.1
+Acts: ppages, news_full, news_short, news_search, static, plugin.uprofile, plugin.comments
+File: rating.php
+Install: install.php
+Deinstall: deinstall.php
+Config: config.php
+Type: plugin
+Description: Ведение рейтинга новостей, статей, пользователей и комментариев
+Description_EN: Manage rating of news, static, users, comments
+Author: SwiZZeR &amp; Vitaly A. Ponomarev &amp; RusiQ
+Icon: <i class='fa fa-star fa-2x'></i>
+Title: Рейтинг новостей
+Preinstall: default_no
+Information: Ведение и отображение пользовательского рейтинга новостей, статей, пользователей и комментариев

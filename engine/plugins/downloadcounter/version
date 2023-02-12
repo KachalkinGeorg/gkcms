@@ -1,0 +1,20 @@
+﻿;
+; Version description file for plugin @@ Next Generation CMS
+;
+
+ID: downloadcounter
+Name: Счетчик загрузок файлов
+Version: 0.3
+Acts: news:show, ppages 
+File: downloadcounter.php
+Install: install.php
+Deinstall: uninstall.php
+Config: config.php
+Type: plugin
+Description: Добавляет поддержку BB-тега [COUNTER]
+Author:  Alexey N. Zhukov (Wolverine)
+Author_URI: http://digitalplace.ru/
+Icon: <i class='fa fa-download fa-2x'></i>
+Title: Счетчик загрузок файлов
+Information: Плагин добавляет возможность подсчета количества загрузок файлов
+Preinstall: default_no

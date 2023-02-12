@@ -1,0 +1,169 @@
+
+/* ==========================================================================
+   General styles
+   ========================================================================== */
+   
+body,
+html {
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: 'Oxygen', "Segoe UI", "Helvetica Neue Light", Helvetica, sans-serif;
+  background: #333 url("../img/Outro.jpg") center center no-repeat fixed;
+  -webkit-background-size: cover;
+  background-size: cover;
+  color: #fff;
+  font-weight: 300;
+}
+
+a:hover { text-decoration: none; }
+
+img { max-width: 100%; }
+
+/* ==========================================================================
+   Progress bar
+   ========================================================================== */
+   
+.progress {
+  overflow: hidden;
+  margin-bottom: 0;
+  background-color: transparent;
+  border-radius: 0;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+.progress-bar {
+  background-color: #85a85b;
+  color: rgba(255, 255, 255, 0.67);
+  text-align: right;
+  padding-right: 2em;
+}
+
+/* ==========================================================================
+   animation
+   ========================================================================== */
+
+.animation-container {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  overflow: hidden;
+  z-index: -100;
+  width: 100%;
+}
+
+.clouds {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  background: transparent url("../img/clouds.png") repeat-x 50% 50%;
+  -webkit-background-size: cover;
+  background-size: cover;
+  -webkit-animation: clouds 100s linear 0s infinite both;
+  -moz-animation: clouds 100s linear 0s infinite both;
+  -o-animation: clouds 100s linear 0s infinite both;
+  animation: clouds 100s linear 0s infinite both;
+}
+ @-webkit-keyframes clouds {
+ from {
+ background-position: 0 50%, 50% 50%;
+}
+ to {
+ background-position: -150em 50%, 50% 50%;
+}
+}
+ @-moz-keyframes clouds {
+ from {
+ background-position: 0 50%, 50% 50%;
+}
+ to {
+ background-position: -150em 50%, 50% 50%;
+}
+}
+@-o-keyframes clouds {
+ from {
+ background-position: 0 50%, 50% 50%;
+}
+ to {
+ background-position: -150em 50%, 50% 50%;
+}
+}
+ @keyframes clouds {
+ from {
+ background-position: 0 50%, 50% 50%;
+}
+ to {
+ background-position: -150em 50%, 50% 50%;
+}
+}
+
+/* ==========================================================================
+   Top Header styles
+   ========================================================================== */
+   
+
+.top-header { margin: 3em 0 1.5em; }
+
+.top-header h1 {
+  font-size: 2.618em;
+  font-weight: 400;
+}
+
+/* ==========================================================================
+   social media styles
+   ========================================================================== */
+   
+.social { padding-bottom: 3em; }
+
+.social p {
+  font-size: 1.5em;
+  color: #bbb;
+}
+
+.social-icons {
+  list-style: none;
+  padding-left: 0;
+}
+
+.social-icons li {
+  display: inline-block;
+  padding-right: 1em;
+}
+
+.social-icons li:last-child { padding-right: 0; }
+
+.social-icons a { color: #85a85b; }
+
+.social-icons a:hover { color: #91ba60; }
+
+.fa-2x { font-size: 1.5em; }
+
+/* ==========================================================================
+   Small devices (tablets, 768px and up)
+   ========================================================================== */
+
+@media (min-width: 768px) {
+
+.top-header { margin: 7.5em 0 1.5em; }
+
+.top-header h1 {
+  font-size: 3.236em;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+}
+
+/* ==========================================================================
+   Medium devices (desktops, 992px and up)
+   ========================================================================== */
+
+@media (min-width: 992px) {
+
+.top-header { margin: 13.5em 0 3em; }
+
+.top-header h1 { font-size: 4.236em; }
+}

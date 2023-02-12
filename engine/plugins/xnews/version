@@ -1,0 +1,18 @@
+;
+; Version description file for plugin @@ Next Generation CMS
+;
+
+ID: xnews
+Name: Блоки новостей
+Version: 0.04
+Acts: index, twig
+File: xnews.php
+Config: config.php
+Type: widget
+Description: Вывод блоков новостей
+Author: Vitaly A. Ponomarev
+Author_URI: http://ngcms.ru/
+Icon: <i class='fa fa-newspaper-o fa-2x'></i>
+Title: Вывод блоков новостей
+Information: Вывод информационных блоков новостей по заданным вами критериям
+Preinstall: no

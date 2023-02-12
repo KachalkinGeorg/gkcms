@@ -1,0 +1,43 @@
+﻿
+
+Из особенностей:
+-Использует БД.
+-Используется шаблонизатор Twig.
+-Предусмотрено кэшировани.
+-Есть поддержка остальных страниц.
+-Можно указать плагины исключения.
+-Поддержка тегов для плагина tags.
+-Настройка кэша.
+-Добавлена поддержка блока для подстраницы [/ %num%]. [NEW]
+
+Установка:
+1. Помешаем папку с плагином в \engine\plugins\
+2. В разделе "Плагины" устанавливаем и включаем
+3. Можно пользоваться, по умолчанию уже заданы настройки для <title></title> если нужно изменить выбираем нужный раздел и добавляем.
+4. Открываем /engine/skins/default/tpl/news/add.tpl, /engine/skins/default/tpl/news/edit.tpl находим в нем:
+
+  <tr>
+   <td><img src="{{ skins_url }}/images/nav.png" hspace="8" alt="" /></td>
+   <td>{{ lang.editnews['keywords'] }}:</td>
+   <td><input type="text" name="keywords" value="{{ keywords }}" size="60" tabindex="5" /></td>
+  </tr>
+после добавляем:
+
+  {% if (pluginIsActive('simple_title_pro')) %}
+  <tr>
+   <td><img src="{{ skins_url }}/images/nav.png" hspace="8" alt="" /></td>
+   <td>Титле %home% %cat% %title%</td>
+   <td><input type="text" name="titles" value="{{ titles }}" size="60" tabindex="5" /></td>
+  </tr>
+  {% endif %}
+
+5. Открываем /engine/skins/default/tpl/static/edit.tpl находим в нем:
+{% if (flags.meta) %}
+Ниже вставить:
+  {% if (pluginIsActive('simple_title_pro')) %}
+  <tr>
+   <td><img src="{{ skins_url }}/images/nav.png" hspace="8" alt="" /></td>
+   <td>Титле %home% %static%</td>
+   <td><input type="text" name="titles" value="{{ titles }}" size="60" tabindex="5" /></td>
+  </tr>
+  {% endif %}

@@ -1,0 +1,23 @@
+;
+; Version description file for plugin @@ Next Generation CMS
+;
+
+ID: auth_basic
+Name: Basic auth
+Version: 0.30
+Acts: auth
+File: auth_basic.php
+Config: config.php
+Install: install.php
+Type: auth
+Description: Базовая авторизация пользователей
+Author: Vitaly A. Ponomarev
+Author_URI: http://ngcms.ru/
+Icon: <i class='fa fa-address-card fa-2x'></i>
+URI: http://no_url.com/
+Permanent: yes
+Preinstall_vars: restorepw="1"; 
+Title: Базовый модуль авторизации
+Information: Обеспечивает авторизацию пользователей в системе, обязателен к использованию.
+preinstall: yes
+MinEngineBuild: 2020731
