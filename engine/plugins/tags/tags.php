@@ -6,12 +6,21 @@ class TagsNewsfilter extends NewsFilter {
 
 	function addNewsForm(&$tvars) {
 
-		global $tpl;
-		$tpath = locatePluginTemplates(array('tags_addnews'), 'tags', pluginGetVariable('tags', 'localsource'), pluginGetVariable('tags', 'skin') ? pluginGetVariable('tags', 'skin') : 'default');
-		$tpl->template('tags_addnews', $tpath['tags_addnews']);
-		$tpl->vars('tags_addnews', array('vars' => array('localPrefix' => localPrefix)));
-		$tvars['plugin']['tags'] = $tpl->show('tags_addnews');
+		global $twig, $lang;
 
+        $ttvars = array(
+            'localPrefix' => localPrefix,
+			'admin_url' => admin_url,
+            );
+			
+		$extends = 'meta';
+
+		$tpath = locatePluginTemplates(array('tags_addnews'), 'tags', pluginGetVariable('tags', 'localsource'), pluginGetVariable('tags', 'skin') ? pluginGetVariable('tags', 'skin') : 'default');
+        $tvars['extends'][$extends][] = [
+			'title' => 'Теги новости',
+			'body' => $twig->render($tpath['tags_addnews'].'/tags_addnews.tpl', $ttvars),
+			];
+			
 		return 1;
 	}
 
@@ -60,12 +69,22 @@ class TagsNewsfilter extends NewsFilter {
 
 	function editNewsForm($newsID, $SQLold, &$tvars) {
 
-		global $tpl;
-		$tpath = locatePluginTemplates(array('tags_editnews'), 'tags', pluginGetVariable('tags', 'localsource'), pluginGetVariable('tags', 'skin') ? pluginGetVariable('tags', 'skin') : 'default');
-		$tpl->template('tags_editnews', $tpath['tags_editnews']);
-		$tpl->vars('tags_editnews', array('vars' => array('tags' => secure_html($SQLold['tags']), 'localPrefix' => localPrefix)));
-		$tvars['plugin']['tags'] = $tpl->show('tags_editnews');
+		global $twig, $lang;
 
+        $ttvars = array(
+            'localPrefix' => localPrefix,
+			'admin_url' => admin_url,
+			'tags' => secure_html($SQLold['tags']),
+            );
+			
+		$extends = 'meta';
+
+		$tpath = locatePluginTemplates(array('tags_editnews'), 'tags', pluginGetVariable('tags', 'localsource'), pluginGetVariable('tags', 'skin') ? pluginGetVariable('tags', 'skin') : 'default');
+        $tvars['extends'][$extends][] = [
+			'title' => 'Теги новости',
+			'body' => $twig->render($tpath['tags_editnews'].'/tags_editnews.tpl', $ttvars),
+			];
+			
 		return 1;
 	}
 

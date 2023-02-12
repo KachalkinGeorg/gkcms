@@ -1,24 +1,11 @@
-<tbody>
-	<tr class="thead-dark">
-		<th scope="col">
-			Теги новости
-		</th>
-	</tr>
-	<tr>
-		<td>Список тегов:<br />
-			<small>указывается через запятую</small>
-		</td>
-		<td><input id="pTags" name="tags" value="{tags}" autocomplete="off" />
-			<span id="suggestLoader" style="width: 20px; visibility: hidden;"><img
-					src="{skins_url}/images/loading.gif" /></span>
-		</td>
-	</tr>
-</tbody>
+<input id="pTags" style="width: 300px;display: inline-block;border-bottom-right-radius: 0;border-top-right-radius: 0;"  name="tags" value="{{ tags }}" autocomplete="off" />
+<br><small>указывается через запятую (,)</small>
+<span id="suggestLoader" style="width: 20px; visibility: hidden;"><img src="{{ admin_url }}/plugins/tags/tpl/img/loading.gif" /></span>
 <script language="javascript" type="text/javascript">
 	// INIT NEW SUGGEST LIBRARY [ call only after full document load ]
 	var aSuggest = new ngSuggest('pTags',
 		{
-			'localPrefix': '{localPrefix}',
+			'localPrefix': '{{ localPrefix }}',
 			'reqMethodName': 'plugin.tags.suggest',
 			'lId': 'suggestLoader',
 			'hlr': 'true',
