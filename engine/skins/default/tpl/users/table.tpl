@@ -1,52 +1,75 @@
 <!-- Filter form: BEGIN -->
 <div id="collapseUsersFilter" class="collapse">
 	<div class="card mb-4">
+	<div class="card-header">{{ lang['filter'] }}</div>
 		<div class="card-body">
 			<form action="{{ php_self }}" method="get">
 				<input type="hidden" name="mod" value="users" />
 				<input type="hidden" name="action" value="list" />
 
-				<div class="row">
-					<!--Block 1-->
-					<div class="col-lg-4">
-						<div class="form-group">
-							<label>{{ lang['name'] }}</label>
-							<input type="text" name="name" value="{{ name }}" class="form-control" />
+			<table class="table table-sm mb-0">
+				<tr>
+					<td><label style="padding: .375rem 0rem .75rem 0rem;">{{ lang['name'] }}</label></td>
+					<td>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend input-group-append">
+								<label class="input-group-text"><i class="fa fa-user-o"></i></label>
+							</div>
+							<input type="text" name="name" value="{{ name }}" placeholder="{{ lang['name'] }}..." class="form-control" style="max-width:220px;"/>
 						</div>
-					</div>
-
-					<div class="col-lg-4">
-						<div class="form-group">
-							<label>{{ lang['mail'] }}</label>
-							<input type="text" name="mail" value="{{ mail }}" class="form-control" />
+					</td>
+					<td><label style="padding: .375rem 0rem .75rem 0rem;">{{ lang['mail'] }}</label></td>
+					<td>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend input-group-append">
+								<label class="input-group-text"><i class="fa fa-at"></i></label>
+							</div>
+							<input type="text" name="mail" value="{{ mail }}" placeholder="{{ lang['mail'] }}..." class="form-control" style="max-width:220px;"/>
 						</div>
-					</div>
-					
-					<!--Block 2-->
-					<div class="col-lg-4">
-						<div class="form-group">
-							<label>{{ lang['group'] }}</label>
-							<select name="group" class="custom-select">
+					</td>
+				</tr>
+				<tr>				
+					<td><label style="padding: .375rem 0rem .75rem 0rem;">{{ lang['group'] }}</label></td>
+					<td>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend input-group-append">
+								<label class="input-group-text"><i class="fa fa-users"></i></label>
+							</div>
+							<select name="group" class="custom-select" style="max-width:220px;"/>
 								<option value="0">-- {{ lang['any'] }} --</option>
 								{% for g in ugroup %}
 								<option value="{{ g.id }}" {{ group == g.id ? 'selected' : ''}}>{{ g.name }}</option>
 								{% endfor %}
 							</select>
 						</div>
-					</div>
-
-					<!--Block 3-->
-					<div class="col-lg-4">
-						<div class="form-group">
-							<label>{{ lang['per_page'] }}&nbsp;</label>
-							<input type="number" name="rpp" value="{{ rpp }}" class="form-control" />
+					</td>
+			
+					<td><label style="padding: .375rem 0rem .75rem 0rem;">{{ lang['per_page'] }}</label></td>
+					<td>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend input-group-append">
+								<label class="input-group-text"><i class="fa fa-low-vision"></i></label>
+							</div>
+							<input type="number" name="rpp" value="{{ rpp }}" placeholder="{{ lang['per_page'] }}..." class="form-control" style="max-width:220px;"/>
 						</div>
+					</td>
+				</tr>
+			</table>
+			
+			<table class="table table-sm mb-0">
+				<tr>				
+					<td width="12px" style="display: inline-flex;">
+						<a class="btn-sm btn-default" data-toggle="popover" data-placement="top" data-trigger="focus" data-html="true" title="" data-content="{{ lang['singles'] }}" tabindex="0" data-original-title="{{ lang['single'] }}">
+							<i class="fa fa-question"></i>
+						</a>
+					&nbsp;<div class="btn-sm btn-default"><input type="checkbox" name="single" value="yes" {{ ifsingle }} class="form-control" style="vertical-align: text-bot;" /></div></td>
+					<td><label> - {{ lang['single'] }}</label></td>
+				</tr>	
+			</table>
 
-						<div class="form-group mb-0 text-right">
-							<button type="submit" class="btn btn-outline-primary">{{ lang['sortit'] }}</button>
-						</div>
-					</div>
-				</div>
+			<div class="panel-footer" align="center" style="margin-left: -20px;margin-right: -20px;margin-bottom: -20px;">
+				<button type="submit" class="btn btn-outline-primary">{{ lang['sortit'] }}</button>
+			</div>
 			</form>
 		</div>
 	</div>

@@ -464,6 +464,7 @@ function userList()
     $sortValue = (isset($_REQUEST['sort']) && isset($sortOrderMap[$_REQUEST['sort']])) ? $sortOrderMap[$_REQUEST['sort']] : 'id';
     $name = (isset($_REQUEST['name']) && $_REQUEST['name'] != '') ? ("'%".$mysql->db_quote($_REQUEST['name'])."%'") : '';
 	$mail = (isset($_REQUEST['mail']) && $_REQUEST['mail'] != '') ? ("'%".$mysql->db_quote($_REQUEST['mail'])."%'") : '';
+	$singleuse = $_REQUEST['singleuse'];
 
     // Records Per Page
     // - Load
@@ -493,6 +494,11 @@ function userList()
     if (isset($_REQUEST['group']) && (intval($_REQUEST['group']) > 0)) {
         $whereRules[] = 'status = '.intval($_REQUEST['group']);
     }
+	if ($_REQUEST['single'] == "yes") {
+		$ifsingle = "checked";
+        $reg = time()-60*60*24*30;
+        $whereRules[] = "last<".$reg;
+	}
 
     $queryFilter = count($whereRules) ? 'where '.implode(' and ', $whereRules) : '';
     $sql = 'select * from '.uprefix.'_users '.$queryFilter.' order by '.$sortValue.' '.'limit '.(($pageNo - 1) * $fRPP).', '.$fRPP;
@@ -531,7 +537,8 @@ function userList()
         'url'     => admin_url.'/admin.php?mod=users&action=list'.
             (isset($_REQUEST['name']) && $_REQUEST['name'] ? '&name='.htmlspecialchars($_REQUEST['name'], ENT_COMPAT | ENT_HTML401, 'UTF-8') : '').
             (isset($_REQUEST['how']) && $_REQUEST['how'] ? '&how='.htmlspecialchars($_REQUEST['how'], ENT_COMPAT | ENT_HTML401, 'UTF-8') : '').
-            (isset($_REQUEST['rpp']) && $_REQUEST['rpp'] ? '&rpp='.intval($_REQUEST['rpp']) : '').
+            (isset($_REQUEST['single']) && $_REQUEST['single'] ? '&single=yes' : '').
+			(isset($_REQUEST['rpp']) && $_REQUEST['rpp'] ? '&rpp='.intval($_REQUEST['rpp']) : '').
             '&page=%page%',
     ]);
 
@@ -551,6 +558,7 @@ function userList()
     $tVars = [
         'php_self'   => $PHP_SELF,
         'rpp'        => $fRPP,
+		'ifsingle'   => $ifsingle,
         'name'       => (isset($_REQUEST['name']) && $_REQUEST['name']) ? htmlspecialchars($_REQUEST['name'], ENT_COMPAT | ENT_HTML401, 'UTF-8') : '',
 		'mail'       => (isset($_REQUEST['mail']) && $_REQUEST['mail']) ? htmlspecialchars($_REQUEST['mail'], ENT_COMPAT | ENT_HTML401, 'UTF-8') : '',
         'token'      => genUToken('admin.users'),
