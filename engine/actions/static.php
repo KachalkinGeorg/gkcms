@@ -282,6 +282,9 @@ function addEditStaticForm($operationMode = 1, $sID = 0)
         'token'        => genUToken('admin.static'),
         'smilies'      => $config['use_smilies'] ? InsertSmilies('content', 20) : '',
         'templateList' => staticTemplateList(),
+        'extends' 	   => [
+            'main' 			  => [],
+            ],
         'flags'        => [
             'editMode'        => $editMode,
             'canAdd'          => $perm['add'],
