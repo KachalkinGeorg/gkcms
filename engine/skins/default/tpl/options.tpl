@@ -51,6 +51,16 @@
 		</a>
 	  </div>
 
+	  <div class="col-sm-6 media-list media-list-linked">
+		<a class="media-link" href="?mod=replace">
+			<div class="media-left"><i class="fa fa-exchange fa-2x"></i></div>
+			<div class="media-body">
+				<h6 class="media-heading text-semibold">{{ lang['replace'] }}</h6>
+				<span class="text-muted text-size-small">{{ lang['replace_d'] }}</span>
+			</div>
+		</a>
+	  </div>
+	  
 	 </div>
 	 
 	</div>
@@ -99,7 +109,18 @@
 			</div>
 		</a>
 	  </div>
-{% if (pluginIsActive('auth_basic')) %}
+	  
+	  <div class="col-sm-6 media-list media-list-linked">
+		<a class="media-link" href="?mod=rules">
+			<div class="media-left"><i class="fa fa-book fa-2x"></i></div>
+			<div class="media-body">
+				<h6 class="media-heading text-semibold">{{ lang['rules'] }}</h6>
+				<span class="text-muted text-size-small">{{ lang['rules_d'] }}</span>
+			</div>
+		</a>
+	  </div>
+	  
+		{% if (pluginIsActive('auth_basic')) %}
 	  <div class="col-sm-6 media-list media-list-linked">
 		<a class="media-link" href="?mod=extra-config&plugin=auth_basic">
 			<div class="media-left"><i class="fa fa-address-card fa-2x"></i></div>
@@ -109,8 +130,9 @@
 			</div>
 		</a>
 	  </div>
-{% endif %}
-{% if (pluginIsActive('auth_social')) %}
+		{% endif %}
+		
+		{% if (pluginIsActive('auth_social')) %}
 	  <div class="col-sm-6 media-list media-list-linked">
 		<a class="media-link" href="?mod=extra-config&plugin=auth_social">
 			<div class="media-left"><i class="fa fa-user fa-2x"></i></div>
@@ -120,8 +142,9 @@
 			</div>
 		</a>
 	  </div>
-{% endif %}
-{% if (pluginIsActive('auth_loginza')) %}
+		{% endif %}
+		
+		{% if (pluginIsActive('auth_loginza')) %}
 	  <div class="col-sm-6 media-list media-list-linked">
 		<a class="media-link" href="?mod=extra-config&plugin=auth_loginza">
 			<div class="media-left"><i class="fa fa-user fa-2x"></i></div>
@@ -131,7 +154,7 @@
 			</div>
 		</a>
 	  </div>
-{% endif %}
+		{% endif %}
 
 	</div> 
 	</div>
