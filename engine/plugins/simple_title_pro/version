@@ -2,7 +2,7 @@ ID: simple_title_pro
 Name: Simple Title Pro
 Version: 0.3
 Actions: index_post; index.php
-Actions: admin:mod:news:static; title_news.php
+Actions: admin:mod:news,admin:mod:static; title_news.php
 Config: config.php
 Install: install.php
 Deinstall: uninstall.php

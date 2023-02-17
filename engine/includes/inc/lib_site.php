@@ -1118,7 +1118,8 @@ function editNews($mode = [])
     } else {
         msg(['type' => 'info', 'text' => $lang['editnews']['msgo_edited']]);
     }
-
+	
+	return 1;
 }
 
 function admcookie_get()

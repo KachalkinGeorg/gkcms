@@ -154,7 +154,9 @@ function uprofile_editForm($ajaxMode = false) {
 	}
 	// Notify about `EDIT COMPLETE` if editComplete parameter is passed
 	if (isset($_GET['editComplete']) && $_GET['editComplete']) {
-		msg(array("type" => "info", "info" => $lang['uprofile']['msgo_saved']));
+		$comlete = str_replace(array ('%user%', '%home%' ), array ('/users/'.$userROW['name'].'.html', $config['home_url']), $lang['uprofile']['msgi_saved']);
+		msg(array("type" => "info", "info" => ''.$lang['uprofile']['msgo_saved'].'<br>'.$comlete.''));
+		return 1;
 	}
 	//
 	// Show profile

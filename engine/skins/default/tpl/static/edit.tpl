@@ -94,21 +94,16 @@
 
 					{% if (flags.meta) %}
 					
-					{% if (pluginIsActive('simple_title_pro')) %}
+                {% if (extends.main) %}
+					{% for entry in extends.main %}
 					<div class="form-row mb-3">
-						<label class="col-lg-3 col-form-label">Титле<br />%home% %static%</label>
+						<label class="col-lg-3 col-form-label">{{ entry.title }}</label>
 						<div class="col-lg-9">
-							<div class="input-group">
-								<input placeholder="Введите заголовок..." type="text" name="titles" value="{{ titles }}" size="60" tabindex="5" class="form-control"/>
-								<div class="input-group-append">
-								<a class="btn btn-outline-primary" data-toggle="popover" data-placement="right" data-trigger="focus" data-html="true" title="ТИТЛ СТАТИКИ" data-content="Используются теги:<br>%home% - Описание сайта<br>%static% - Имя статистической страницы" tabindex="0">
-									<i class="fa fa-question"></i>
-								</a>
-								</div>
-							</div>
+							{{ entry.body }}
 						</div>
 					</div>
-					{% endif %}
+                    {% endfor %}
+                 {% endif %}
 						
 						<div class="form-row mb-3">
 							<label class="col-lg-3 col-form-label">{{ lang['description'] }}</label>

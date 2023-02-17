@@ -1,14 +1,29 @@
 <!-- Filter form: BEGIN -->
 <div id="collapseStaticFilter" class="collapse">
 	<div class="card mb-4">
+	<div class="card-header">{{ lang['filter'] }}</div>
 		<div class="card-body">
-			<form action="{{ php_self }}" method="get" name="options_bar" class="form-inline">
+			<form action="{{ php_self }}" method="get" name="options_bar">
 				<input type="hidden" name="mod" value="static" />
 
-				<label class="my-1 mr-2">{{ lang['per_page'] }}</label>
-				<input type="number" name="per_page" value="{{ per_page }}" size="3" class="form-control  my-1 mr-sm-2" />
+			<table class="table table-sm mb-0">
+				<tr>				
+					<td><label style="padding: .375rem 0rem .75rem 0rem;">{{ lang['per_page'] }}</label></td>
+					<td>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend input-group-append">
+								<label class="input-group-text"><i class="fa fa-low-vision"></i></label>
+							</div>
+							<input type="number" name="per_page" value="{{ per_page }}" size="3" class="form-control" style="max-width:220px;vertical-align: text-bot;"/>
+						</div>
+					</td>
+				</tr>	
+			</table>
+			
+			<div class="panel-footer" align="center" style="margin-left: -20px;margin-right: -20px;margin-bottom: -20px;">
+				<button type="submit" class="btn btn-outline-primary">{{ lang['do_show'] }}</button>
+			</div>
 
-				<button type="submit" class="btn btn-outline-primary my-1">{{ lang['do_show'] }}</button>
 			</form>
 		</div>
 	</div>
