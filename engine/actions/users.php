@@ -20,7 +20,7 @@ LoadPluginLibrary('uprofile', 'lib');
 // Form: Edit user
 function userEditForm()
 {
-    global $mysql, $lang, $twig, $mod, $PFILTERS, $UGROUP, $PHP_SELF, $config, $breadcrumb;
+    global $mysql, $lang, $twig, $mod, $PFILTERS, $userROW, $UGROUP, $PHP_SELF, $config, $breadcrumb;
 
     $id = (getIsSet($_REQUEST['id'])) ? intval($_REQUEST['id']) : 0;
 
@@ -33,14 +33,14 @@ function userEditForm()
     if (!$perm['modify'] && !$perm['details']) {
         ngSYSLOG(['plugin' => '#admin', 'item' => 'users', 'ds_id' => $id], ['action' => 'editForm'], null, [0, 'SECURITY.PERM']);
         msg(['type' => 'error', 'text' => $lang['perm.denied']], 1, 1);
-
+		print_msg( 'error', 'Пользователь', $lang['perm.denied'], '?mod=users' );
         return;
     }
 
     if (!($row = $mysql->record('select * from '.uprefix.'_users where id='.db_squote($id)))) {
         ngSYSLOG(['plugin' => '#admin', 'item' => 'users', 'ds_id' => $id], ['action' => 'editForm'], null, [0, 'NOT.FOUND']);
         msg(['type' => 'error', 'text' => $lang['msge_not_found']]);
-
+		print_msg( 'error', 'Пользователь', $lang['msge_not_found'], '?mod=users' );
         return;
     }
 
@@ -60,10 +60,12 @@ function userEditForm()
 
 	$skins_url = skins_url;
 	$avatar = ( isset($row['avatar']) and !empty($row['avatar']) and function_exists('userGetAvatar'))? userGetAvatar($userROW)[1] : $skins_url . '/images/default-avatar.jpg';
+	$photo = ( isset($row['photo']) and !empty($row['photo']) and function_exists('userGetPhoto'))? userGetPhoto($userROW)[1] : $skins_url . '/images/default-avatar.jpg';
 	$group = $UGROUP[$row['status']]['langName'][$config['default_lang']];
-	
 	$line = on_of_line($row['id']) ? on_of_line($row['id']) : 'функция отключена';
 	$alt_name = secure_html($row['alt_name']) ? secure_html($row['alt_name']) : 'не заполнено';
+	$userPhoto = userGetPhoto($row);
+	$userAvatar = userGetAvatar($row);
     //	Обрабатываем необходимые переменные для шаблона
     $tVars = [
         'php_self'   => $PHP_SELF,
@@ -73,15 +75,17 @@ function userEditForm()
         'com'        => $row['com'],
         'news'       => $row['news'],
         'status'     => $status,
-		'group'     => $group,
-		'avatar'          => $avatar,
-		'line'     	  => $line,
+		'group'      => $group,
+		'avatar'     => $avatar,
+		'photo'      => $photo,
+		'line'     	 => $line,
 		'site'       => secure_html($row['site']),
         'mail'       => secure_html($row['mail']),
         'gender'     => makeDropDown(array('0' => "Нет определения", '1' => "Мужской", '2' => "Женский"), 'gender', $row['gender']),
         'icq'        => secure_html($row['icq']),
         'where_from' => secure_html($row['where_from']),
         'info'       => secure_html($row['info']),
+		'inform'     => secure_html($row['info']) ? secure_html($row['info']) : 'Поле о себе не заполнено',
         'id'         => $id,
         'last'       => (empty($row['last'])) ? $lang['no_last'] : LangDate('l, j Q Y - H:i', $row['last']),
         'ip'         => $row['ip'],
@@ -89,6 +93,12 @@ function userEditForm()
         'perm'       => [
             'modify' => $perm['modify'] ? 1 : 0,
         ],
+		'flags'               => [
+			'photoAllowed'  => $config['use_photos'] ? 1 : 0,
+			'avatarAllowed' => $config['use_avatars'] ? 1 : 0,
+			'hasPhoto'  => $config['use_photos'] && $userPhoto[0],
+			'hasAvatar' => $config['use_avatars'] && $userAvatar[0],
+		],
     ];
 
     if (is_array($PFILTERS['plugin.uprofile'])) {
@@ -108,7 +118,7 @@ function userEditForm()
 // Edit user's profile
 function userEdit()
 {
-    global $mysql, $lang, $mod;
+    global $mysql, $lang, $mod, $config, $userROW;
 
     // Check for permissions
     if (!checkPermission(['plugin' => '#admin', 'item' => 'users'], null, 'modify')) {
@@ -122,7 +132,7 @@ function userEdit()
     if ((!isset($_REQUEST['token'])) || ($_REQUEST['token'] != genUToken('admin.users'))) {
         msg(['type' => 'error', 'text' => $lang['error.security.token'], 'info' => $lang['error.security.token#desc']]);
         ngSYSLOG(['plugin' => '#admin', 'item' => 'users', 'ds_id' => $id], ['action' => 'editForm'], null, [0, 'SECURITY.TOKEN']);
-
+		print_msg( 'error', 'Пользователь', ''.$lang['error.security.token'].'<br>'.$lang['error.security.token#desc'].'', '?mod=users' );
         return;
     }
 
@@ -132,7 +142,7 @@ function userEdit()
     if (!($row = $mysql->record('select * from '.uprefix.'_users where id='.db_squote($id)))) {
         msg(['type' => 'error', 'text' => $lang['msge_not_found']]);
         ngSYSLOG(['plugin' => '#admin', 'item' => 'users', 'ds_id' => $id], ['action' => 'editForm'], null, [0, 'NOT.FOUND']);
-
+		print_msg( 'error', 'Пользователь', $lang['msge_not_found'], '?mod=users' );
         return;
     }
 
@@ -149,11 +159,118 @@ function userEdit()
         $cList['pass'] = ['****', '****'];
     }
 
+	@include_once root . 'includes/classes/upload.class.php';
+	
+	$currentUser = $userROW;
+
+	if ($_REQUEST['delphoto']) {
+		uprofile_manageDelete('photo', $currentUser['id']);
+	} else {
+		$photo = $currentUser['photo'];
+	}
+	if ($_REQUEST['delavatar']) {
+		uprofile_manageDelete('avatar', $currentUser['id']);
+	} else {
+		$avatar = $currentUser['avatar'];
+	}
+
+	if ($_FILES['newavatar']['name']) {
+		// Delete an avatar if user already has it
+		uprofile_manageDelete('avatar', $currentUser['id']);
+		$fmanage = new file_managment();
+		$imanage = new image_managment();
+		$up = $fmanage->file_upload(array('type' => 'avatar', 'http_var' => 'newavatar', 'replace' => 1, 'manualfile' => $currentUser['id'] . '.' . strtolower($_FILES['newavatar']['name'])));
+		if (is_array($up)) {
+			// Now fetch information about size and prepare to write info into DB
+			if (is_array($sz = $imanage->get_size($config['avatars_dir'] . $up[1]))) {
+				$fmanage->get_limits('avatar');
+				// Check avatar size limit (!!!)
+				$lwh = intval($config['avatar_wh']);
+				if ($lwh && (($sz[1] > $lwh) || ($sz[2] > $lwh))) {
+					// Fatal: uploaded avatar mismatch size limits !
+					msg(array("type" => "error", "text" => $lang['msge_size'], "info" => sprintf($lang['msgi_size'], $lwh . 'x' . $lwh)));
+					return print_msg( 'error', ''.$lang['users_title'].'', ''.$lang['msge_size'].'<br>'.sprintf($lang['msgi_size'], $lwh . 'x' . $lwh).'', 'javascript:history.go(-1)' );
+					$fmanage->file_delete(array('type' => 'avatar', 'id' => $up[0]));
+				} else {
+					$mysql->query("update " . prefix . "_" . $fmanage->tname . " set width=" . db_squote($sz[1]) . ", height=" . db_squote($sz[2]) . " where id = " . db_squote($up[0]));
+					$avatar = $up[1];
+				}
+			} else {
+				// We were unable to fetch image size. Damaged file, delete it!
+				msg(array("type" => "error", "text" => $lang['msge_damaged']));
+				return print_msg( 'error', ''.$lang['users_title'].'', $lang['msge_damaged'], 'javascript:history.go(-1)' );
+				$fmanage->file_delete(array('type' => 'avatar', 'id' => $up[0]));
+			}
+		}
+	}
+	
+	if ($_FILES['newphoto']['name']) {
+		// Delete a photo if user already has it
+		uprofile_manageDelete('photo', $currentUser['id']);
+		$fmanage = new file_managment();
+		$imanage = new image_managment();
+		$up = $fmanage->file_upload(array('type' => 'photo', 'http_var' => 'newphoto', 'replace' => 1, 'manualfile' => $currentUser['id'] . '.' . strtolower($_FILES['newphoto']['name'])));
+		if (is_array($up)) {
+			if (is_array($sz = $imanage->get_size($config['photos_dir'] . $subdirectory . '/' . $up[1]))) {
+				$fmanage->get_limits('photo');
+				// Create preview for photo
+				$tsx = intval($config['photos_thumb_size_x']) ? intval($config['photos_thumb_size_x']) : intval($config['photos_thumb_size']);
+				$tsy = intval($config['photos_thumb_size_y']) ? intval($config['photos_thumb_size_y']) : intval($config['photos_thumb_size']);
+				if (($tsx < 10) || ($tsx > 1000)) $tsx = 150;
+				if (($tsy < 10) || ($tsy > 1000)) $tsy = 150;
+				$thumb = $imanage->create_thumb($config['photos_dir'] . $subdirectory, $up[1], $tsx, $tsy);
+				// If we were unable to create thumb - delete photo, it's damaged!
+				if (!$thumb) {
+					msg(array("type" => "error", "text" => $lang['msge_damaged']));
+					return print_msg( 'error', ''.$lang['users_title'].'', $lang['msge_damaged'], 'javascript:history.go(-1)' );
+					$fmanage->file_delete(array('type' => 'photo', 'id' => $up[0]));
+				} else {
+					$mysql->query("update " . prefix . "_" . $fmanage->tname . " set width=" . db_squote($sz[1]) . ", height=" . db_squote($sz[2]) . ", preview=1 where id = " . db_squote($up[0]));
+					$photo = $up[1];
+				}
+			} else {
+				// We were unable to fetch image size. Damaged file, delete it!
+				msg(array("type" => "error", "text" => $lang['msge_damaged']));
+				return print_msg( 'error', ''.$lang['users_title'].'', $lang['msge_damaged'], 'javascript:history.go(-1)' );
+				$fmanage->file_delete(array('type' => 'photo', 'id' => $up[0]));
+			}
+		}
+	}
+	
+	
     ngSYSLOG(['plugin' => '#admin', 'item' => 'users', 'ds_id' => $id], ['action' => 'editForm', 'list' => $cList], null, [1]);
 
-    $mysql->query('update '.uprefix.'_users set `status`='.db_squote($_REQUEST['status']).', `site`='.db_squote($_REQUEST['site']).', `alt_name`='.db_squote($_REQUEST['alt_name']).', `gender`='.db_squote($_REQUEST['gender']).', `icq`='.db_squote($_REQUEST['icq']).', `where_from`='.db_squote($_REQUEST['where_from']).', `info`='.db_squote($_REQUEST['info']).', `mail`='.db_squote($_REQUEST['mail']).($pass ? ', `pass`='.db_squote($pass) : '').' where id='.db_squote($row['id']));
+    $mysql->query('update '.uprefix.'_users set `status`='.db_squote($_REQUEST['status']).', `site`='.db_squote($_REQUEST['site']).', `alt_name`='.db_squote($_REQUEST['alt_name']).', `gender`='.db_squote($_REQUEST['gender']).', `icq`='.db_squote($_REQUEST['icq']).', `photo`='.db_squote($photo).', `avatar`='.db_squote($avatar).', `where_from`='.db_squote($_REQUEST['where_from']).', `info`='.db_squote($_REQUEST['info']).', `mail`='.db_squote($_REQUEST['mail']).($pass ? ', `pass`='.db_squote($pass) : '').' where id='.db_squote($row['id']));
     msg(['type' => 'info', 'text' => $lang['msgo_edituser']]);
-	return print_msg( 'update', 'Пользователь', 'Профиль пользователя '.$row['name'].' успешно отредактирована', array('?mod=users&action=editForm&id='.$row['id'] => 'Редактировать еще', '?mod=users' => 'Вернуться назад' ) );
+	return print_msg( 'update', 'Пользователь', 'Профиль пользователя '.$row['name'].' успешно отредактирован', array('?mod=users&action=editForm&id='.$row['id'] => 'Редактировать еще', '?mod=users' => 'Вернуться назад' ) );
+}
+
+function uprofile_manageDelete($type, $userID) {
+
+	global $mysql, $userROW;
+	// Load required library
+	@include_once root . 'includes/classes/upload.class.php';
+	$localUpdate = 0;
+	$userID = intval($userID);
+	if ($userID != $userROW['id']) {
+		if (!is_array($uRow = $mysql->record("select * from " . uprefix . "_users where id = " . $userID)))
+			return;
+	} else {
+		$uRow = $userROW;
+		$localUpdate = 1;
+	}
+	// Search for avatar record in mySQL table
+	if (is_array($imageRow = $mysql->record("select * from " . prefix . "_images where owner_id = " . $userID . " and category = " . ($type == 'avatar' ? 1 : 2)))) {
+		// Info was found in SQL table
+		$fmanager = new file_managment();
+		$fmanager->file_delete(array('type' => $type, 'id' => $imageRow['id']));
+		//unlink(avatars_dir.$imageRow['name']);
+	} else if ($uRow[$type]) {
+		// Try to delete all avatars of this user
+		@unlink($avatar_dir . $uRow['id'] . '.*');
+	}
+	$mysql->query("update " . uprefix . "_users set " . ($type == 'photo' ? 'photo' : 'avatar') . " = '' where id = " . $userID);
+	if ($localUpdate) $userROW[$type] = '';
 }
 
 //
@@ -586,7 +703,10 @@ function userList()
 // ==============================================
 
 if ($action == 'editForm') {
-    $main_admin = userEditForm();
+	userEditForm();
+    if (!$main_admin) {
+        $main_admin = userEditForm();
+    }
 } else {
     switch ($action) {
         case 'edit':
@@ -613,5 +733,4 @@ if ($action == 'editForm') {
 		default:
 			$main_admin = userList();
     }
-    //$main_admin = userList();
 }

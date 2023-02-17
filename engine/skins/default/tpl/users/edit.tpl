@@ -1,4 +1,4 @@
-<form action="{{ php_self }}?mod=users" method="post">
+<form action="{{ php_self }}?mod=users" method="post"  enctype="multipart/form-data">
 	<input type="hidden" name="token" value="{{ token }}" />
 	<input type="hidden" name="action" value="edit" />
 	<input type="hidden" name="id" value="{{ id }}" />
@@ -14,61 +14,100 @@
 			</div>
 				<div class="panel-body">
 					<div class="form-row mb-3">
+						<label class="col-lg-3 col-form-label">
+							<img src="{{ photo }}" style="max-width: 50%;" alt="{{ users }}">
+						</label>
+						<div class="col-lg-9">
+							<i>{{ inform }}</i>
+						</div>
+					</div>
+					<hr>
+					<div class="form-row mb-3">
 						<label class="col-lg-3 col-form-label">{{ lang['groupName'] }}</label>
 						<div class="col-lg-9">
-							<select name="status" class="custom-select">
+							<div style="max-width:250px;"><select name="status" class="custom-select">
 								{{ status }}
-							</select>
+							</select></div>
 						</div>
 					</div>
 
 					<div class="form-row mb-3">
 						<label class="col-lg-3 col-form-label">{{ lang['alt_name'] }}</label>
 						<div class="col-lg-9">
-							<input type="text" name="alt_name" value="{{ alt_name }}" class="form-control" />
+						<div class="input-group mb-3">
+							<input type="text" name="alt_name" value="{{ alt_name }}" placeholder="{{ lang['alt_name'] }}" maxlength="40" class="form-control" style="max-width:250px;" />
+							<div class="input-group-prepend input-group-append">
+								<label class="input-group-text"><i class="fa fa-id-badge"></i></label>
+							</div>
+						</div>
 						</div>
 					</div>
 					
 					<div class="form-row mb-3">
 						<label class="col-lg-3 col-form-label">{{ lang['new_pass'] }}</label>
 						<div class="col-lg-9">
-							<input type="text" name="password" class="form-control" />
-							<small class="form-text text-muted">{{ lang['pass_left'] }}</small>
+						<div class="input-group mb-3">
+							<input type="text" name="password" placeholder="*****" maxlength="40" class="form-control" style="max-width:250px;" />
+							<div class="input-group-prepend input-group-append">
+								<label class="input-group-text"><i class="fa fa-ellipsis-h"></i></label>
+							</div>
+						</div>
+						<small class="form-text text-muted">{{ lang['pass_left'] }}</small>
 						</div>
 					</div>
 
 					<div class="form-row mb-3">
 						<label class="col-lg-3 col-form-label">{{ lang['email'] }}</label>
 						<div class="col-lg-9">
-							<input type="email" name="mail" value="{{ mail }}" class="form-control" />
+						<div class="input-group mb-3">
+							<input type="email" name="mail" value="{{ mail }}" placeholder="{{ lang['email'] }}" class="form-control" style="max-width:250px;" />
+							<div class="input-group-prepend input-group-append">
+								<label class="input-group-text"><i class="fa fa-envelope-o"></i></label>
+							</div>
+						</div>
 						</div>
 					</div>
 
 					<div class="form-row mb-3">
 						<label class="col-lg-3 col-form-label">{{ lang['gender'] }}</label>
 						<div class="col-lg-9">
-							{{ gender }}
+							<div style="max-width:250px;">{{ gender }}</div>
 						</div>
 					</div>
 					
 					<div class="form-row mb-3">
 						<label class="col-lg-3 col-form-label">{{ lang['site'] }}</label>
 						<div class="col-lg-9">
-							<input type="text" name="site" value="{{ site }}" class="form-control" />
+						<div class="input-group mb-3">
+							<input type="text" name="site" value="{{ site }}" placeholder="{{ lang['site'] }}" class="form-control" style="max-width:250px;" />
+							<div class="input-group-prepend input-group-append">
+								<label class="input-group-text"><i class="fa fa-sitemap"></i></label>
+							</div>
+						</div>
 						</div>
 					</div>
 					
 					<div class="form-row mb-3">
 						<label class="col-lg-3 col-form-label">{{ lang['icq'] }}</label>
 						<div class="col-lg-9">
-							<input type="text" name="icq" value="{{ icq }}" class="form-control" maxlength="10" />
+						<div class="input-group mb-3">
+							<input type="text" name="icq" value="{{ icq }}" placeholder="{{ lang['icq'] }}" maxlength="10" class="form-control" style="max-width:250px;" />
+							<div class="input-group-prepend input-group-append">
+								<label class="input-group-text"><i class="fa fa-smile-o"></i></label>
+							</div>
+						</div>
 						</div>
 					</div>
 
 					<div class="form-row mb-3">
 						<label class="col-lg-3 col-form-label">{{ lang['from'] }}</label>
 						<div class="col-lg-9">
-							<input type="text" name="where_from" value="{{ where_from }}" class="form-control" maxlength="60" />
+						<div class="input-group mb-3">
+							<input type="text" name="where_from" value="{{ where_from }}" placeholder="{{ lang['from'] }}" maxlength="40" class="form-control" style="max-width:250px;" />
+							<div class="input-group-prepend input-group-append">
+								<label class="input-group-text"><i class="fa fa-globe"></i></label>
+							</div>
+						</div>
 						</div>
 					</div>
 
@@ -76,6 +115,42 @@
 						<label class="col-lg-3 col-form-label">{{ lang['about'] }}</label>
 						<div class="col-lg-9">
 							<textarea name="info" class="form-control" rows="7" cols="60">{{ info }}</textarea>
+						</div>
+					</div>
+					<hr>
+					<div class="form-row mb-3">
+						<label class="col-lg-3 col-form-label">{{ lang['uplphoto'] }}</label>
+						<div class="col-lg-9">
+						{% if (flags.photoAllowed) %}
+							{% if (flags.hasPhoto) %}
+								<img src="{{ photo }}" style="max-width: 50%;" alt="{{ users }}">
+								<input type="checkbox" name="delphoto" id="delphoto"/>&nbsp;{{ lang['del'] }}<br /><br />
+							{% endif %}
+							<div class="btn btn-default btn-light btn-fileinput"><span><i class="fa fa-user-circle-o"></i> {{ lang['uplphoto'] }}</span>
+								<input type="file" name="newphoto" size="40" />
+							</div>
+							<br />
+						{% else %}
+							{{ lang['photos_denied'] }}
+						{% endif %}
+						</div>
+					</div>
+					<hr>
+					<div class="form-row mb-3">
+						<label class="col-lg-3 col-form-label">{{ lang['uplavatar'] }}</label>
+						<div class="col-lg-9">
+						{% if (flags.avatarAllowed) %}
+							{% if (flags.hasAvatar) %}
+								<img src="{{ avatar }}" style="max-width: 50%;" alt="{{ users }}">
+								<input type="checkbox" name="delavatar" id="delavatar" />&nbsp;{{ lang['del'] }}<br /><br />
+							{% endif %}
+							<div class="btn btn-default btn-light btn-fileinput"><span><i class="fa fa-user-circle"></i> {{ lang['uplavatar'] }}</span>
+								<input type="file" name="newavatar" size="40" />
+							</div>
+							<br />
+						{% else %}
+							{{ lang['photos_denied'] }}
+						{% endif %}
 						</div>
 					</div>
 				</div>
