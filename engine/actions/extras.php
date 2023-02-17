@@ -214,7 +214,7 @@ if ($disable) {
     } else {
         if (pluginSwitch($disable, 'off')) {
             ngSYSLOG(['plugin' => '#admin', 'item' => 'extras'], ['action' => 'switch_off', 'list' => ['plugin' => $disable]], null, [1, '']);
-			msg(['type' => 'info', 'title' => $extras[$disable]['name'], 'text' => sprintf($lang['msgo_is_off'], $extras[$disable]['name'])]);
+			msg(['type' => 'info', 'title' => $extras[$disable]['name'], 'text' => sprintf($lang['msgo_is_off'], 'admin.php?mod=extra-config&plugin=' . $extras[$disable]['id'], $extras[$disable]['name'])]);
         } else {
             ngSYSLOG(['plugin' => '#admin', 'item' => 'extras'], ['action' => 'switch_on', 'list' => ['plugin' => $disable]], null, [0, 'ERROR: '.$disable]);
             msg(['type' => 'error', 'title' => $extras[$disable]['name'], 'text' => sprintf('ERROR: '.$lang['msgo_is_off'], $extras[$disable]['name'])]);

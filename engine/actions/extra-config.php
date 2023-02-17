@@ -36,7 +36,7 @@ if(!getPluginStatusActive($plugin) and $stype != 'install' and $stype != 'deinst
 	if (!is_array($extras[$plugin])) {
 		$text = $lang['noplugin'];
 	}else{
-		$text = 'Плагин '.$plugin.' не активирован!';
+		$text = 'Плагин <strong>'.$plugin.'</strong> не активирован!';
 	}
 	msg(['type' => 'error', 'title' => 'ВНИМАНИЕ!', 'text' => $text]);
 }
@@ -84,13 +84,7 @@ if (!is_array($extras[$plugin])) {
             call_user_func('plugin_'.$plugin.'_install', ($_REQUEST['action'] == 'commit') ? 'apply' : 'confirm');
         }
     } else {
-        $tVars = [
-            'action'      => $lang[$stype.'_text'],
-            'action_text' => $lang['nomod_'.$stype],
-            'plugin'      => $plugin,
-            'php_self'    => $PHP_SELF,
-        ];
-        $xt = $twig->loadTemplate('skins/default/tpl/extra-config/nomodule.tpl');
-        $main_admin = $xt->render($tVars);
+
+        return print_msg( 'warning', ''.$lang[$stype.'_text'].' '.$plugin.'', $lang['nomod_'.$stype], 'javascript:history.go(-1)' );
     }
 }
