@@ -253,7 +253,7 @@ function generate_reg_page($params, $values = [], $msg = '')
 		$content = $parse->htmlformatter($conten);
 		//$template['vars']['mainblock'] .= '<form name="register" action="'.$tVars['form_action'].'" method="post">'.$content.'<br><input type="hidden" name="accept" value="accept"/><div align="center"><input type="submit" value="Принимаю" class="btn">&nbsp;&nbsp;&nbsp;<input type="button" value="Не принимаю" class="btn" onclick="history.go(-1); return false;" /></div></form>';
 
-		$template['vars']['mainblock'] .= str_ireplace(array ('%rules%', '%home%' ), array ('<form  method="post" name="register" action="'.$tVars['form_action'].'"><input type="submit" class="btn" value="Принимаю" />&nbsp;&nbsp;&nbsp;<input type="button" class="btn" value="Не принимаю" onclick="history.go(-1); return false;" /></form>', $config['home_url'] ), $content );
+		$template['vars']['mainblock'] .= str_replace(array ('%rules%', '%home%' ), array ('<form name="register" action="'.$tVars['form_action'].'" method="post"><input type="hidden" name="accept" value="accept"/><input type="submit" class="btn" value="Принимаю" />&nbsp;&nbsp;&nbsp;<input type="button" class="btn" value="Не принимаю" onclick="history.go(-1); return false;" /></form>', $config['home_url'] ), $content );
 		
 	}
 	if (isset($accept)) {
