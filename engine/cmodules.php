@@ -142,7 +142,7 @@ function coreRegisterUser()
 // Registration page generation
 function generate_reg_page($params, $values = [], $msg = '')
 {
-    global $template, $PHP_SELF, $config, $PFILTERS, $twig, $twigLoader, $lang;
+    global $template, $PHP_SELF, $config, $PFILTERS, $mysql, $parse, $twig, $twigLoader, $lang;
 
     $tVars = [
         'entries' => [],
@@ -245,7 +245,22 @@ function generate_reg_page($params, $values = [], $msg = '')
     $twigLoader->setConversion('registration.tpl', $conversionConfig, $conversionConfigRegex);
     $twigLoader->setConversion('registration.entries.tpl', $conversionConfigEntries);
     $xt = $twig->loadTemplate('registration.tpl');
-    $template['vars']['mainblock'] .= $xt->render($tVars);
+	
+	$accept = $_REQUEST['accept'];
+	if( !$accept ) {
+		$row = $mysql->record( "select * from " . prefix . "_rules WHERE alt_name = 'rules_page' LIMIT 1" );
+		$conten = $parse->bbcodes($row['content']);
+		$content = $parse->htmlformatter($conten);
+		//$template['vars']['mainblock'] .= '<form name="register" action="'.$tVars['form_action'].'" method="post">'.$content.'<br><input type="hidden" name="accept" value="accept"/><div align="center"><input type="submit" value="Принимаю" class="btn">&nbsp;&nbsp;&nbsp;<input type="button" value="Не принимаю" class="btn" onclick="history.go(-1); return false;" /></div></form>';
+
+		$template['vars']['mainblock'] .= str_ireplace(array ('%rules%', '%home%' ), array ('<form  method="post" name="register" action="'.$tVars['form_action'].'"><input type="submit" class="btn" value="Принимаю" />&nbsp;&nbsp;&nbsp;<input type="button" class="btn" value="Не принимаю" onclick="history.go(-1); return false;" /></form>', $config['home_url'] ), $content );
+		
+	}
+	if (isset($accept)) {
+		$template['vars']['mainblock'] .= $xt->render($tVars);
+	}
+
+    //$template['vars']['mainblock'] .= $xt->render($tVars);
 }
 
 function coreRestorePassword()

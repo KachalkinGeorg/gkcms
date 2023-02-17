@@ -134,6 +134,7 @@
 							or global.mod == 'ipban'
 							or global.mod == 'ugroup'
 							or global.mod == 'perm'
+							or global.mod == 'rules'
 					%}
 					<li class="nav-header next-menu collapsed {{ h_active_userman ? 'active' : '' }}">
 						<a href="#" data-toggle="collapse" data-target="#nav-users"><span><i class="fa fa-users"></i> {{ lang['userman'] }}</span> <i class="arrow"></i></a>
@@ -143,6 +144,7 @@
 						{% if (perm.ipban) %}<li><a href="{{ php_self }}?mod=ipban">{{ lang['ipban_m'] }}</a></li>{% endif %}
 						<li><a href="{{ php_self }}?mod=ugroup">{{ lang['ugroup'] }}</a></li>
 						<li><a href="{{ php_self }}?mod=perm">{{ lang['uperm'] }}</a></li>
+						{% if (perm.rules) %}<li><a href="{{ php_self }}?mod=rules">{{ lang['rules'] }}</a></li>{% endif %}
 					</ul>
 					{%
 						set showService = global.mod == 'configuration'

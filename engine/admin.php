@@ -147,6 +147,7 @@ $permissions = [
     'preview'       => checkPermission(['plugin' => '#admin', 'item' => 'preview'], null, 'details'),
 	'lastcomments'  => checkPermission(['plugin' => '#admin', 'item' => 'lastcomments'], null, 'details'),
 	'replace'    	=> checkPermission(['plugin' => '#admin', 'item' => 'replace'], null, 'details'),
+	'rules'    		=> checkPermission(['plugin' => '#admin', 'item' => 'rules'], null, 'details'),
 ];
 
 exec_acts('admin_header');
@@ -228,7 +229,7 @@ $tVars = [
     'datetimepicker_lang' => $datetimepicker_lang,
     'h_active_options'    => (in_array($mod, ['options', 'categories', 'static', 'news', 'images', 'files'])) ? ' class="active"' : '',
     'h_active_system'     => (in_array($mod, ['configuration', 'dbo', 'rewrite', 'cron', 'newsletter', 'replace', 'statistics', 'default'])) ? ' class="active"' : '',
-    'h_active_userman'    => (in_array($mod, ['users', 'ipban', 'ugroup', 'perm'])) ? ' class="active"' : '',
+    'h_active_userman'    => (in_array($mod, ['users', 'ipban', 'ugroup', 'perm', 'rules'])) ? ' class="active"' : '',
     'h_active_templates'  => (in_array($mod, ['templates'])) ? ' class="active"' : '',
     'h_active_extras'     => (in_array($mod, ['extras'])) ? ' class="active"' : '',
     'h_active_pm'         => ($mod == 'pm') ? ' class="active"' : '',
@@ -254,6 +255,7 @@ $tVars = [
         'cron'          => checkPermission(['plugin' => '#admin', 'item' => 'cron'], null, 'details'),
 		'newsletter'    => checkPermission(['plugin' => '#admin', 'item' => 'newsletter'], null, 'details'),
 		'replace'    	=> checkPermission(['plugin' => '#admin', 'item' => 'replace'], null, 'details'),
+		'rules'    		=> checkPermission(['plugin' => '#admin', 'item' => 'rules'], null, 'details'),
 		'templates'     => checkPermission(['plugin' => '#admin', 'item' => 'templates'], null, 'details'),
         'rewrite'       => checkPermission(['plugin' => '#admin', 'item' => 'rewrite'], null, 'details'),
         'lastcomments'  => checkPermission(['plugin' => '#admin', 'item' => 'lastcomments'], null, 'details'),

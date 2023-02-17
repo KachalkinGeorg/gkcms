@@ -113,6 +113,10 @@ $confPerm = [
                 'modify'            => true,
                 '*'                 => true,
             ],
+            'rules'     => [
+                'details'           => true,
+                'modify'            => true,
+            ],
             'perm'          => [
                 'details'           => true,
                 'modify'            => true,
