@@ -161,10 +161,8 @@
 				{% endif %}
 
 				{% if (pluginIsActive('xfields')) %}
-				<table class="table table-sm mb-0">
-					<tbody>
+				<table class="table table-striped">
 					{{ plugin.xfields[1] }}
-					</tbody>
 				</table>
 				{% endif %}
 			</div>
@@ -209,22 +207,19 @@
 			<div id="additional" class="panel-body">
 
 				<div class="form-row mb-3">
-					<table class="table table-sm mb-0"><tbody>
-						{% if (pluginIsActive('xfields')) %}
-							<!-- XFields -->
-							{{ plugin.xfields[0] }}
-							<!-- /XFields -->
-						{% endif %}
-						{% if (pluginIsActive('nsched')) %}{{ plugin.nsched }}{% endif %}
-						{% if (pluginIsActive('finance')) %}{{ plugin.finance }}{% endif %}
-						{% if (pluginIsActive('tags')) %}{{ plugin.tags }}{% endif %}
-						{% if (pluginIsActive('tracker')) %}{{ plugin.tracker }}{% endif %}
-							
-						{% for entry in extends.additional %}
-							<legend>{{ entry.title }}</legend>
-							{{ entry.body }}
-                        {% endfor %}
-					</tbody></table>
+					{% if (pluginIsActive('xfields')) %}
+					<table class="table table table-striped">
+						{{ plugin.xfields[0] }}
+					</table>
+					{% endif %}
+					{% for entry in extends.additional %}
+					<table class="table table table-striped">
+						<tr class="thead-light">
+							<th colspan="2">{{ entry.title }}</th>
+						</tr>
+						{{ entry.body }}
+					</table>
+                    {% endfor %}
 				</div>
 					
 			</div>

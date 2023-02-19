@@ -82,6 +82,16 @@ function showStaticPage($params)
         'modify',
     ]);
 
+    if (is_array($userROW) && ($userROW['status'] == 1 || $userROW['status'] == 2)) {
+        $template['vars']['[edit-static]'] = "<a href=\"" . admin_url . "/admin.php?mod=static&action=edit&id=" . $row['id'] . "\" target=\"_blank\">";
+        $template['vars']['[/edit-static]'] = "</a>";
+        $template['vars']['[del-static]'] = "<a onclick=\"confirmit('" . admin_url . "/admin.php?mod=static&subaction=do_mass_delete&selected[]=" . $row['id'] . "', '" . $lang['sure_del'] . "')\" target=\"_blank\" style=\"cursor: pointer;\">";
+        $template['vars']['[/del-static]'] = "</a>";
+    } else {
+        $template['regx']["'\\[edit-static\\].*?\\[/edit-static\\]'si"] = "";
+        $template['regx']["'\\[del-static\\].*?\\[/del-static\\]'si"] = "";
+    }
+	
     $showModifyButtons = $canViewAdminPanel
                             && $staticPerms['view']
                             && $staticPerms['modify'];
@@ -95,6 +105,9 @@ function showStaticPage($params)
 
     $tvars['print_static_url'] = generatePluginLink('static', 'print', ['id' => $row['id'], 'altname' => $params['altname']], [], true);
 
+    $template['vars']['[print-link]'] = "<a href=\"" . generatePluginLink('static', 'print', array('id' => $row['id'], 'altname' => $params['altname']), array(), true) . "\">";
+    $template['vars']['[/print-link]'] = "</a>";
+	
     if (is_array($PFILTERS['static'])) {
         foreach ($PFILTERS['static'] as $k => $v) {
             $v->showStatic($row['id'], $row, $tvars, []);
