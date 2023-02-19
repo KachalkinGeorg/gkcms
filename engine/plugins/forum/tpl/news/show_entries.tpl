@@ -1,1 +1,0 @@
-<option value="{{ forum_id }}">- {{ forum_name }}</option>
