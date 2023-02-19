@@ -10,6 +10,11 @@ if (!defined('NGCMS')) die ('HAL');
 // Preload config file
 pluginsLoadConfig();
 
+if (!getPluginStatusActive('comments')) {
+	msg(['type' => 'error', 'text' => 'Для работы rating требуется ниличия плагина <strong>comments</strong>.']);
+	return print_msg( 'warning', 'rating', 'Внимание!<br>Плагин <strong>comments</strong> не был установлен. Для использования этого дополнения, необходимо установить плагин <a href="?mod=extra-config&plugin=comments">comments</a>', '?mod=extras' );
+}
+
 // Load lang files
 LoadPluginLang($plugin, 'config', '', '', ':');
 

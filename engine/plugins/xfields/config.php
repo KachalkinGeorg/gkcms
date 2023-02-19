@@ -560,9 +560,6 @@ function doAddEdit()
 		print_msg( 'success', 'Дополнительные поля', 'Новое поле '.$field.' успешно добавлено!', array('?mod=extra-config&plugin=xfields&action=add&section='.$sectionID.'' => 'Добавить еще', '?mod=extra-config&plugin=xfields&action=edit&section='.$sectionID.'&field='.$field => 'Редактировать еще', '?mod=extra-config&plugin=xfields&section='.$sectionID.'' => 'Вернуться назад' ) );
 	}
 
-/*     $tVars['sectionID'] = $sectionID;
-    $xt = $twig->loadTemplate('plugins/xfields/tpl/config_done.tpl');
-    echo $xt->render($tVars); */
 }
 
 //
