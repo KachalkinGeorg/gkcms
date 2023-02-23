@@ -575,9 +575,11 @@ function listNewsForm()
             'title'        => secure_html((mb_strlen($row['title']) > 70) ? mb_substr($row['title'], 0, 70).' ...' : $row['title']),
             'link'         => newsGenerateLink($row, false, 0, true),
             'state'        => $row['approve'],
+			'com'          => $row['allow_com'],
             'flags'        => [
                 'comments' => getPluginStatusInstalled('comments') ? true : false,
                 'status'   => ($row['approve'] == 1) ? true : false,
+				'fixed'    => ($row['fixed'] == 1) ? true : false,
                 'mainpage' => $row['mainpage'] ? true : false,
                 'editable' => ($row['author_id'] == $userROW['id']) && ($perm['personal.view']) || ($row['author_id'] != $userROW['id']) && ($perm['other.view']),
                 'isActive' => ($row['approve'] == 1) ? true : false,
@@ -605,7 +607,7 @@ function listNewsForm()
         ],
     ];
 
-    $tVars['category_select'] = makeCategoryList(['doall' => 1, 'dowithout' => 1, 'selected' => $fCategoryId, 'style' => 'width: 200px;']);
+    $tVars['category_select'] = makeCategoryList(['doall' => 1, 'dowithout' => 1, 'selected' => $fCategoryId, 'style' => 'max-width: 220px;']);
 
     $maxNavigations = !(empty($config['newsNavigationsAdminCount']) || $config['newsNavigationsAdminCount'] < 1) ? $config['newsNavigationsAdminCount'] : 20;
 
@@ -883,6 +885,14 @@ do {
             case 'mass_com_approve':
                 massNewsModify(['allow_com' => 1], 'msgo_capproved', 'capprove');
 				return print_msg( 'warning', 'Новость', 'Во всех выбранных Вами новостях были разрешены комментарии!', '?mod=news' );
+                break;
+            case 'mass_fixed':
+                massNewsModify(['fixed' => 1], 'msgo_fixed', 'fixed');
+				return print_msg( 'info', 'Новость', 'Выбранные Вами новости успешно зафиксированы!', '?mod=news' );
+                break;
+            case 'mass_unfixed':
+                massNewsModify(['fixed' => 0], 'msgo_unfixed', 'unfixed');
+				return print_msg( 'warning', 'Новость', 'Внимание!<br>Выбранные новости были успешно убраны с фиксации!', '?mod=news' );
                 break;
             case 'mass_delete':
                 massNewsDelete();

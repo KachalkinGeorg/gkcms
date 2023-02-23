@@ -1,86 +1,102 @@
 <!-- Filter form: BEGIN -->
 <div id="collapseNewsFilter" class="collapse">
 	<div class="card mb-4">
+	<div class="card-header">{{ lang['filter'] }}</div>
 		<div class="card-body">
 			<form action="{{ php_self }}?mod=news" method="post" name="options_bar">
 
-				<div class="row">
-					<!--Block 1-->
-					<div class="col-lg-4">
-						<div class="form-group">
-							<label>{{ lang.editnews['header.search'] }}</label>
-
-							<div class="input-group mb-3">
-								<input name="sl" type="text" value="{{ sl }}" class="form-control" />
+			<table class="table table-sm mb-0">
+				<tr>				
+					<td><label style="padding: .375rem 0rem .75rem 0rem;">{{ lang.editnews['header.search'] }}</label></td>
+					<td>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend input-group-append">
+								<label class="input-group-text"><i class="fa fa-search"></i></label>
 							</div>
-
-							<select name="st" class="custom-select">
+							<input name="sl" type="text" value="{{ sl }}" class="form-control" style="max-width:220px;"/>
+							<div class="input-group-prepend input-group-append">
+								<label class="input-group-text"><i class="fa fa-hand-o-right"></i></label>
+							</div>
+							<select name="st" class="custom-select" style="max-width:220px;">
 								<option value="0" {{ not(selected) ? 'selected' : '' }}>{{ lang.editnews['header.stitle'] }}</option>
 								<option value="1" {{ selected ? 'selected' : '' }}>{{ lang.editnews['header.stext'] }}</option>
 							</select>
 						</div>
-
-						<div class="form-group">
-							<label>{{ lang.editnews.author }}</label>
-							<input name="an" id="an" class="form-control" type="text" value="{{ an }}" autocomplete="off" />
-						</div>
-					</div>
-
-					<!--Block 2-->
-					<div class="col-lg-4">
-						<div class="form-group">
-							<label>{{ lang.editnews['header.date'] }}</label>
-
-							<div class="input-group mb-3">
-								<div class="input-group-prepend">
-									<span class="input-group-text">&nbsp;&nbsp;{{ lang.editnews['header.date_since'] }}&nbsp;</span>
-								</div>
-								<input type="text" id="dr1" name="dr1" value="{{ dr1 }}" class="form-control" pattern="[0-9]{2}\.[0-9]{2}\.[0-9]{4}" placeholder="{{ "now" | date('d.m.Y') }}" autocomplete="off" />
+					</td>
+					<td><label style="padding: .375rem 0rem .75rem 0rem;">{{ lang.editnews.author }}</label></td>
+					<td>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend input-group-append">
+								<label class="input-group-text"><i class="fa fa-user"></i></label>
 							</div>
-
-							<div class="input-group">
-								<div class="input-group-prepend">
-									<span class="input-group-text">{{ lang.editnews['header.date_till'] }}</span>
-								</div>
-								<input type="text" id="dr2" name="dr2" value="{{ dr2 }}" class="form-control" pattern="[0-9]{2}\.[0-9]{2}\.[0-9]{4}" placeholder="{{ "now" | date('d.m.Y') }}" autocomplete="off" />
-							</div>
+							<input name="an" id="an" class="form-control" type="text" value="{{ an }}" autocomplete="off" style="max-width:220px;"/>
 						</div>
-
-						<div class="form-group">
-							<label>{{ lang.editnews['category'] }}</label>
+					</td>
+				</tr>
+				<tr>				
+					<td><label style="padding: .375rem 0rem .75rem 0rem;">{{ lang.editnews['header.date'] }}</label></td>
+					<td>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend input-group-append">
+								<label class="input-group-text"><i class="fa fa-calendar"></i></label>
+								<label class="input-group-text">{{ lang.editnews['header.date_since'] }}</label>
+							</div>
+							<input type="text" id="dr1" name="dr1" value="{{ dr1 }}" class="form-control" pattern="[0-9]{2}\.[0-9]{2}\.[0-9]{4}" placeholder="{{ "now" | date('d.m.Y') }}" autocomplete="off" style="max-width:188px;"/>
+							<div class="input-group-prepend">
+								<span class="input-group-text">{{ lang.editnews['header.date_till'] }}</span>
+							</div>
+							<input type="text" id="dr2" name="dr2" value="{{ dr2 }}" class="form-control" pattern="[0-9]{2}\.[0-9]{2}\.[0-9]{4}" placeholder="{{ "now" | date('d.m.Y') }}" autocomplete="off" style="max-width:220px;"/>
+						</div>
+					</td>
+					<td><label style="padding: .375rem 0rem .75rem 0rem;">{{ lang.editnews['category'] }}</label></td>
+					<td>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend input-group-append">
+								<label class="input-group-text"><i class="fa fa-folder-open"></i></label>
+							</div>
 							{{ category_select }}
 						</div>
-					</div>
-
-					<!--Block 3-->
-					<div class="col-lg-4">
-						<div class="form-group">
-
-							<div class="row">
-								<div class="col-6">
-									<label>{{ lang.editnews['header.status'] }}</label>
-									<select name="status" class="custom-select">
-										<option value="">{{ lang.editnews['smode_all'] }}</option>
-										{{ statuslist }}
-									</select>
-								</div>
-								<div class="col-6">
-									<label>{{ lang.editnews['header.perpage'] }}</label>
-									<input type="number" name="rpp" value="{{ rpp }}" size="3" class="form-control" />
-								</div>
+					</td>
+				</tr>
+				<tr>				
+					<td><label style="padding: .375rem 0rem .75rem 0rem;">{{ lang.editnews['header.status'] }}</label></td>
+					<td>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend input-group-append">
+								<label class="input-group-text"><i class="fa fa-circle-o"></i></label>
 							</div>
+							<select name="status" class="custom-select" style="max-width:220px;">
+								<option value="">{{ lang.editnews['smode_all'] }}</option>
+									{{ statuslist }}
+							</select>
 						</div>
-
-						<div class="form-group">
-							<label class="left">{{ lang.editnews['sort'] }}</label>
-							<select name="sort" class="custom-select">{{ sortlist }}</select>
+					</td>
+					<td><label style="padding: .375rem 0rem .75rem 0rem;">{{ lang.editnews['header.perpage'] }}</label></td>
+					<td>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend input-group-append">
+								<label class="input-group-text"><i class="fa fa-low-vision"></i></label>
+							</div>
+							<input type="number" name="rpp" value="{{ rpp }}" size="3" class="form-control" style="max-width:220px;"/>
 						</div>
-
-						<div class="form-group">
-							<button type="submit" class="btn btn-block btn-outline-primary">{{ lang.editnews['do_show'] }}</button>
+					</td>
+				</tr>
+				<tr>				
+					<td><label style="padding: .375rem 0rem .75rem 0rem;">{{ lang.editnews['sort'] }}</label></td>
+					<td>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend input-group-append">
+								<label class="input-group-text"><i class="fa fa-sort-amount-asc"></i></label>
+							</div>
+							<select name="sort" class="custom-select" style="max-width:220px;">{{ sortlist }}</select>
 						</div>
-					</div>
-				</div>
+					</td>	
+				</tr>					
+			</table>
+			
+			<div class="panel-footer" align="center" style="margin-left: -20px;margin-right: -20px;margin-bottom: -20px;">
+				<button type="submit" class="btn btn-outline-primary">{{ lang.editnews['do_show'] }}</button>
+			</div>
 			</form>
 		</div>
 	</div>
@@ -96,7 +112,7 @@
 		<div class="panel-heading">{{ lang.editnews['news_pupl'] }}
 		<div class="panel-head-right">
 			<a href="{{ php_self }}?mod=news&action=add" class="btn2"><i class="fa fa-plus-circle"></i> {{ lang.addnews['addnews_title'] }}</a>
-			<button type="button" class="btn2" data-toggle="collapse" data-target="#collapseNewsFilter" aria-expanded="false" aria-controls="collapseNewsFilter">
+			<button type="button" class="btn2" data-toggle="collapse" data-target="#collapseNewsFilter" aria-expanded="false" aria-controls="collapseNewsFilter" title="{{ lang['filter'] }}">
 				<i class="fa fa-filter"></i>
 			</button>
 		</div>
@@ -130,9 +146,10 @@
 							<td width="30">{{ entry.newsid }}</td>
 							<td width="60">{{ entry.itemdate }}</td>
 							<td width="48" nowrap>
-								{% if entry.flags.mainpage %}<i class="fa fa-home" title="{{ lang['on_main'] }}"></i>{% endif %}
+								{% if entry.flags.mainpage %}<i class="fa fa-home" title="{{ lang['on_main'] }}"></i>{% else %}<i class="fa fa-home text-danger" title="{{ lang['off_main'] }}"></i>{% endif %}
 								{% if (entry.attach_count > 0) %}<i class="fa fa-paperclip" title="{{ lang['attach.count'] }}: {{ entry.attach_count }}"></i>{% endif %}
 								{% if (entry.images_count > 0) %}<i class="fa fa-images" title="{{ lang['images.count'] }}: {{ entry.images_count }}"></i>{% endif %}
+								{% if entry.flags.fixed %}<i class="fa fa-thumb-tack text-dark" title="{{ lang['on_fixed'] }}"></i>{% endif %}
 							</td>
 							<td nowrap>
 								{% if entry.flags.editable %}<a href="{{ php_self }}?mod=news&action=edit&id={{ entry.newsid }}">{% endif %}
@@ -156,6 +173,13 @@
 									<i class="fa fa-ban text-warning" title="{{ lang['state.unpiblished'] }}"></i>
 								{% else %}
 									<i class="fa fa-times text-danger" title="{{ lang['state.draft'] }}"></i>
+								{% endif %}
+								{% if (pluginIsActive('comments')) %}
+									{% if (entry.com == 1) %}
+										<i class="fa fa-commenting text-info" title="{{ lang['com.published'] }}"></i>
+									{% elseif (entry.com == 0) %}
+										<i class="fa fa-commenting text-warning" title="{{ lang['com.unpiblished'] }}"></i>
+									{% endif %}
 								{% endif %}
 							</td>
 							<td nowrap>{{ entry.allcats }}</td>
@@ -199,6 +223,9 @@
 								<option value="mass_com_forbidden">{{ lang.editnews['com_forbidden'] }}</option>
 								<option value="" class="bg-light" disabled>===================</option>
 							{% endif %}
+							<option value="mass_fixed">{{ lang.editnews['massfixed'] }}</option>
+							<option value="mass_unfixed">{{ lang.editnews['massunfixed'] }}</option>
+							<option value="" class="bg-light" disabled>===================</option>
 							<option value="mass_delete">{{ lang.editnews['delete'] }}</option>
 						</select>
 

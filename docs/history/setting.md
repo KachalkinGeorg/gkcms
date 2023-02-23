@@ -86,4 +86,14 @@ on_of_line($row['id']) - $row['id'] обязательный ИД пользов
 А также при создании категории такая сортировка внутри категорий новостей тоже доступна
 ![](images/history/setting_1.9.1.jpg){.img-fluid}
 
+# Блокировка iframe
+![](images/history/setting_1.10.jpg){.img-fluid}
+Доступна блокировка сайта встроенных в iframe на чужом сайте (проверить данную настройку можно <a href="http://www.tinywebgallery.com/blog/advanced-iframe/free-iframe-checker">тут</a>)
+По умолчанию (выключена)
+
+# Правила сайта
+![](images/history/setting_1.11.jpg){.img-fluid}
+Добавлена возможновсть вывода правил сайта при регистрации
+По умолчанию (выключена)
+
 © 2008-2020 Next Generation CMS

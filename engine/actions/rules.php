@@ -14,6 +14,11 @@ if (!defined('NGCMS')) {
 
 $lang = LoadLang('rules', 'admin');
 
+if ($config['reg_rules'] == '0') {
+	msg(['type' => 'error', 'text' => $lang['rules.title'], 'info' => $lang['rules_off']]);
+	return print_msg( 'warning', $lang['rules.title'], $lang['rules_off'], 'javascript:history.go(-1)' );
+}
+
 function RulesForm()
 {
     global $lang, $parse, $mysql, $config, $twig, $tvars, $userROW, $PHP_SELF, $breadcrumb;

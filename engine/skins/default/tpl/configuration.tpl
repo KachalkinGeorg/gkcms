@@ -129,8 +129,16 @@
 						<input type="text" name="save_con[load_profiler]" value="{{ config['load_profiler'] }}" class="form-control" style="max-width:150px; text-align: center;"/>
 					</td>
 				</tr>
+			</table>
+		</div>	
+		<div class="panel-body" style="font-family: Franklin Gothic Medium;text-transform: uppercase;color: #9f9f9f;">{{ lang['security'] }}</div>
+		<div class="table-responsive">
+			<table class="table table-striped">
 				<tr>
-					<td colspan="2" class="h3 font-weight-light">{{ lang['security'] }}</td>
+					<td width="50%">{{ lang['iframe'] }} <small class="form-text text-muted">{{ lang['iframe#desc'] }}</small></td>
+					<td width="50%">
+						{{ mkSelectNY({'name' : 'save_con[iframe]', 'value' : config['iframe'] }) }}
+					</td>
 				</tr>
 				<tr>
 					<td width="50%">{{ lang['flood_time'] }} <small class="form-text text-muted">{{ lang['flood_time_desc'] }}</small></td>
@@ -319,15 +327,15 @@
 					</td>
 				</tr>
 				<tr>
-					<td width="50%">{{ lang['jsquery'] }} <small class="form-text text-muted">{{ lang['jsquery_desc'] }}</small></td>
-					<td width="50%">
-						{{ mkSelect({'name' : 'save_con[jsquery]', 'value' : config['jsquery'], 'values' : { 0 : lang['jsq_0'], 1 : lang['jsq_1'], 2 : lang['jsq_2'], 3 : lang['jsq_3'] } }) }}
-					</td>
-				</tr>
-				<tr>
 					<td width="50%">{{ lang['url_external_target_blank'] }} <small class="form-text text-muted">{{ lang['url_external_target_blank_desc'] }}</small></td>
 					<td width="50%">
 						{{ mkSelectNY({'name' : 'save_con[url_external_target_blank]', 'value' : config['url_external_target_blank'] }) }}
+					</td>
+				</tr>
+				<tr>
+					<td width="50%">{{ lang['jsquery'] }} <small class="form-text text-muted">{{ lang['jsquery_desc'] }}</small></td>
+					<td width="50%">
+						{{ mkSelect({'name' : 'save_con[jsquery]', 'value' : config['jsquery'], 'values' : { 0 : lang['jsq_0'], 1 : lang['jsq_1'], 2 : lang['jsq_2'], 3 : lang['jsq_3'] } }) }}
 					</td>
 				</tr>
 				<tr>
@@ -351,9 +359,9 @@
 					<td width="50%">{{ lang['mailfrom_name'] }} <small class="form-text text-muted">{{ lang['mailfrom_desc'] }}</small></td>
 					<td width="50%">
 						<div class="input-group">
-							<input id="mail_fromname" type="text" name="save_con[mailfrom_name]" value="{{ config['mailfrom_name'] }}" class="form-control" />
+							<input id="mail_fromname" type="text" placeholder="Введите имя..." name="save_con[mailfrom_name]" value="{{ config['mailfrom_name'] }}" class="form-control" />
 							<div class="input-group-append">
-							<a class="btn btn-outline-primary" data-toggle="popover" data-placement="top" data-trigger="focus" data-html="true" title="E-MAIL" data-content="Если оставить поле пустым, то по умалчанию имя отправитяля будет почта администратора." tabindex="0">
+							<a class="btn btn-outline-primary" data-toggle="popover" data-placement="top" data-trigger="focus" data-html="true" title="E-MAIL" data-content="{{ lang['mailfrom_quest'] }}" tabindex="0">
 								<i class="fa fa-question"></i>
 							</a>
 							</div>
@@ -363,7 +371,7 @@
 				<tr>
 					<td width="50%">{{ lang['mailfrom'] }} <small class="form-text text-muted">{{ lang['example'] }} mailbot@server.com</small></td>
 					<td width="50%">
-						<input id="mail_frommail" type="text" name="save_con[mailfrom]" value="{{ config['mailfrom'] }}" class="form-control" />
+						<input id="mail_frommail" type="text" placeholder="Введите имя..." name="save_con[mailfrom]" value="{{ config['mailfrom'] }}" class="form-control" />
 					</td>
 				</tr>
 				<tr>
@@ -372,9 +380,11 @@
 						{{ mkSelect({'name' : 'save_con[mail_mode]', 'id' : 'mail_mode', 'value' : config['mail_mode'], 'values' : { 'mail' : 'mail', 'sendmail' : 'sendmail', 'smtp' : 'smtp' } }) }}
 					</td>
 				</tr>
-				<tr class="useSMTP">
-					<td colspan="2" class="h3 font-weight-light">{{ lang['smtp_config'] }}</td>
-				</tr>
+			</table>
+		</div>	
+		<div class="panel-body useSMTP" style="font-family: Franklin Gothic Medium;text-transform: uppercase;color: #9f9f9f;">{{ lang['smtp_config'] }}</div>
+		<div class="table-responsive">
+			<table class="table table-striped">
 				<tr class="useSMTP">
 					<td width="50%">{{ lang['smtp_host'] }}: <small class="form-text text-muted">{{ lang['example'] }} smtp.mail.ru</small></td>
 					<td width="50%">
@@ -661,6 +671,12 @@
 					</td>
 				</tr>
 				<tr>
+					<td width="50%">{{ lang['reg_rules'] }} <small class="form-text text-muted">{{ lang['reg_rules_desc'] }}</small></td>
+					<td width="50%">
+						{{ mkSelectYN({'name' : 'save_con[reg_rules]', 'value' : config['reg_rules'] }) }}
+					</td>
+				</tr>
+				<tr>
 					<td width="50%">{{ lang['user_aboutsize'] }} <small class="form-text text-muted">{{ lang['user_aboutsize_desc'] }}</small></td>
 					<td width="50%">
 						<input type="text" name="save_con[user_aboutsize]" value="{{ config['user_aboutsize'] }}" class="form-control" style="max-width:100px; text-align: center;"/>
@@ -672,9 +688,12 @@
 						{{ mkSelectYN({'name' : 'save_con[on_of_line]', 'value' : config['on_of_line'] }) }}
 					</td>
 				</tr>
-				<tr>
-					<td colspan="2" class="h3 font-weight-light">{{ lang['users.avatars'] }}</td>
-				</tr>
+			</table>
+		</div>	
+		
+		<div class="panel-body" style="font-family: Franklin Gothic Medium;text-transform: uppercase;color: #9f9f9f;">{{ lang['users.avatars'] }}</div>
+		<div class="table-responsive">
+			<table class="table table-striped">
 				<tr>
 					<td width="50%">{{ lang['use_avatars'] }} <small class="form-text text-muted">{{ lang['use_avatars_desc'] }}</small></td>
 					<td width="50%">
@@ -721,9 +740,12 @@
 						</div>
 					</td>
 				</tr>
-				<tr>
-					<td colspan="2" class="h3 font-weight-light">{{ lang['users.photos'] }}</td>
-				</tr>
+			</table>
+		</div>	
+		
+		<div class="panel-body" style="font-family: Franklin Gothic Medium;text-transform: uppercase;color: #9f9f9f;">{{ lang['users.photos'] }}</div>
+		<div class="table-responsive">
+			<table class="table table-striped">
 				<tr>
 					<td width="50%">{{ lang['use_photos'] }} <small class="form-text text-muted">{{ lang['use_photos_desc'] }}</small></td>
 					<td width="50%">

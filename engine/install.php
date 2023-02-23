@@ -1055,6 +1055,8 @@ function doInstall()
             'crypto_salt'         => substr(md5(uniqid(rand(), 1)), 0, 8),
             '404_mode'            => 0,
 			'jsquery'             => 0,
+			'reg_rules'           => '0',
+			'iframe'           	  => '0',
             'debug'               => 1,
             'news_multicat_url'   => '1',
             'UUID'                => md5(mt_rand().mt_rand()).md5(mt_rand().mt_rand()),
