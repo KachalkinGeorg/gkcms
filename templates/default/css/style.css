@@ -1429,6 +1429,28 @@ blockquote {
 .menuTree img{border:0;vertical-align:middle;}
 .menuTree span.active_cat {font-weight: bold;}
 
+/*---paginator---*/
+.paginator li {
+	display: inline-block;
+}
+.paginator { text-align: center;clear:both;display:block;  line-height: 20px; cursor:default; margin-bottom: 15px; margin-right: 3px; padding: 8px;}
+.paginator li span {color:#fff; font-size:12px;}
+.paginator li span {text-decoration:none;text-align:center; border-radius:3px; text-align: center; color:#fff;display:inline-block;padding:0px 8px 0px 8px;background:rgba(28, 37, 36, 1);}
+.paginator li span:hover {background:#141819;text-decoration:none;}
+.paginator b {
+    text-decoration: none;
+    text-align: center;
+    border-radius: 3px;
+    text-align: center;
+    color: #fff;
+    display: inline-block;
+    padding: 0px 8px 0px 8px;
+    background: rgba(28, 37, 36, 1);
+}
+.paginator li b:hover {background:#141819;text-decoration:none;}
+.paginator li a, .swchItem {background:rgba(48, 68, 55, 1);border-radius:3px;color:#fff;display:inline-block;padding:0px 8px 0px 8px;text-align: center; text-decoration:none;}
+.paginator li a:hover {color:#fff;background:#727374;text-decoration:none;}
+
 /* Постраничная навигация */
 .navigation li {
 	display: inline-block;
