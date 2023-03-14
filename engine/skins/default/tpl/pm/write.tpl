@@ -25,7 +25,7 @@
 					<div class="form-row mb-3">
 						<label class="col-lg-4 col-form-label">{{ lang.title }}</label>
 						<div class="col-lg-8">
-							<input type="text" name="title" value="" class="form-control" maxlength="50" required />
+							<input type="text" name="subject" value="" class="form-control" maxlength="50" required />
 						</div>
 					</div>
 
@@ -35,14 +35,14 @@
 						<div class="modal-dialog">
 							<div class="modal-content">
 								<div class="modal-header">
-									<h5 id="smiles-modal-label" class="modal-title">Вставить смайл</h5>
+									<h5 id="smiles-modal-label" class="modal-title">{{ lang.smail }}</h5>
 									<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 								</div>
 								<div class="modal-body">
 									{{ smilies }}
 								</div>
 								<div class="modal-footer">
-									<button type="button" class="btn btn-outline-dark" data-dismiss="modal">Отмена</button>
+									<button type="button" class="btn btn-outline-dark" data-dismiss="modal">{{ lang.cansel }}</button>
 								</div>
 							</div>
 						</div>
@@ -50,7 +50,7 @@
 
 					<div class="mb-3">
 						<!-- {{ lang.content }} -->
-						<textarea id="content" name="content" rows="10" cols="60" maxlength="3000" class="form-control" required></textarea>
+						<textarea id="message" name="message" rows="10" cols="60" maxlength="3000" class="form-control" required></textarea>
 					</div>
 				</div>
 

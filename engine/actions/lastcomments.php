@@ -203,7 +203,9 @@ $tVars = [
 	'perpage'   => $perpage,
 	'order'   => $orderes,
 	'comm_length'   => $comm_length,
-	'pages' => $pages,
+    'flags'   => [
+		'pages'  => $pages,
+    ],
 	'del' => $del,
 ];
 

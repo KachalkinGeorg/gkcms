@@ -2,6 +2,13 @@
 <div class="alert alert-info">
 {{ lang['em_descr'] }}
 </div>
+
+{% if flags.no_pm == 1%}
+<div class="alert alert-danger">
+{{ lang['er_descr'] }}
+</div>
+{% endif %}
+
 <div class="panel panel-default">
 	<div class="panel-heading">
      {{ lang['em_title'] }}
@@ -48,7 +55,7 @@
 							</div>
 						</div>
 					</div>
-					<textarea id="content" name="content" rows="10" cols="60" maxlength="3000" class="form-control"></textarea>
+					<textarea id="content" name="message" rows="10" cols="60" maxlength="3000" class="form-control"></textarea>
 				</div>
 			</div>
 

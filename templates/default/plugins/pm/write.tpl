@@ -57,6 +57,8 @@
 		cursor: pointer;
 	}
 </style>
+						<div class="body" >
+							<div class="body-text" style="margin-right: 20px;margin-left: 20px;">
 <form method=post name=form action="{{ php_self }}?action=send">
 	<div class="post">
 		<div class="post-header">
@@ -73,7 +75,7 @@
 				</tr>
 			</table>
 			<div style="height: 10px;"></div>
-			<table border="0" width="100%" cellspacing="0" cellpadding="0">
+			<table border="0" width="100%" cellpadding="0" cellspacing="0">
 				<tr>
 					<td style="color: #696969;">{{ lang['pm:subject'] }}:</td>
 					<td><input type="text" class="input" name="title" tabindex="2"/></td>
@@ -83,13 +85,13 @@
 						<small>{{ lang['pm:to'] }}</small>
 					</td>
 					<td>
-						<input type="text" class="input" name="to_username" id="to_username" tabindex="3" autocomplete="off" value="{{ username }}"/><span id="suggestLoader" style="width: 20px; visibility: hidden;"><img src="{{ skins_url }}/images/loading.gif"/></span>
+						<input type="text" class="input" name="to_username" id="to_username" tabindex="3" autocomplete="off" value="{{ username }}"/><span id="suggestLoader" style="width: 20px; visibility: hidden;"><img src="{{ tpl_url }}/images/loading.gif"/></span>
 					</td>
 				</tr>
 				<tr>
 					<td colspan="2" style="padding-top: 15px;">
 						{{ quicktags }}
-						<br/><textarea name="content" id="pm_content" style="width: 98%;" rows="8"/></textarea>
+						<textarea class="textarea" name="content" id="pm_content" style="width: 98%;" rows="8"></textarea>
 						<br/><br/><input name="saveoutbox" type="checkbox"/> {{ lang['pm:saveoutbox'] }}
 					</td>
 				</tr>
@@ -126,3 +128,4 @@
 		systemInit();
 	}
 </script>
+</div></div>

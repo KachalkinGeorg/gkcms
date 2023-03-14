@@ -69,6 +69,10 @@
 						<td>{{ entry.ip }}</td>
 						<td style="vertical-align: middle;">{{ entry.check }} {{ entry.act }}</td>
 					</tr>
+				{% else %}
+						<tr>
+							<td colspan="6"><p>- {{ lang.head_pm_no }} -</p></td>
+						</tr>
 				{% endfor %}
 				</tbody>
 			</table>
@@ -78,9 +82,11 @@
 	<div class="card-footer">
 		<div class="row">
 			<div class="col-lg-10 mb-2 mb-lg-0">
-				<nav aria-label="Page navigation example"><ul class="pagination mb-0">{{ pages }}</ul></nav>
+			{% if flags.pages %}
+				<nav aria-label="Page navigation example"><ul class="pagination mb-0">{{ flags.pages }}</ul></nav>
+			{% endif %}
 			</div>
-			<div class="col-lg-2">{{ del }}</div>
+			<div class="col-lg-2 text-right">{{ del }}</div>
 		</div>
 	</div>
 </div>

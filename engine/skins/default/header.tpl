@@ -43,10 +43,10 @@
 			<ul class="dropdown-menu dropdown-menu-right">
 				<li><span class="dropdown-item"><i class="fa fa-exclamation"></i> {{ unnAppText }}</span></li>
 				<li class="dropdown-divider"></li>
-					{{ unapproved1 }}
-					{{ unapproved2 }}
-					{{ unapproved3 }}
-				<li><a class="dropdown-item" href="{{ php_self }}?mod=pm" title="{{ lang['pm_t'] }}"><i class="fa fa-envelope-o"></i> {{ newpmText }}</a></li>
+				<li>{{ unapprov_down1 }}</li>
+				<li>{{ unapprov_down2 }}</li>
+				<li>{{ unapprov_down3 }}</li>
+				<li>{{ newpm_down }}</li>
 			</ul>
 		</div>
 				
@@ -94,13 +94,13 @@
 					<span class="text-size-small">{{ skin_UStatus }}</span>
 				</div>
 				<li class="user-menu collapsed">
-					<a href="#" data-toggle="collapse" data-target="#user-content" ><span>Аккаунт</span> <i class="caret"></i></a>
+					<a href="#" data-toggle="collapse" data-target="#user-content" ><span>Аккаунт</span> <span class="badge badge-light">{{ unnAppLabel }}</span><i class="caret"></i></a>
 				</li>
 				<ul class="navigation navigation-wrapper collapse" id="user-content">
-					{{ unapproved1 }}
-					{{ unapproved2 }}
-					{{ unapproved3 }}
-					<li><a class="navigation-item" href="{{ php_self }}?mod=pm" title="{{ lang['pm_t'] }}"><i class="fa fa-envelope-o"></i> {{ newpmText }}</a></li>
+					<li>{{ unapprov_nav1 }}</li>
+					<li>{{ unapprov_nav2 }}</li>
+					<li>{{ unapprov_nav3 }}</li>
+					<li> {{ newpm_nav }}</li>
 					<li><a class="navigation-item" href="?mod=users&action=editForm&id={{ user_id }}"><i class="fa fa-user-o"></i> {{ lang['loc_profile'] }}</a></li>
 					<li><a class="navigation-item" href="{{ php_self }}?action=logout"><i class="fa fa-sign-out"></i> {{ lang['logout'] }}</a></li>
 					<li class="dropdown-divider"></li>

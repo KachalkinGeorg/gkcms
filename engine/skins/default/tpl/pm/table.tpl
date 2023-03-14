@@ -14,31 +14,36 @@
 				<thead>
 					<tr>
 						<th width="15%">{{ lang.pmdate }}</th>
+						<th width="15%"><center>{{ lang.pmtime }}</center></th>
 						<th width="40%">{{ lang.title }}</th>
 						<th nowrap>{{ lang.from }}</th>
-						<th width="15%">{{ lang.status }}</th>
+						<th width="15%"><center>{{ lang.status }}</center></th>
 						<th width="5%">
 							<input type="checkbox" name="master_box" title="{{ lang.select_all }}" onclick="javascript:check_uncheck_all(form)">
 						</th>
 					</tr>
 				</thead>
 				<tbody>
-{% for entry in entries %}
+				{% for entry in entries %}
 					<tr>
 						<td>{{ entry.date }}</td>
-						<td><a href="?mod=pm&action=read&pmid={{ entry.id }}&token={{ token }}">{{ entry.title }}</a></td>
+						<td><center>{{ entry.time }}</center></td>
+						<td><a href="?mod=pm&action=read&pmid={{ entry.id }}&token={{ token }}">{{ entry.subject }}</a></td>
 						<td nowrap>{% if entry.flags.haveSender %}<a href="{{ entry.senderProfileURL }}">{{ entry.senderName }}</a>{% else %}{{ entry.senderName }}{% endif %}</td>
-						<td>{% if entry.flags.viewed %}{{ lang.viewed }}{% else %}{{ lang.unviewed }}{% endif %}</td>
+						<td><center>{% if entry.flags.viewed %}<i class="fa fa-eye text-success" title="{{ lang.viewed }}"></i>{% else %}<i class="fa fa-low-vision text-warning" title="{{ lang.unviewed }}"></i>{% endif %}</center></td>
 						<td><input type="checkbox" name="selected_pm[]" value="{{ entry.id }}" /></td>
 					</tr>
-{% endfor %}
+				{% else %}
+						<tr>
+							<td colspan="6"><p>- {{ lang.head_pm_no }} -</p></td>
+						</tr>
+				{% endfor %}
 				</tbody>
 			</table>
 		</div>
-
-		<div class="card-footer text-right">
-			<button type="submit" class="btn btn-outline-danger">{{ lang.delete }}</button>
-		</div>
+	</div>
+	<div class="card-footer text-right">
+		<button type="submit" class="btn btn-outline-danger">{{ lang.delete }}</button>
 	</div>
 </form>
 </div>

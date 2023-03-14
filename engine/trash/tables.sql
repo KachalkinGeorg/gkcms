@@ -276,24 +276,6 @@ CREATE TABLE `XPREFIX_users` (
   KEY `users_auth` (`authcookie`)
 ) ENGINE=InnoDB;
 
--- --------------------------------------------------------
-
--- 
--- Table `PREFIX_users_pm`
--- 
-
-CREATE TABLE `XPREFIX_users_pm` (
-  `pmid` int(10) NOT NULL auto_increment,
-  `from_id` int(10) default '0',
-  `to_id` int(10) default '0',
-  `pmdate` int(10) NOT NULL,
-  `title` varchar(255) default NULL,
-  `content` text NOT NULL,
-  `viewed` tinyint(1) default '0',
-  PRIMARY KEY  (`pmid`),
-  KEY `from_id` (`from_id`,`to_id`,`viewed`)
-) ENGINE=InnoDB;
-
 
 -- --------------------------------------------------------
 

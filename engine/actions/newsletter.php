@@ -17,7 +17,7 @@ $lang = LoadLang('newsletter', 'admin');
 
 $breadcrumb = breadcrumb('<i class="fa fa-envelope-square btn-position"></i><span class="text-semibold">'.$lang['newsletter'].'</span>', ''.$lang['pm_mail'].'' );
 
-function newsletter($method, $group, $subject, $content) {
+function newsletter($method, $group, $subject, $message) {
 	global $lang, $mysql, $userROW, $config;
 	
 	$send_to = $userROW['id'];
@@ -32,7 +32,7 @@ function newsletter($method, $group, $subject, $content) {
 		msg(['type' => 'error', 'text' => $lang['msge_subject']]);
 		print_msg( 'error', $lang['newsletter'], $lang['msge_subject'], '?mod=newsletter' );
 	}
-	elseif (!$content || trim($content) == "") {
+	elseif (!$message || trim($message) == "") {
 		msg(['type' => 'error', 'text' => $lang['msge_content']]);
 		print_msg( 'error', $lang['newsletter'], $lang['msge_content'], '?mod=newsletter' );
 	}
@@ -56,8 +56,8 @@ function newsletter($method, $group, $subject, $content) {
 			}
 			else {
 				$mails		=	join(', ', $mails);
-				$content	=	nl2br($content);
-				$conten = 'Уважаемый <b>'.$author.'!</b><br /><br />'.$content.'<br /><br />-------------<br />Администрация сайта: <a href='.$link.'>'.$title.'</a><br />Это письмо сгенерировано почтовым роботом '.$bot.', пожалуйста, не отвечайте на него!';
+				$message	=	nl2br($message);
+				$conten = 'Уважаемый <b>'.$author.'!</b><br /><br />'.$message.'<br /><br />-------------<br />Администрация сайта: <a href='.$link.'>'.$title.'</a><br />Это письмо сгенерировано почтовым роботом '.$bot.', пожалуйста, не отвечайте на него!';
 				zzMail($mails, $subject, $conten, 'html');
 				msg(['type' => 'error', 'text' => $lang['msgo_sent']]);
 				print_msg( 'info', $lang['newsletter'], 'Было отправлено тема '.$_REQUEST['subject'].' сообщения по E-Mail пользователям', '?mod=newsletter' );
@@ -80,18 +80,24 @@ function newsletter($method, $group, $subject, $content) {
 			}
 			else {
 				foreach ($ids as $to_id) {
-					$sql = $mysql->query("INSERT INTO ".uprefix."_users_pm (from_id, to_id, pmdate, title, content) values ('$send_to', '$to_id', '".time()."', '$subject', '$content')");
+					$sql = $mysql->query("INSERT INTO ".uprefix."_pm (from_id, to_id, date, subject, message) values ('$send_to', '$to_id', '".time()."', '$subject', '$message')");
 				}
 				msg(['type' => 'info', 'text' => $lang['msgo_sent']]);
-				print_msg( 'info', $lang['newsletter'], 'Было отправлено тема '.$_REQUEST['subject'].' сообщения по ПМ пользователям', '?mod=newsletter' );
+				print_msg( 'info', $lang['newsletter'], 'Было отправлено тема '.$_REQUEST['subject'].'<br>Выбрана рассылка сообщений по ЛС.', '?mod=newsletter' );
 			}
 		}
 	}
 }
 
-$mesmail = '0';
-$method = '<option value="0" ' . (empty($mesmail) ? 'selected' : '') . '>'.$lang['by_mail'].'</option><option value="1" ' . (!empty($mesmail) ? 'selected' : '') . '>'.$lang['by_pm'].'</option>';
 
+$mesmail = '0';
+if (!getPluginStatusActive('pm')) {
+	$method = '<option value="0" ' . (empty($mesmail) ? 'selected' : '') . '>'.$lang['by_mail'].'</option>';
+	$no_pm = 1;
+} else {
+	$method = '<option value="0" ' . (empty($mesmail) ? 'selected' : '') . '>'.$lang['by_mail'].'</option><option value="1" ' . (!empty($mesmail) ? 'selected' : '') . '>'.$lang['by_pm'].'</option>';
+}
+	
 $mesgroup = '0';
 $group = '<option value="0" ' . (empty($mesgroup) ? 'selected' : '') . '>Все группы</option><option value="1" ' . (!empty($mesgroup) ? 'selected' : '') . '>Администратор</option><option value="2" ' . (!empty($mesgroup) ? 'selected' : '') . '>Редактор</option><option value="3" ' . (!empty($mesgroup) ? 'selected' : '') . '>Журналист</option>';
 
@@ -102,7 +108,11 @@ $tVars = [
 	'subject' => $subject,
 	'quicktags' => QuickTags('', 'pmmes'),
 	'smilies'   => ($config['use_smilies'] == '1') ? InsertSmilies('content', 10) : '',
-	'content' => $content,
+	'message' => $message,
+    'flags'   => [
+		'no_pm'  => $no_pm,
+    ],
+
 ];
 
 $xt = $twig->loadTemplate('skins/default/tpl/newsletter.tpl');
@@ -111,9 +121,9 @@ $main_admin = $xt->render($tVars);
 
 if ($action == 'save') {
 	
-    $content = secure_html(trim($_POST['content']));
+    $message = secure_html(trim($_POST['message']));
      
-	newsletter($_REQUEST['method'], $_REQUEST['group'], $_REQUEST['subject'], $_REQUEST['content']);
+	newsletter($_REQUEST['method'], $_REQUEST['group'], $_REQUEST['subject'], $_REQUEST['message']);
 }
 
 ?>

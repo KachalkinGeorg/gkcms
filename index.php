@@ -35,22 +35,8 @@ include_once 'engine/includes/main.php';
  * @var $cron
  */
 
-// Disable cache
-@header('Expires: Sat, 08 Jun 1985 09:10:00 GMT'); // дата в прошлом
-@header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT'); // всегда модифицируется
-@header('Cache-Control: no-store, no-cache, must-revalidate'); // HTTP/1.1
-@header('Cache-Control: post-check=0, pre-check=0', false);
-@header('Pragma: no-cache'); // HTTP/1.0
 
-if (function_exists('opcache_get_status')) ini_set('opcache.enable', 0);
-if (function_exists('opcache_get_status')) ini_set('opcache.enable_cli', 0);
-if (function_exists('xcache_get')) ini_set('xcache.cacher', 0);
-
-@header('HTTP/1.1 503 Service Temporarily Unavailable', true, 503);
-@header('Status: 503 Service Temporarily Unavailable', true, 503);
-@header('Retry-After: ' . ($config['lock_retry'] ? $config['lock_retry'] : 3600));
-
-/* if(empty($_SERVER['HTTPS']) || $_SERVER['HTTPS'] == "off"){
+/* if($config['ssl_only'] AND (!empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off')){
     $redirect = 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
     header('HTTP/1.1 301 Moved Permanently');
     header('Location: ' . $redirect);
@@ -109,6 +95,21 @@ $template = [
 // Check if site access is locked [ for everyone except admins ]
 // ===================================================================
 if ($config['lock'] and (!isset($userROW) or !is_array($userROW) or (!checkPermission(array('plugin' => '#admin', 'item' => 'system'), null, 'lockedsite.view')))) {
+
+	// Disable cache
+	@header('Expires: Sat, 08 Jun 1985 09:10:00 GMT'); // дата в прошлом
+	@header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT'); // всегда модифицируется
+	@header('Cache-Control: no-store, no-cache, must-revalidate'); // HTTP/1.1
+	@header('Cache-Control: post-check=0, pre-check=0', false);
+	@header('Pragma: no-cache'); // HTTP/1.0
+
+	if (function_exists('opcache_get_status')) ini_set('opcache.enable', 0);
+	if (function_exists('opcache_get_status')) ini_set('opcache.enable_cli', 0);
+	if (function_exists('xcache_get')) ini_set('xcache.cacher', 0);
+
+	@header('HTTP/1.1 503 Service Temporarily Unavailable', true, 503);
+	@header('Status: 503 Service Temporarily Unavailable', true, 503);
+	@header('Retry-After: ' . ($config['lock_retry'] ? $config['lock_retry'] : 3600));
 
     $template['vars']['lock_reason'] = $config['lock_reason'];
 

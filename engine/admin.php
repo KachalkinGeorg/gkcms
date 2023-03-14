@@ -154,9 +154,7 @@ exec_acts('admin_header');
 
 if ($mod != 'preview') {
 // Default action
-/* if (!$mod) {
-    $mod = $permissions['default'] ? 'default' : 'news';
-} */
+
     if (empty($mod)) {
         $mod = ($userROW['status'] == 1) ? 'default' : 'news';
     }
@@ -191,8 +189,13 @@ if (is_array($userROW)) {
     $unapp1 = '';
     $unapp2 = '';
 
-    $newpm = $mysql->result('SELECT count(pmid) FROM '.prefix.'_users_pm WHERE to_id = '.db_squote($userROW['id']).' AND viewed = "0"');
-    $newpmText = ($newpm != '0') ? $newpm.' '.Padeg($newpm, $lang['head_pm_skl']) : $lang['head_pm_no'];
+	if (getPluginStatusActive('pm')) {
+		$newpm = $mysql->result('SELECT count(id) FROM '.prefix.'_pm WHERE to_id = '.db_squote($userROW['id']).' AND viewed = "0"');
+		$newpmText = ($newpm != '0') ? $newpm.' '.Padeg($newpm, $lang['head_pm_skl']) : $lang['head_pm_no'];
+		
+		$newpm_nav = '<a class="navigation-item" href="'.$PHP_SELF.'?mod=pm" title="'.$lang['pm_t'].'"><i class="fa fa-envelope-o"></i>'.$newpmText.'</a>';
+		$newpm_down ='<a class="dropdown-item" href="'.$PHP_SELF.'?mod=pm" title="'.$lang['pm_t'].'"><i class="fa fa-envelope-o"></i>'.$newpmText.'</a>';
+	}
 
     // Calculate number of un-approved news
     if ($userROW['status'] == 1 || $userROW['status'] == 2) {
@@ -200,13 +203,16 @@ if (is_array($userROW)) {
         $unapp2 = $mysql->result('SELECT count(id) FROM '.prefix."_news WHERE approve = '0'");
         $unapp3 = $mysql->result('SELECT count(id) FROM '.prefix."_static WHERE approve = '0'");
         if ($unapp1) {
-            $unapproved1 = '<a class="dropdown-item" href="'.$PHP_SELF.'?mod=news&status=1"><i class="fa fa-ban"></i> '.$unapp1.' '.Padeg($unapp1, $lang['head_news_draft_skl']).'</a>';
+            $unapprov_nav1 = '<a class="navigation-item" href="'.$PHP_SELF.'?mod=news&status=1"><i class="fa fa-ban"></i> <strong>'.$unapp1.'</strong> '.Padeg($unapp1, $lang['head_news_draft_skl']).'</a>';
+            $unapprov_down1 = '<a class="dropdown-item" href="'.$PHP_SELF.'?mod=news&status=1"><i class="fa fa-ban"></i> <strong>'.$unapp1.'</strong> '.Padeg($unapp1, $lang['head_news_draft_skl']).'</a>';
         }
         if ($unapp2) {
-            $unapproved2 = '<a class="dropdown-item" href="'.$PHP_SELF.'?mod=news&status=2"><i class="fa fa-times"></i> '.$unapp2.' '.Padeg($unapp2, $lang['head_news_pending_skl']).'</a>';
+            $unapprov_nav2 = '<a class="navigation-item" href="'.$PHP_SELF.'?mod=news&status=2"><i class="fa fa-newspaper-o"></i> <strong>'.$unapp2.'</strong> '.Padeg($unapp2, $lang['head_news_pending_skl']).'</a>';
+            $unapprov_down2 = '<a class="dropdown-item" href="'.$PHP_SELF.'?mod=news&status=2"><i class="fa fa-newspaper-o"></i> <strong>'.$unapp2.'</strong> '.Padeg($unapp2, $lang['head_news_pending_skl']).'</a>';
         }
         if ($unapp3) {
-            $unapproved3 = '<a class="dropdown-item" href="'.$PHP_SELF.'?mod=static"><i class="fa fa-times"></i> '.$unapp3.' '.Padeg($unapp3, $lang['head_stat_pending_skl']).'</a>';
+            $unapprov_nav3 = '<a class="navigation-item" href="'.$PHP_SELF.'?mod=static"><i class="fa fa-newspaper-o"></i> <strong>'.$unapp3.'</strong> '.Padeg($unapp3, $lang['head_stat_pending_skl']).'</a>';
+            $unapprov_down3 = '<a class="dropdown-item" href="'.$PHP_SELF.'?mod=static"><i class="fa fa-newspaper-o"></i> <strong>'.$unapp3.'</strong> '.Padeg($unapp3, $lang['head_stat_pending_skl']).'</a>';
         }
     }
 
@@ -236,12 +242,16 @@ $tVars = [
     'year'                => date('Y'),
 	'skin_UAvatar'        => $skin_UAvatar,
 	'skin_UStatus'        => $skin_UStatus,
-    'unapproved1'         => $unapproved1,
-    'unapproved2'         => $unapproved2,
-    'unapproved3'         => $unapproved3,
+    'unapprov_nav1'       => $unapprov_nav1,
+    'unapprov_nav2'       => $unapprov_nav2,
+    'unapprov_nav3'       => $unapprov_nav3,
+    'unapprov_down1'      => $unapprov_down1,
+    'unapprov_down2'      => $unapprov_down2,
+    'unapprov_down3'      => $unapprov_down3,
     'unnAppText'          => $unnAppText,
     'unnAppLabel'         => $unnAppLabel,
-    'newpmText'           => $newpmText,
+    'newpm_down'          => $newpm_down,
+	'newpm_nav'           => $newpm_nav,
 	'users'         	  => $userROW['name'],
 	'user_id'         	  => $userROW['id'],
     'perm'                => [
@@ -287,10 +297,7 @@ if ($mod != 'preview') {
     $xt = $twig->loadTemplate(dirname(tpl_actions).'/footer.tpl');
     echo $xt->render($tVars);
 }
-/* if (!$mod || ($mod && $mod != 'preview')) {
-    $xt = $twig->loadTemplate(dirname(tpl_actions).'/index.tpl');
-    echo $xt->render($tVars);
-} */
+
 if (defined('DEBUG')) {
     echo "SQL queries:<br />\n-------<br />\n ".implode("<br />\n", $mysql->query_list);
 }

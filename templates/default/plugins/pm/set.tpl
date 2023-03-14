@@ -23,7 +23,7 @@
 			<table border="0" width="100%" cellspacing="0" cellpadding="0">
 				<tr align="center">
 					<td width="100%" valign="top">
-						<input class="btn" type="submit" value="{{ lang['pm:send'] }}">
+						<input class="btn" type="submit" name="submit" value="{{ lang['pm:send'] }}">
 </form>
 
 </td>
