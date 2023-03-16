@@ -64,7 +64,15 @@
 						</a>
 					&nbsp;<div class="btn-sm btn-default"><input type="checkbox" name="single" value="yes" {{ ifsingle }} class="form-control" style="vertical-align: text-bot;" /></div></td>
 					<td><label> - {{ lang['single'] }}</label></td>
-				</tr>	
+				</tr>
+				<tr>				
+					<td width="12px" style="display: inline-flex;">
+						<a class="btn-sm btn-default" data-toggle="popover" data-placement="top" data-trigger="focus" data-html="true" title="" data-content="{{ lang['offactives'] }}" tabindex="0" data-original-title="{{ lang['offactive'] }}">
+							<i class="fa fa-question"></i>
+						</a>
+					&nbsp;<div class="btn-sm btn-default"><input type="checkbox" name="offactiv" value="yes" {{ ifoffactiv }} class="form-control" style="vertical-align: text-bot;" /></div></td>
+					<td><label> - {{ lang['offactive'] }}</label></td>
+				</tr>
 			</table>
 
 			<div class="panel-footer" align="center" style="margin-left: -20px;margin-right: -20px;margin-bottom: -20px;">
@@ -355,11 +363,11 @@
 			var newstatus = $(this.elements.newstatus).val();
 
 			if ('' == action) {
-				return alert('Необходимо выбрать действие!');
+				return ngNotifySticker(NGCMS.lang.msge_setaction, {className: 'stickers-danger'});
 			}
 
 			if (('massSetStatus' == action) && !newstatus) {
-				return alert(NGCMS.lang.msge_setstatus);
+				return ngNotifySticker(NGCMS.lang.msge_setstatus, {className: 'stickers-danger'});
 			}
 
 			this.submit();

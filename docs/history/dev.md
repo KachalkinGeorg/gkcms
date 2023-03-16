@@ -58,7 +58,7 @@ info:
 Дополнительная информация перед текстом будет ```<br /><i class="fa fa-exclamation"></i>```
 
 - Использования ngNotifyWindow:
-В php:
+В php или js:
 ```
 ngNotifySticker('ТЕКСТ ИНФОРМАЦИИ', {className: 'stickers-success'});
 ```
@@ -80,7 +80,8 @@ closeBTN:
 true ```-``` отображать 
 false ```-``` не отображать
 
-Для использования в php
+- Другой метод вызова
+При использования в php:
 ```
 return ['status' => 1, 'errorCode' => 0, 'errorText' => $lang['dbcheck_ok']];
 ```
@@ -93,6 +94,15 @@ errorCode ```- от 1 до х``` выводит текст ```(Error [цифра
 ```
 return $.notify({message: '{{ lang.news['msge_title'] }}'},{type: 'danger'});
 ```
+
+P.S. ngNotifySticker эта замена окон alert
+
+- Применения для сайта.
+Пример:
+```
+msg(array("type" => "info", "text" => 'Предупреждения выписаны<br><a href=/>Вернуться</a><br>'));
+```
+
 
 ### При совершении каких либо действий
 ИСпользования системных уведомлений действий.

@@ -33,14 +33,14 @@ function userEditForm()
     if (!$perm['modify'] && !$perm['details']) {
         ngSYSLOG(['plugin' => '#admin', 'item' => 'users', 'ds_id' => $id], ['action' => 'editForm'], null, [0, 'SECURITY.PERM']);
         msg(['type' => 'error', 'text' => $lang['perm.denied']], 1, 1);
-		print_msg( 'error', 'Пользователь', $lang['perm.denied'], '?mod=users' );
+		print_msg( 'error', $lang['users_title'], $lang['perm.denied'], '?mod=users' );
         return;
     }
 
     if (!($row = $mysql->record('select * from '.uprefix.'_users where id='.db_squote($id)))) {
         ngSYSLOG(['plugin' => '#admin', 'item' => 'users', 'ds_id' => $id], ['action' => 'editForm'], null, [0, 'NOT.FOUND']);
         msg(['type' => 'error', 'text' => $lang['msge_not_found']]);
-		print_msg( 'error', 'Пользователь', $lang['msge_not_found'], '?mod=users' );
+		print_msg( 'error', $lang['users_title'], $lang['msge_not_found'], '?mod=users' );
         return;
     }
 
@@ -124,6 +124,7 @@ function userEdit()
     if (!checkPermission(['plugin' => '#admin', 'item' => 'users'], null, 'modify')) {
         msg(['type' => 'error', 'text' => $lang['perm.denied']], 1, 1);
         ngSYSLOG(['plugin' => '#admin', 'item' => 'users', 'ds_id' => $id], ['action' => 'editForm'], null, [0, 'SECURITY.PERM']);
+		print_msg( 'error', $lang['users_title'], $lang['perm.denied'], '?mod=users' );
 
         return;
     }
@@ -132,7 +133,7 @@ function userEdit()
     if ((!isset($_REQUEST['token'])) || ($_REQUEST['token'] != genUToken('admin.users'))) {
         msg(['type' => 'error', 'text' => $lang['error.security.token'], 'info' => $lang['error.security.token#desc']]);
         ngSYSLOG(['plugin' => '#admin', 'item' => 'users', 'ds_id' => $id], ['action' => 'editForm'], null, [0, 'SECURITY.TOKEN']);
-		print_msg( 'error', 'Пользователь', ''.$lang['error.security.token'].'<br>'.$lang['error.security.token#desc'].'', '?mod=users' );
+		print_msg( 'error', $lang['users_title'], ''.$lang['error.security.token'].'<br>'.$lang['error.security.token#desc'].'', '?mod=users' );
         return;
     }
 
@@ -142,7 +143,7 @@ function userEdit()
     if (!($row = $mysql->record('select * from '.uprefix.'_users where id='.db_squote($id)))) {
         msg(['type' => 'error', 'text' => $lang['msge_not_found']]);
         ngSYSLOG(['plugin' => '#admin', 'item' => 'users', 'ds_id' => $id], ['action' => 'editForm'], null, [0, 'NOT.FOUND']);
-		print_msg( 'error', 'Пользователь', $lang['msge_not_found'], '?mod=users' );
+		print_msg( 'error', $lang['users_title'], $lang['msge_not_found'], '?mod=users' );
         return;
     }
 
@@ -242,7 +243,7 @@ function userEdit()
 
     $mysql->query('update '.uprefix.'_users set `status`='.db_squote($_REQUEST['status']).', `site`='.db_squote($_REQUEST['site']).', `alt_name`='.db_squote($_REQUEST['alt_name']).', `gender`='.db_squote($_REQUEST['gender']).', `icq`='.db_squote($_REQUEST['icq']).', `photo`='.db_squote($photo).', `avatar`='.db_squote($avatar).', `where_from`='.db_squote($_REQUEST['where_from']).', `info`='.db_squote($_REQUEST['info']).', `mail`='.db_squote($_REQUEST['mail']).($pass ? ', `pass`='.db_squote($pass) : '').' where id='.db_squote($row['id']));
     msg(['type' => 'info', 'text' => $lang['msgo_edituser']]);
-	return print_msg( 'update', 'Пользователь', 'Профиль пользователя '.$row['name'].' успешно отредактирован', array('?mod=users&action=editForm&id='.$row['id'] => 'Редактировать еще', '?mod=users' => 'Вернуться назад' ) );
+	return print_msg( 'update', $lang['users_title'], 'Профиль пользователя '.$row['name'].' успешно отредактирован', array('?mod=users&action=editForm&id='.$row['id'] => 'Редактировать еще', '?mod=users' => 'Вернуться назад' ) );
 }
 
 function uprofile_manageDelete($type, $userID) {
@@ -282,14 +283,14 @@ function userAdd()
     // Check for permissions
     if (!checkPermission(['plugin' => '#admin', 'item' => 'users'], null, 'modify')) {
         msg(['type' => 'error', 'text' => $lang['perm.denied']], 1, 1);
-
+		print_msg( 'error', $lang['users_title'], $lang['perm.denied'], '?mod=users' );
         return;
     }
 
     // Check for security token
     if ((!isset($_REQUEST['token'])) || ($_REQUEST['token'] != genUToken('admin.users'))) {
         msg(['type' => 'error', 'text' => $lang['error.security.token'], 'info' => $lang['error.security.token#desc']]);
-
+		print_msg( 'error', $lang['users_title'], ''.$lang['error.security.token'].'<br>'.$lang['error.security.token#desc'].'', '?mod=users' );
         return;
     }
 
@@ -302,12 +303,12 @@ function userAdd()
 
     if ((!$regusername) || (!strlen(trim($regpassword))) || (!$regemail)) {
         msg(['type' => 'error', 'text' => $lang['msge_fields'], 'info' => $lang['msgi_fields']]);
-		print_msg( 'warning', 'Пользователи', ''.$lang['msge_fields'].'<br>'.$lang['msgi_fields'].'', 'javascript:history.go(-1)' );
+		print_msg( 'warning', $lang['users_title'], ''.$lang['msge_fields'].'<br>'.$lang['msgi_fields'].'', 'javascript:history.go(-1)' );
         return;
     }
     if ($mysql->record('select * from '.uprefix.'_users where lower(name) = '.db_squote(strtolower($regusername)).' or lower(mail)='.db_squote(strtolower($regemail)))) {
         msg(['type' => 'error', 'text' => $lang['msge_userexists'], 'info' => $lang['msgi_userexists']]);
-		print_msg( 'warning', 'Пользователи', ''.$lang['msge_userexists'].'<br>'.$lang['msgi_userexists'].'', 'javascript:history.go(-1)' );
+		print_msg( 'warning', $lang['users_title'], ''.$lang['msge_userexists'].'<br>'.$lang['msgi_userexists'].'', 'javascript:history.go(-1)' );
         return;
     }
 
@@ -319,7 +320,7 @@ function userAdd()
 	
 	$userid = $mysql->lastid('users');
 	
-	return print_msg( 'success', 'Пользователи', 'Новый пользователь '.$regusername.' был успешно добавлен в Базу Данных', array('?mod=users&action=editForm&id='.$userid => 'Редактировать', '?mod=users' => 'Вернуться назад' ) );
+	return print_msg( 'success', $lang['users_title'], 'Новый пользователь '.$regusername.' был успешно добавлен в Базу Данных', array('?mod=users&action=editForm&id='.$userid => 'Редактировать', '?mod=users' => 'Вернуться назад' ) );
 }
 
 //
@@ -331,28 +332,28 @@ function userMassActivate()
     // Check for permissions
     if (!checkPermission(['plugin' => '#admin', 'item' => 'users'], null, 'modify')) {
         msg(['type' => 'error', 'text' => $lang['perm.denied']], 1, 1);
-		print_msg( 'error', 'Пользователи', ''.$lang['msge_userexists'].'', 'javascript:history.go(-1)' );
+		print_msg( 'error', $lang['users_title'], ''.$lang['msge_userexists'].'', 'javascript:history.go(-1)' );
         return;
     }
 
     // Check for security token
     if ((!isset($_REQUEST['token'])) || ($_REQUEST['token'] != genUToken('admin.users'))) {
         msg(['type' => 'error', 'text' => $lang['error.security.token'], 'info' => $lang['error.security.token#desc']]);
-		print_msg( 'error', 'Пользователи', ''.$lang['error.security.token'].'<br>'.$lang['error.security.token#desc'].'', 'javascript:history.go(-1)' );
+		print_msg( 'error', $lang['users_title'], ''.$lang['error.security.token'].'<br>'.$lang['error.security.token#desc'].'', 'javascript:history.go(-1)' );
         return;
     }
 
     $selected_users = getIsSet($_REQUEST['selected_users']);
     if (!$selected_users) {
         msg(['type' => 'error', 'text' => $lang['msge_select'], 'info' => $lang['msgi_select']]);
-
+		print_msg( 'error', $lang['users_title'], ''.$lang['msge_select'].'<br>'.$lang['msgi_select'].'', 'javascript:history.go(-1)' );
         return;
     }
     foreach ($selected_users as $id) {
         $mysql->query('update '.uprefix."_users set activation='' where id=".db_squote($id));
     }
     msg(['type' => 'info', 'text' => $lang['msgo_activate']]);
-	return print_msg( 'info', 'Пользователи', 'Все выбранные пользователи были успешно активированы', '?mod=users' );
+	return print_msg( 'info', $lang['users_title'], $lang['msgo_activate'], '?mod=users' );
 }
 
 //
@@ -364,21 +365,21 @@ function userMassLock()
     // Check for permissions
     if (!checkPermission(['plugin' => '#admin', 'item' => 'users'], null, 'modify')) {
         msg(['type' => 'info', 'type' => 'error', 'text' => $lang['perm.denied']], 1, 1);
-
+		print_msg( 'error', $lang['users_title'], $lang['perm.denied'], '?mod=users' );
         return;
     }
 
     // Check for security token
     if ((!isset($_REQUEST['token'])) || ($_REQUEST['token'] != genUToken('admin.users'))) {
         msg(['type' => 'info', 'type' => 'error', 'text' => $lang['error.security.token'], 'info' => $lang['error.security.token#desc']]);
-
+		print_msg( 'error', $lang['users_title'], ''.$lang['error.security.token'].'<br>'.$lang['error.security.token#desc'].'', '?mod=users' );
         return;
     }
 
     $selected_users = getIsSet($_REQUEST['selected_users']);
     if (!$selected_users) {
         msg(['type' => 'error', 'text' => $lang['msge_select'], 'info' => $lang['msgi_select']]);
-
+		print_msg( 'error', $lang['users_title'], $lang['msgi_select'], '?mod=users' );
         return;
     }
 
@@ -387,7 +388,7 @@ function userMassLock()
         $mysql->query('update '.uprefix.'_users set activation='.db_squote(MakeRandomPassword()).", authcookie='' where (id=".db_squote($id).') and (status <> 1)');
     }
     msg(['type' => 'info', 'text' => $lang['msgo_lock']]);
-	return print_msg( 'warning', 'Пользователи', 'Все выбранные пользователи были успешно заблокированы', '?mod=users' );
+	return print_msg( 'warning', $lang['users_title'], $lang['msgo_lock'], '?mod=users' );
 }
 
 //
@@ -399,21 +400,21 @@ function userMassSetStatus()
     // Check for permissions
     if (!checkPermission(['plugin' => '#admin', 'item' => 'users'], null, 'modify')) {
         msg(['type' => 'error', 'text' => $lang['perm.denied']], 1, 1);
-
+		print_msg( 'error', $lang['users_title'], $lang['perm.denied'], '?mod=users' );
         return;
     }
 
     // Check for security token
     if ((!isset($_REQUEST['token'])) || ($_REQUEST['token'] != genUToken('admin.users'))) {
         msg(['type' => 'error', 'text' => $lang['error.security.token'], 'info' => $lang['error.security.token#desc']]);
-
+		print_msg( 'error', $lang['users_title'], ''.$lang['error.security.token'].'<br>'.$lang['error.security.token#desc'].'', '?mod=users' );
         return;
     }
 
     $selected_users = getIsSet($_REQUEST['selected_users']);
     if (!$selected_users) {
         msg(['type' => 'error', 'text' => $lang['msge_select'], 'info' => $lang['msgi_select']]);
-
+		print_msg( 'error', $lang['users_title'], ''.$lang['msge_select'].'<br>'.$lang['msgi_select'].'', '?mod=users' );
         return;
     }
 
@@ -422,7 +423,7 @@ function userMassSetStatus()
     $status = intval($_REQUEST['newstatus']);
     if (!isset($UGROUP[$status]) || ($status <= 1)) {
         msg(['type' => 'error', 'info' => $lang['msg_massadm']]);
-
+		print_msg( 'error', $lang['users_title'], $lang['msg_massadm'], '?mod=users' );
         return;
     }
 
@@ -431,7 +432,7 @@ function userMassSetStatus()
         $mysql->query('update '.uprefix.'_users set status='.db_squote($status).' where (id='.db_squote($id).') and (status <> 1)');
     }
     msg(['type' => 'info', 'text' => $lang['msgo_status']]);
-	return print_msg( 'update', 'Пользователи', 'Статус выбранных пользователей был изменен успешно на ИД - '.$status.' статуса', '?mod=users' );
+	return print_msg( 'update', $lang['users_title'], 'Статус выбранных пользователей был изменен успешно на ИД - '.$status.' статуса', '?mod=users' );
 }
 
 //
@@ -443,21 +444,21 @@ function userMassDelete()
     // Check for permissions
     if (!checkPermission(['plugin' => '#admin', 'item' => 'users'], null, 'modify')) {
         msg(['type' => 'error', 'text' => $lang['perm.denied']], 1, 1);
-
+		print_msg( 'error', $lang['users_title'], $lang['perm.denied'], '?mod=users' );
         return;
     }
 
     // Check for security token
     if ((!isset($_REQUEST['token'])) || ($_REQUEST['token'] != genUToken('admin.users'))) {
         msg(['type' => 'error', 'text' => $lang['error.security.token'], 'info' => $lang['error.security.token#desc']]);
-
+		print_msg( 'error', $lang['users_title'], ''.$lang['error.security.token'].'<br>'.$lang['error.security.token#desc'].'', '?mod=users' );
         return;
     }
 
     $selected_users = getIsSet($_REQUEST['selected_users']);
     if (!$selected_users || !is_array($selected_users)) {
         msg(['type' => 'error', 'text' => $lang['msge_select'], 'info' => $lang['msgi_select']]);
-
+		print_msg( 'error', $lang['users_title'], ''.$lang['msge_select'].'<br>'.$lang['msgi_select'].'', '?mod=users' );
         return;
     }
 
@@ -487,7 +488,7 @@ function userMassDelete()
         }
     }
     msg(['type' => 'info', 'text' => $lang['msgo_deluser']]);
-	return print_msg( 'delete', 'Пользователи', 'Пользователь был успешно удален!', '?mod=users' );
+	return print_msg( 'delete', $lang['users_title'], $lang['msgo_deluser'], '?mod=users' );
 }
 
 //
@@ -499,14 +500,14 @@ function userMassDeleteInactive()
     // Check for permissions
     if (!checkPermission(['plugin' => '#admin', 'item' => 'users'], null, 'modify')) {
         msg(['type' => 'error', 'text' => $lang['perm.denied']], 1, 1);
-
+		print_msg( 'error', $lang['users_title'], $lang['perm.denied'], '?mod=users' );
         return;
     }
 
     // Check for security token
     if ((!isset($_REQUEST['token'])) || ($_REQUEST['token'] != genUToken('admin.users'))) {
         msg(['type' => 'error', 'text' => $lang['error.security.token'], 'info' => $lang['error.security.token#desc']]);
-
+		print_msg( 'error', $lang['users_title'], ''.$lang['error.security.token'].'<br>'.$lang['error.security.token#desc'].'', '?mod=users' );
         return;
     }
 
@@ -514,7 +515,7 @@ function userMassDeleteInactive()
 
     $mysql->query('DELETE FROM '.uprefix."_users WHERE ((last IS NULL) OR (last='')) AND ((reg + 86400) < $today) AND (news < 1)");
     msg(['type' => 'info', 'text' => $lang['msgo_delunact']]);
-	return print_msg( 'delete', 'Пользователи', 'Внимание!<br>Все неактивные пользователибыли успешно удалены!', '?mod=users' );
+	return print_msg( 'delete', $lang['users_title'], $lang['msgo_delunact'], '?mod=users' );
 }
 
 //
@@ -526,7 +527,7 @@ function userList()
     // Check for permissions
     if (!checkPermission(['plugin' => '#admin', 'item' => 'users'], null, 'view')) {
         msg(['type' => 'error', 'text' => $lang['perm.denied']], 1, 1);
-
+		print_msg( 'error', $lang['users_title'], $lang['perm.denied'], '?mod=users' );
         return;
     }
 
@@ -616,6 +617,10 @@ function userList()
         $reg = time()-60*60*24*30;
         $whereRules[] = "last<".$reg;
 	}
+	if ($_REQUEST['offactiv'] == "yes") {
+		$ifoffactiv = "checked";
+        $whereRules[] = "activation > ''";
+	}
 
     $queryFilter = count($whereRules) ? 'where '.implode(' and ', $whereRules) : '';
     $sql = 'select * from '.uprefix.'_users '.$queryFilter.' order by '.$sortValue.' '.'limit '.(($pageNo - 1) * $fRPP).', '.$fRPP;
@@ -655,6 +660,7 @@ function userList()
             (isset($_REQUEST['name']) && $_REQUEST['name'] ? '&name='.htmlspecialchars($_REQUEST['name'], ENT_COMPAT | ENT_HTML401, 'UTF-8') : '').
             (isset($_REQUEST['how']) && $_REQUEST['how'] ? '&how='.htmlspecialchars($_REQUEST['how'], ENT_COMPAT | ENT_HTML401, 'UTF-8') : '').
             (isset($_REQUEST['single']) && $_REQUEST['single'] ? '&single=yes' : '').
+			(isset($_REQUEST['offactiv']) && $_REQUEST['offactiv'] ? '&offactiv=yes' : '').
 			(isset($_REQUEST['rpp']) && $_REQUEST['rpp'] ? '&rpp='.intval($_REQUEST['rpp']) : '').
             '&page=%page%',
     ]);
@@ -676,6 +682,7 @@ function userList()
         'php_self'   => $PHP_SELF,
         'rpp'        => $fRPP,
 		'ifsingle'   => $ifsingle,
+		'ifoffactiv' => $ifoffactiv,
         'name'       => (isset($_REQUEST['name']) && $_REQUEST['name']) ? htmlspecialchars($_REQUEST['name'], ENT_COMPAT | ENT_HTML401, 'UTF-8') : '',
 		'mail'       => (isset($_REQUEST['mail']) && $_REQUEST['mail']) ? htmlspecialchars($_REQUEST['mail'], ENT_COMPAT | ENT_HTML401, 'UTF-8') : '',
         'token'      => genUToken('admin.users'),
