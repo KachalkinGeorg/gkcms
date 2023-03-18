@@ -172,6 +172,21 @@
 					<li class="nav-header {{ h_active_extras ? 'active' : '' }} ">
 						<a href="{{ php_self }}?mod=extras"><i class="fa fa-puzzle-piece"></i>{{ lang['extras'] }}</a>
 					</li>
+					
+					{%
+						set showLoges = global.mod == 'syslog'
+							or global.mod == 'loadlog'
+							or global.mod == 'profillog'
+					%}
+					<li class="nav-header next-menu collapsed {{ h_active_logs ? 'active' : '' }}">
+						<a href="#" data-toggle="collapse" data-target="#nav-loges"><span><i class="fa fa-info-circle"></i> {{ lang['loges'] }}</span> <i class="arrow"></i></a>
+					</li>
+					<ul class="sub-menu collapse {{ showLoges ? 'show' : '' }}" id="nav-loges">
+						{% if (perm.syslog) %}<li><a href="{{ php_self }}?mod=syslog">{{ lang['sys_log'] }}</a></li>{% endif %}
+						{% if (perm.loadlog) %}<li><a href="{{ php_self }}?mod=loadlog">{{ lang['load_log'] }}</a></li>{% endif %}
+						{% if (perm.profillog) %}<li><a href="{{ php_self }}?mod=profillog">{{ lang['profil_log'] }}</a></li>{% endif %}
+					</ul>
+					
 					{% if (perm.templates) %}<li class="nav-header {{ h_active_templates ? 'active' : '' }} "><a href="{{ php_self }}?mod=templates"><i class="fa fa-th-large"></i>{{ lang['templates_m'] }}</a></li>{% endif %}
 					<li class="dropdown-divider"></li>
 					<li class="nav-header"><a href="{{ php_self }}?mod=docs"><i class="fa fa-book" aria-hidden="true"></i> Документация</a></li>

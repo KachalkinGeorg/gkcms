@@ -38,5 +38,16 @@
 ![](images/history/global_3.jpg){.img-fluid}
 Появилась возможность сделать замену текста в БД, за основу был взят плагин ireplace автора Vitaly A. Ponomarev
 
+## Системный лог
+![](images/history/global_4.jpg){.img-fluid}
+Появилась возможность просматривать лог системы, за основу был взят плагин xsyslog автора Rostunov Sergey
+
+## Аналитика сайта
+![](images/history/global_5.jpg){.img-fluid}
+Появилась возможность просматривать аналитику нагрузки сайта
+
+## Лог пользователей
+![](images/history/global_6.jpg){.img-fluid}
+Появилась возможность просматривать действия пользователей на сайте
 
 © 2008-2022 Next Generation CMS
