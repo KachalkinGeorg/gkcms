@@ -36,12 +36,12 @@ include_once 'engine/includes/main.php';
  */
 
 
-/* if($config['ssl_only'] AND (!empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off')){
+if($config['ssl_only'] || (!empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off')){
     $redirect = 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-    header('HTTP/1.1 301 Moved Permanently');
-    header('Location: ' . $redirect);
+    @header('HTTP/1.1 301 Moved Permanently');
+    @header('Location: ' . $redirect);
     exit();
-} */
+}
 
 if($config['iframe']) {
 	if( !preg_match('#^(http|https)://(www.)?(webvisor.com)#', isset($_SERVER['HTTP_REFERER'])) ) {
