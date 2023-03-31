@@ -272,6 +272,41 @@
 </div>
 
 <div class="panel panel-default">
+  <div class="panel-card">{{ lang['setting_log'] }}</div>
+  <div class="media-bordered">
+	<div class="row box-section">
+	  <div class="col-sm-6 media-list media-list-linked">
+		<a class="media-link" href="?mod=profillog">
+			<div class="media-left"><i class="fa fa-info-circle fa-2x"></i></div>
+			<div class="media-body">
+				<h6 class="media-heading text-semibold">{{ lang['profillog'] }}</h6>
+				<span class="text-muted text-size-small">{{ lang['profillog_d'] }}</span>
+			</div>
+		</a>
+	  </div>
+	  <div class="col-sm-6 media-list media-list-linked">
+		<a class="media-link" href="?mod=loadlog">
+			<div class="media-left"><i class="fa fa-info-circle fa-2x"></i></div>
+			<div class="media-body">
+				<h6 class="media-heading text-semibold">{{ lang['loadlog'] }}</h6>
+				<span class="text-muted text-size-small">{{ lang['loadlog_d'] }}</span>
+			</div>
+		</a>
+	  </div> 
+	  <div class="col-sm-6 media-list media-list-linked">
+		<a class="media-link" href="?mod=syslog">
+			<div class="media-left"><i class="fa fa-info-circle fa-2x"></i></div>
+			<div class="media-body">
+				<h6 class="media-heading text-semibold">{{ lang['syslog'] }}</h6>
+				<span class="text-muted text-size-small">{{ lang['syslog_d'] }}</span>
+			</div>
+		</a>
+	  </div>
+	</div> 
+	</div>
+</div>
+
+<div class="panel panel-default">
   <div class="panel-card">
     {{ lang['setting_plugin'] }}
 		<div class="panel-head-right">

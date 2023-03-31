@@ -14,17 +14,17 @@
 
 {% if (flags['params.lost']) %}
 <div class="alert alert-warning">
-	<p>Обратите внимание – у вас недостаточно прав для полноценного редактирования новости.</p>
+	<p>{{ lang.editnews['msgo_params'] }}</p>
 	<hr>
-	<p>При сохранении будут произведены следующие изменения:</p>
+	<p>{{ lang.editnews['msgo_params#lost'] }}</p>
 	<ul>
-		{% if flags['publish.lost'] %}<li>Новость будет снята с публикации</li>{% endif %}
-		{% if flags['html.lost'] %}<li>В новости будет запрещено использование HTML тегов и автоформатирование</li>{% endif %}
-		{% if flags['mainpage.lost'] %}<li>Новость будет убрана с главной страницы</li>{% endif %}
-		{% if flags['pinned.lost'] %}<li>С новости будет снято прикрепление на главной</li>{% endif %}
-		{% if flags['catpinned.lost'] %}<li>С новости будет снято прикрепление в категории</li>{% endif %}
-		{% if flags['favorite.lost'] %}<li>Новость будет удалена из закладок администратора</li>{% endif %}
-		{% if flags['multicat.lost'] %}<li>Из новости будут удалены все дополнительные категории</li>{% endif %}
+		{% if flags['publish.lost'] %}<li>{{ lang.editnews['msgo_params#publish'] }}</li>{% endif %}
+		{% if flags['html.lost'] %}<li>{{ lang.editnews['msgo_params#html'] }}</li>{% endif %}
+		{% if flags['mainpage.lost'] %}<li>{{ lang.editnews['msgo_params#mainpage'] }}</li>{% endif %}
+		{% if flags['pinned.lost'] %}<li>{{ lang.editnews['msgo_params#pinned'] }}</li>{% endif %}
+		{% if flags['catpinned.lost'] %}<li>{{ lang.editnews['msgo_params#catpinned'] }}</li>{% endif %}
+		{% if flags['favorite.lost'] %}<li>{{ lang.editnews['msgo_params#favorite'] }}</li>{% endif %}
+		{% if flags['multicat.lost'] %}<li>{{ lang.editnews['msgo_params#multicat'] }}</li>{% endif %}
 	</ul>
 </div>
 {% endif %}
@@ -48,12 +48,12 @@
 	<div class="panel-heading" style="padding: 0px;margin-bottom: 0;">
 	<ul class="nav nav-tabs nav-fill" role="tablist">
 		<li class="nav-item"><a href="#tabmain" class="nav-link active" data-toggle="tab"><span data-toggle="popover" data-placement="top" data-trigger="hover focus" data-content="{{ lang.editnews['bar.maincontent'] }}"><i class="fa fa-home"></i> {{ lang.editnews['bar.maincontent'] }}</span></a></li>
-		<li class="nav-item"><a href="#tabmeta" class="nav-link" data-toggle="tab"><span data-toggle="popover" data-placement="top" data-trigger="hover focus" data-content="Мета данные"><i class="fa fa-tag"></i> Мета данные</span></a></li>
+		<li class="nav-item"><a href="#tabmeta" class="nav-link" data-toggle="tab"><span data-toggle="popover" data-placement="top" data-trigger="hover focus" data-content="{{ lang.editnews['bar.meta'] }}"><i class="fa fa-tag"></i> {{ lang.editnews['bar.meta'] }}</span></a></li>
 		<li class="nav-item"><a href="#tabadditional" class="nav-link" data-toggle="tab"><span data-toggle="popover" data-placement="top" data-trigger="hover focus" data-content="{{ lang.editnews['bar.additional'] }}"><i class="fa fa-th-list"></i> {{ lang.editnews['bar.additional'] }}</span></a></li>
 		<li class="nav-item"><a href="#tabacces" class="nav-link" data-toggle="tab"><span data-toggle="popover" data-placement="top" data-trigger="hover focus" data-content="{{ lang.editnews['bar.acces'] }}"><i class="fa fa-lock"></i> {{ lang.editnews['bar.acces'] }}</span></a></li>
 	</ul>
 		<div class="panel-head-right">
-			<a href="#" style="position: absolute;right: -8px;top: -6px;cursor: pointer;" class="btn2" title="На весь экран" onclick="$('#postForm').toggleClass('full-content');return false;"><i class="fa fa-expand fa-lg"></i></a>
+			<a href="#" style="position: absolute;right: -8px;top: -6px;cursor: pointer;" class="btn2" title="{{ lang.editnews['fullscreen'] }}" onclick="$('#postForm').toggleClass('full-content');return false;"><i class="fa fa-expand fa-lg"></i></a>
 		</div>
 	</div>
 	
@@ -68,10 +68,10 @@
 						<div class="col-lg-9">
 							{% if (link) %}
 								<div class="input-group">
-									<input id="newsTitle" type="text" placeholder="Введите заголовок..." name="title" tabindex="1" value="{{ title }}" class="form-control" />
+									<input id="newsTitle" type="text" placeholder="{{ lang.editnews['pop.title#input'] }}..." name="title" tabindex="1" value="{{ title }}" class="form-control" />
 									<div class="input-group-append">
-										<span class="input-group-text"><a class="btn2" onclick="searchDouble();" title="Поиск дубликатов"><i class="fa fa-files-o"></i></a></span>
-										<a class="btn btn-primary" data-toggle="popover" data-placement="top" data-trigger="focus" data-html="true" title="ЗАГОЛОВОК" data-content="Заголовок новости обязателен к заполнению и может содержать не более 200 символов." tabindex="0">
+										<span class="input-group-text"><a class="btn2" onclick="searchDouble();" title="{{ lang.editnews['search_double'] }}"><i class="fa fa-files-o"></i></a></span>
+										<a class="btn btn-primary" data-toggle="popover" data-placement="top" data-trigger="focus" data-html="true" title="{{ lang.editnews['pop.title'] }}" data-content="{{ lang.editnews['pop.title#descr'] }}" tabindex="0">
 											<i class="fa fa-question"></i>
 										</a>
 									</div>
@@ -79,9 +79,9 @@
 								<div id="searchDouble"></div>
 							{% else %}
 						<div class="input-group">
-							<input id="newsTitle" placeholder="Введите заголовок..." type="text" name="title" value="{{ title }}" class="form-control" required />
+							<input id="newsTitle" placeholder="{{ lang.editnews['pop.title#input'] }}..." type="text" name="title" value="{{ title }}" class="form-control" required />
 							<div class="input-group-append">
-							<a class="btn btn-outline-primary" data-toggle="popover" data-placement="right" data-trigger="focus" data-html="true" title="ЗАГОЛОВОК" data-content="Заголовок новости обязателен к заполнению и может содержать не более 200 символов." tabindex="0">
+							<a class="btn btn-outline-primary" data-toggle="popover" data-placement="right" data-trigger="focus" data-html="true" title="{{ lang.editnews['pop.title'] }}" data-content="{{ lang.editnews['pop.title#descr'] }}" tabindex="0">
 								<i class="fa fa-question"></i>
 							</a>
 							</div>
@@ -103,7 +103,7 @@
 							<div class="input-group">
 							<input type="text" value="{{ link }}" class="form-control" readonly />
 							<div class="input-group-append">
-								<span class="input-group-text"><a href="{{ link }}" title="Открыть новость" target="_blank"><i class="fa fa-external-link"></i></a></span>
+								<span class="input-group-text"><a href="{{ link }}" title="{{ lang.editnews['open_news'] }}" target="_blank"><i class="fa fa-external-link"></i></a></span>
 							</div>
 							</div>
 						</div>
@@ -142,14 +142,14 @@
 						<div class="modal-dialog">
 							<div class="modal-content">
 								<div class="modal-header">
-									<h5 id="smiles-modal-label" class="modal-title">Вставить смайл</h5>
+									<h5 id="smiles-modal-label" class="modal-title">{{ lang.editnews['ins.smilies'] }}</h5>
 									<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 								</div>
 								<div class="modal-body">
 									{{ smilies }}
 								</div>
 								<div class="modal-footer">
-									<button type="button" class="btn btn-outline-dark" data-dismiss="modal">Отмена</button>
+									<button type="button" class="btn btn-outline-dark" data-dismiss="modal">{{ lang.editnews['close'] }}</button>
 								</div>
 							</div>
 						</div>
@@ -197,9 +197,9 @@
 					<label class="col-lg-3 col-form-label">{{ lang.editnews['scrin'] }}</label>
 					<div class="col-lg-9">
 						{% include localPath(0)~"scrin.tpl" %}
-						<textarea class="form-control form-scrin form-scrinwidth-500" rows="3" onkeydown="checkKey(event, this.form)" name="scrin" id="scrin" placeholder="Загрузите картинки">{{ scrin }}</textarea>
+						<textarea class="form-control form-scrin form-scrinwidth-500" rows="3" onkeydown="checkKey(event, this.form)" name="scrin" id="scrin" placeholder="{{ lang.editnews['img.upload'] }}">{{ scrin }}</textarea>
 						<br>
-						<div class="btn btn-default btn-light btn-fileinput"><span><i class="fa fa-file-image-o"></i> Выбрать картинку ...</span>
+						<div class="btn btn-default btn-light btn-fileinput"><span><i class="fa fa-file-image-o"></i> {{ lang.editnews['img.change'] }} ...</span>
 							<input type="file" id="input_img" onchange="fileChange()" accept="image/*">
 						</div>
 					</div>
@@ -254,21 +254,45 @@
 		<!-- ДОПОЛНИТЕЛЬНО -->
 		<div class="tab-pane" id="tabadditional" >
 			<div id="additional" class="panel-body">
+			
 				<div class="form-row mb-3">
-					{% if (pluginIsActive('xfields')) %}
+					<label class="col-lg-3 col-form-label">{{ lang['editor.author'] }}:</label>
+					<div class="col-lg-9">
+					<div class="input-group">
+						<input type="text" value="{{ author }}" id="AuthorName" placeholder="{{ lang.editnews['author#input'] }}..." class="form-control" readonly/>
+						<div class="input-group-append">
+							<span class="input-group-text">
+								<a id="markAuthorEdit" href="#" title="{{ lang.editnews['edit_comm'] }}"><i class="fa fa-pencil"></i></a>
+							</span>
+							<a class="btn btn-primary" data-toggle="popover" data-placement="top" data-trigger="focus" data-html="true" title="" data-content="{{ lang.editnews['pop.author#descr'] }}" tabindex="0" data-original-title="{{ lang.editnews['pop.author'] }}">
+											<i class="fa fa-question"></i>
+										</a>
+						</div>
+					</div>
+					<span id="AuthorNameLoader" style="width: 20px; visibility: hidden;"><img src="{{ skins_url }}/images/loading.gif" /> {{ lang.editnews['core.search'] }}</span>
+
+					</div>
+				</div>
+
+				{% if (pluginIsActive('xfields')) %}
+				<div class="form-row mb-3">
 					<table class="table table table-striped">
 						{{ plugin.xfields[0] }}
 					</table>
-					{% endif %}
-					{% for entry in extends.additional %}
+				</div>
+				{% endif %}
+					
+				{% for entry in extends.additional %}
+				<div class="form-row mb-3">
 					<table class="table table table-striped">
 						<tr class="thead-light">
 							<th colspan="2">{{ entry.title }}</th>
 						</tr>
 						{{ entry.body }}
 					</table>
-                    {% endfor %}		
 				</div>
+				{% endfor %}		
+				
 			</div>
 		</div>
 
@@ -276,10 +300,10 @@
 		<div class="tab-pane" id="tabacces" >
 			<div id="acces" class="panel-body">
 				<div class="form-row mb-3">
-					<label class="col-lg-9 col-form-label">{{ lang.editnews['acces_info'] }} <small class="form-text text-muted">{{ lang.editnews['acces_info#descr'] }}<br>Доступные группы:<br>{{ usergrup }}</small></label>
+					<label class="col-lg-9 col-form-label">{{ lang.editnews['acces_info'] }} <small class="form-text text-muted">{{ lang.editnews['acces_info#descr'] }}<br>{{ lang.editnews['acces_grup'] }}<br>{{ usergrup }}</small></label>
 					<div class="col-lg-3">
 						<input type="text" name="acces" id="newsacces" value="{{ acces }}" tabindex="7" class="form-control" />
-						<small>каждая группа вводится через запятую</small>
+						<small>{{ lang.editnews['acces_grup#descr'] }}</small>
 					</div>
 				</div>
 			</div>
@@ -413,7 +437,7 @@
 				<div class="card-header">
 					{{ lang['editor.extcat'] }}
 					<div class="card-header-right">
-						<a style="position: absolute;right: 4px;border-bottom-left-radius: 0;border-top-left-radius: 0;cursor: pointer;" class="btn-sm btn-default" data-toggle="popover" data-placement="top" data-trigger="focus" data-html="true" title="" data-content="Здесь Вы можете привязать публикацию в дополнительные категории" tabindex="0" data-original-title="КАТЕГОРИИ">
+						<a style="position: absolute;right: 4px;border-bottom-left-radius: 0;border-top-left-radius: 0;cursor: pointer;" class="btn-sm btn-default" data-toggle="popover" data-placement="top" data-trigger="focus" data-html="true" title="" data-content="{{ lang.editnews['pop.cat#descr'] }}" tabindex="0" data-original-title="{{ lang.editnews['pop.cat'] }}">
 							<i class="fa fa-question"></i>
 						</a>
 					</div>
@@ -479,15 +503,15 @@
 					
 					<label class="col-form-label d-block">
 						<input type="checkbox" name="fixed" value="1" {% if (flags.fixed) %}checked {% endif %} {% if flags['fixed.disabled'] %}disabled {% endif %} />
-						Зафиксировать новость
+						{{ lang.editnews['flag_fixed'] }}
 					</label>
 					<label class="col-form-label d-block">
 						<input id="robots" type="checkbox" name="robots" value="1" {% if (flags.robots) %}checked {% endif %} {% if flags['robots.disabled'] %}disabled {% endif %} />
-						Запретить индексацию страницы для поисковиков
+						{{ lang.editnews['flag_robots'] }}
 					</label>
 					<label class="col-form-label d-block">
 						<input type="checkbox" name="nosearch" value="1"  {% if (flags.nosearch) %}checked {% endif %} {% if flags['nosearch.disabled'] %}disabled {% endif %} />
-						Исключить из поиска по сайту
+						{{ lang.editnews['flag_nosearch'] }}
 					</label>
 				</div>
 			</div>
@@ -750,6 +774,36 @@ insertselcat();
 	// Add first row
 	var attachAbsoluteRowID = 0;
 	attachAddRow();
+</script>
+<script language="javascript" type="text/javascript">
+	$(document).ready(function() {
+		$('#markAuthorEdit').on('click', function(event) {
+			event.preventDefault();
+
+			$('#AuthorName').removeAttr('readonly')
+				.attr('name', 'author');
+
+			$(this).parents('.input-group').removeClass();
+			$(this).parents('.input-group-append').remove();
+		});
+	});
+</script>
+<script language="javascript" type="text/javascript">
+	// INIT NEW SUGGEST LIBRARY [ call only after full document load ]
+	var aSuggest = new ngSuggest('AuthorName',
+		{
+			'localPrefix': '',
+			'reqMethodName': 'core.author.search',
+			'lId': 'AuthorNameLoader',
+			'hlr': 'true',
+			'iMinLen': 1,
+			'stCols': 2,
+			'stColsClass': ['cleft', 'cright'],
+			'stColsHLR': [true, false],
+			'listDelimiter': ',',
+		}
+	);
+
 </script>
 <script>
 var searchDouble = function() {

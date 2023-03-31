@@ -219,13 +219,13 @@ function massDeleteNews($list, $permCheck = true)
     // Check for security token
     if ($permCheck && (!isset($_REQUEST['token'])) || ($_REQUEST['token'] != genUToken('admin.news.edit'))) {
         msg(['type' => 'error', 'text' => $lang['error.security.token'], 'info' => $lang['error.security.token#desc']]);
-
+		print_msg( 'warning', $lang['msgi_info'], ''.$lang['error.security.token'].'<br>'.$lang['error.security.token#desc'].'', 'javascript:history.go(-1)' );
         return;
     }
 
     if ((!is_array($list)) || (!count($list))) {
         msg(['type' => 'error', 'text' => $lang['msge_selectnews'], 'info' => $lang['msgi_selectnews']]);
-
+		print_msg( 'warning', $lang['msgi_info'], ''.$lang['msge_selectnews'].'<br>'.$lang['msgi_selectnews'].'', 'javascript:history.go(-1)' );
         return;
     }
 
@@ -273,7 +273,7 @@ function massDeleteNews($list, $permCheck = true)
             }
 
             // Update user's posts counter
-            if ($nrow['author_id']) {
+            if ($userROW['id']) {
                 $mysql->query('update '.uprefix.'_users set news=news-1 where id='.$nrow['author_id']);
             }
         }
@@ -310,10 +310,10 @@ function massDeleteNews($list, $permCheck = true)
             $fmanager->file_delete(['type' => 'image', 'id' => $frec['id']]);
         }
 
-        $results[] = '#'.$nrow['id'].' ('.secure_html($nrow['title']).') - Ok';
+        $results[] = '#'.$nrow['id'].' ('.secure_html($nrow['title']).') - <strong>Ok</strong>';
     }
     msg(['type' => 'info', 'text' => $lang['editnews']['msgo_deleted'], 'info' => implode("<br/>\n", $results)]);
-	
+	return print_msg( 'delete', $lang['editnews']['news_title'], ''.$lang['editnews']['msgo_deleted'].'<br/>'.implode("<br/>\n", $results).'', '?mod=news' );
 }
 
 // Generate backup for table list. If no list is given - backup ALL tables with system prefix
@@ -438,6 +438,7 @@ function addNews($mode = [])
     // Check for security token
     if ((!isset($mode['no.token']) || (!$mode['no.token'])) && ((!isset($_REQUEST['token'])) || ($_REQUEST['token'] != genUToken('admin.news.add')))) {
         msg(['type' => 'error', 'text' => $lang['error.security.token'], 'info' => $lang['error.security.token#desc']]);
+		print_msg( 'error', $lang['addnews']['news_title'], ''.$lang['error.security.token'].'<br>'.$lang['error.security.token#desc'].'', 'javascript:history.go(-1)' );
 
         return;
     }
@@ -475,6 +476,7 @@ function addNews($mode = [])
     // Check permissions
     if (!$perm['add']) {
         msg(['type' => 'error', 'text' => $lang['perm.denied']]);
+		print_msg( 'error', $lang['addnews']['news_title'], $lang['perm.denied'], 'javascript:history.go(-1)' );
 
         return 0;
     }
@@ -517,8 +519,8 @@ function addNews($mode = [])
     // Check title
     if ((!mb_strlen(trim($title))) || ((!mb_strlen(trim($content))) && (!$config['news_without_content']))) {
         msg(['type' => 'error', 'text' => $lang['addnews']['msge_fields'], 'info' => $lang['addnews']['msgi_fields']]);
-		return print_msg( 'error', 'Ошибка в новости', 'Проверьте правильность ввода полей!<br>Заголовок и описания новости являются обязательным для заполнения.', 'javascript:history.go(-1)' );
-        /* return 0; */
+		print_msg( 'error', $lang['addnews']['news_title'], ''.$lang['addnews']['msge_fields'].'<br>'.$lang['addnews']['msgi_fields'].'', 'javascript:history.go(-1)' );
+        return 0;
     }
 
     $SQL['title'] = $title;
@@ -534,7 +536,7 @@ function addNews($mode = [])
     if ($alt_name) {
         if (is_array($mysql->record('select id from '.prefix.'_news where alt_name = '.db_squote($alt_name).' limit 1'))) {
             msg(['type' => 'error', 'text' => $lang['addnews']['msge_alt_name'], 'info' => $lang['addnews']['msgi_alt_name']]);
-
+			print_msg( 'error', $lang['addnews']['news_title'], ''.$lang['addnews']['msge_alt_name'].'<br>'.$lang['addnews']['msgi_alt_name'].'', 'javascript:history.go(-1)' );
             return 0;
         }
         $SQL['alt_name'] = $alt_name;
@@ -590,7 +592,7 @@ function addNews($mode = [])
     // Check if no categories specified and user can post news without categories
     if ((!count($catids)) && (!$perm['personal.nocat'])) {
         msg(['type' => 'error', 'text' => $lang['addnews']['error.nocat'], 'info' => $lang['addnews']['error.nocat#desc']]);
-
+		print_msg( 'error', $lang['addnews']['news_title'], ''.$lang['addnews']['error.nocat'].'<br>'.$lang['addnews']['error.nocat#desc'].'', 'javascript:history.go(-1)' );
         return 0;
     }
 
@@ -647,7 +649,7 @@ function addNews($mode = [])
     if (is_array($PFILTERS['news'])) {
         foreach ($PFILTERS['news'] as $k => $v) {
             if (!($pluginNoError = $v->addNews($tvars, $SQL))) {
-                msg(['type' => 'error', 'text' => str_replace('{plugin}', $k, $lang['addnews']['msge_pluginlock'])]);
+                msg(['type' => 'error', 'text' => str_replace('%plugin%', $k, $lang['addnews']['msge_pluginlock'])]);
                 break;
             }
         }
@@ -752,9 +754,9 @@ function addNews($mode = [])
 
 	if (!$breadcrumb) {
 		msg($msgInfo);
-		print_msg( 'success', ''.$lang['done']['inform'].'', 'Новость '.$row['title'].' успешно добавлена!<br>Вы можете сделать следующие.', array('?mod=news&action=add' => ''.$lang['done']['adds'].'', '?mod=news&action=edit&id='.$id => ''.$lang['done']['edits'].'', ''.$link.'' => 'Посмотреть на сайте' ) );
+		print_msg( 'success', $lang['addnews']['news_title'], str_replace('%title%', $row['title'], $lang['addnews']['addnews_done']), array('?mod=news&action=add' => ''.$lang['addnews']['adds'].'', '?mod=news&action=edit&id='.$id => ''.$lang['addnews']['edits'].'', ''.$link.'' => ''.$lang['addnews']['view'].'' ) );
 	}
-	
+
 	return 1;
 }
 
@@ -816,14 +818,14 @@ function editNews($mode = [])
     // Check for security token
     if ((!isset($mode['no.token']) || (!$mode['no.token'])) && ((!isset($_REQUEST['token'])) || ($_REQUEST['token'] != genUToken('admin.news.edit')))) {
         msg(['type' => 'error', 'text' => $lang['error.security.token'], 'info' => $lang['error.security.token#desc']]);
-
+		print_msg( 'error', $lang['editnews']['news_title'], ''.$lang['error.security.token'].'<br>'.$lang['error.security.token#desc'].'', 'javascript:history.go(-1)' );
         return;
     }
 
     // Try to find news that we're trying to edit
     if (!is_array($row = $mysql->record('select * from '.prefix.'_news where id='.db_squote($id)))) {
         msg(['type' => 'error', 'text' => $lang['editnews']['msge_not_found']]);
-
+		print_msg( 'error', $lang['editnews']['news_title'], $lang['editnews']['msge_not_found'], 'javascript:history.go(-1)' );
         return;
     }
 
@@ -833,7 +835,7 @@ function editNews($mode = [])
     // Check permissions
     if (!$perm[$permGroupMode.'.modify'.(($row['approve'] == 1) ? '.published' : '')]) {
         msg(['type' => 'error', 'text' => $lang['perm.denied']]);
-
+		print_msg( 'error', $lang['editnews']['news_title'], $lang['perm.denied'], 'javascript:history.go(-1)' );
         return;
     }
 
@@ -860,6 +862,22 @@ function editNews($mode = [])
 
     $acces = $_REQUEST['acces'];
 
+	$author = $_REQUEST['author'];
+	
+	$urow = $mysql->record('select id from '.uprefix.'_users where name = '.db_squote($author).' limit 1');
+	$author_id = $urow['id'];
+	
+	if( $author != $author_id) {
+
+		if( $urow['id'] != $SQL['approve']) {
+			$mysql->query('update '.uprefix.'_users set news=news'.(($SQL['approve'] == 1) ? '-' : '+').'1 where id='.db_squote($author_id).'');
+			$mysql->query('update '.uprefix.'_users set news=news'.(($row['approve'] == 1) ? '-' : '+').'1 where name='.db_squote($row['author']).'');
+		}
+		
+		$SQL['author'] = $_REQUEST['author'];
+		$SQL['author_id'] = $author_id;
+    }
+	
     // Fill content
     $content = '';
 
@@ -882,7 +900,8 @@ function editNews($mode = [])
     // Check if we have content
     if ((!mb_strlen(trim($title))) || ((!mb_strlen(trim($content))) && (!$config['news_without_content']))) {
         msg(['type' => 'error', 'text' => $lang['msge_fields'], 'info' => $lang['msgi_fields']]);
-		return print_msg( 'error', 'Ошибка в новости', 'Проверьте правильность ввода полей!<br>Заголовок и описания новости являются обязательным для заполнения.', 'javascript:history.go(-1)' );
+		print_msg( 'error', $lang['editnews']['news_title'], ''.$lang['msge_fields'].'<br>'.$lang['msgi_fields'].'', 'javascript:history.go(-1)' );
+		return;
     }
 
     // Manage alt name
@@ -914,7 +933,7 @@ function editNews($mode = [])
             // Check for allowed chars in alt name
             if (!$parse->nameCheck($alt_name)) {
                 msg(['type' => 'error', 'text' => $lang['editnews']['err.altname.wrong']]);
-
+				print_msg( 'error', $lang['editnews']['news_title'], $lang['editnews']['err.altname.wrong'], 'javascript:history.go(-1)' );
                 return;
             }
         }
@@ -922,7 +941,7 @@ function editNews($mode = [])
         // Check if we try to use duplicate alt_name
         if (is_array($mysql->record('select * from '.prefix.'_news where alt_name='.db_squote($alt_name).' and id <> '.db_squote($row['id']).' limit 1'))) {
             msg(['type' => 'error', 'text' => $lang['editnews']['err.altname.dup']]);
-
+			print_msg( 'error', $lang['editnews']['news_title'], $lang['editnews']['err.altname.dup'], 'javascript:history.go(-1)' );
             return;
         }
     } else {
@@ -955,8 +974,8 @@ function editNews($mode = [])
 
     // Check if no categories specified and user can post news without categories
     if ((!count($catids)) && (!$perm[$permGroupMode.'.nocat'])) {
-        msg(['type' => 'error', 'text' => $lang['editnews']['error.nocat'], 'info' => $lang['addnews']['error.nocat#desc']]);
-
+        msg(['type' => 'error', 'text' => $lang['editnews']['error.nocat'], 'info' => $lang['editnews']['error.nocat#desc']]);
+		print_msg( 'error', $lang['editnews']['news_title'], ''.$lang['editnews']['error.nocat'].'<br>'.$lang['editnews']['error.nocat#desc'].'', 'javascript:history.go(-1)' );
         return 0;
     }
 
@@ -1037,7 +1056,7 @@ function editNews($mode = [])
     if (is_array($PFILTERS['news'])) {
         foreach ($PFILTERS['news'] as $k => $v) {
             if (!($pluginNoError = $v->editNews($id, $row, $SQL, $tvars))) {
-                msg(['type' => 'error', 'text' => str_replace('{plugin}', $k, $lang['editnews']['msge_pluginlock'])]);
+                msg(['type' => 'error', 'text' => str_replace('%plugin%', $k, $lang['editnews']['msge_pluginlock'])]);
                 break;
             }
         }
@@ -1135,11 +1154,11 @@ function editNews($mode = [])
 		if(!$breadcrumb){
 			$nlink = newsGenerateLink($row, false, 0, true);
 			msg(['type' => 'info', 'text' => $lang['editnews']['msgo_edited'], 'info' => str_replace('{link}', $nlink, $lang['msgo_edited#link'])]);
-			print_msg( 'update', ''.$lang['done']['inform'].'', 'Новость '.$row['title'].' успешно отредактирована!<br>Вы можете сделать следующие.', array('?mod=news&action=add' => ''.$lang['done']['adds'].'', '?mod=news&action=edit&id='.$id => ''.$lang['done']['edits'].'', ''.$nlink.'' => 'Посмотреть на сайте' ) );
+			print_msg( 'update', $lang['editnews']['news_title'], str_replace('%title%', $row['title'], $lang['editnews']['editnews_done']), array('?mod=news&action=add' => ''.$lang['editnews']['adds'].'', '?mod=news&action=edit&id='.$id => ''.$lang['editnews']['edits'].'', ''.$nlink.'' => ''.$lang['editnews']['view'].'' ) );
 		}
     } else {
         msg(['type' => 'error', 'text' => $lang['editnews']['msge_edited']]);
-		print_msg( 'error', ''.$lang['done']['inform'].'', 'Ошибка в публикации '.$row['title'].'!<br>Вы можете сделать следующие.', array('?mod=news&action=add' => ''.$lang['done']['adds'].'', '?mod=news&action=edit&id='.$id => ''.$lang['done']['edits'].'' ) );
+		print_msg( 'error', $lang['editnews']['news_title'], str_replace('%title%', $row['title'], $lang['editnews']['editnews_no']), array('?mod=news&action=add' => ''.$lang['editnews']['adds'].'', '?mod=news&action=edit&id='.$id => ''.$lang['editnews']['edits'].'' ) );
     }
 	
 	return 1;

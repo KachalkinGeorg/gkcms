@@ -17,7 +17,7 @@ if (!defined('NGCMS')) {
 LoadLang('editnews', 'admin');
 LoadLang('editnews', 'admin', 'editnews');
 LoadLang('addnews', 'admin', 'addnews');
-LoadLang('done', 'admin', 'done');
+//LoadLang('done', 'admin', 'done');
 
 // ======================================================================================================
 // Edit news form
@@ -74,7 +74,7 @@ function editNewsForm()
     // Try to find news that we're trying to edit
     if (!is_array($row = $mysql->record('select * from '.prefix.'_news where id = '.db_squote($id)))) {
         msg(['type' => 'error', 'text' => $lang['msge_not_found']]);
-
+		print_msg( 'warning', $lang['news_title'], $lang['msge_not_found'], 'javascript:history.go(-1)' );
 		return;
     }
 
@@ -84,7 +84,7 @@ function editNewsForm()
     // Check permissions
     if (!$perm[$permGroupMode.'.view']) {
         msg(['type' => 'error', 'text' => $lang['perm.denied']]);
-
+		print_msg( 'warning', $lang['news_title'], $lang['perm.denied'], 'javascript:history.go(-1)' );
         return;
     }
 
@@ -162,6 +162,7 @@ function editNewsForm()
             'can_mainpage'        => $perm[$permGroupMode.'.mainpage'] ? true : false,
             'can_pinned'          => $perm[$permGroupMode.'.pinned'] ? true : false,
             'can_catpinned'       => $perm[$permGroupMode.'.catpinned'] ? true : false,
+			'multicat.show'       => $perm['personal.multicat'],
             'raw'                 => ($row['flags'] & 1),
             'html'                => ($row['flags'] & 2),
             'extended_more'       => ($config['extended_more'] || ($tvars['vars']['content.delimiter'] != '')) ? true : false,
@@ -282,13 +283,13 @@ function massCommentDelete()
     // Check for security token
     if ($permCheck && (!isset($_REQUEST['token'])) || ($_REQUEST['token'] != genUToken('admin.news.edit'))) {
         msg(['type' => 'error', 'text' => $lang['error.security.token'], 'info' => $lang['error.security.token#desc']]);
-
+		print_msg( 'error', $lang['news_title'], ''.$lang['error.security.token'].'<br>'.$lang['error.security.token#desc'].'', 'javascript:history.go(-1)' );
         return;
     }
 
     if (!$delcomid || !count($delcomid)) {
         msg(['type' => 'error', 'text' => $lang['msge_selectcom'], 'info' => $lang['msgi_selectcom']]);
-
+		print_msg( 'error', $lang['news_title'], ''.$lang['msge_selectcom'].'<br>'.$lang['msgi_selectcom'].'', 'javascript:history.go(-1)' );
         return;
     }
 
@@ -332,8 +333,10 @@ function massCommentDelete()
     //
     if ($countRequested == $countDeleted) {
         msg(['type' => 'info', 'text' => $lang['msg.comdel.ok'], 'info' => str_replace(['{cnt_req}', '{edit_link}'], [$countRequested, $PHP_SELF.'?mod=news&action=edit&id='.$postid], $lang['msg.comdel.ok#descr'])]);
+		print_msg( 'delete', $lang['news_title'], ''.$lang['msg.comdel.ok'].'<br>'.str_replace(['{cnt_req}', '{edit_link}'], [$countRequested, $PHP_SELF.'?mod=news&action=edit&id='.$postid], $lang['msg.comdel.ok#descr']).'', 'javascript:history.go(-1)' );
     } else {
         msg(['type' => 'info', 'text' => $lang['msg.comdel.fail'], 'info' => str_replace(['{cnt_req}', '{cnt_deleted}', '{cnt_blocked}', '{cnt_lost}', '{edit_link}'], [$countRequested, $countDeleted, $countBlocked, $countLost, $PHP_SELF.'?mod=news&action=edit&id='.$postid], $lang['msg.comdel.fail#descr'])]);
+		print_msg( 'error', $lang['news_title'], ''.$lang['msg.comdel.fail'].'<br>'.str_replace(['{cnt_req}', '{cnt_deleted}', '{cnt_blocked}', '{cnt_lost}', '{edit_link}'], [$countRequested, $countDeleted, $countBlocked, $countLost, $PHP_SELF.'?mod=news&action=edit&id='.$postid], $lang['msg.comdel.fail#descr']).'', 'javascript:history.go(-1)' );
     }
 }
 
@@ -351,12 +354,13 @@ function massNewsModify($setValue, $langParam, $auto = false)
 
     if ((!is_array($selected_news)) || (!count($selected_news))) {
         msg(['type' => 'error', 'text' => $lang['msge_selectnews'], 'info' => $lang['msgi_selectnews']]);
-		return true;
+		print_msg( 'warning', $lang['msgi_info'], ''.$lang['msge_selectnews'].'<br>'.$lang['msgi_selectnews'].'', '?mod=news' );
+		return;
     }
 
     $result = massModifyNews(['id' => $selected_news], $setValue, true);
     msg(['type' => 'info', 'text' => $lang[$langParam], 'info' => implode("<br/>\n", $result)]);
-	
+	return print_msg( 'info', $lang['msgi_info'], ''.$lang[$langParam].'<br/>'.implode("<br/>\n", $result).'', '?mod=news' );
 }
 
 //
@@ -405,7 +409,7 @@ function listNewsForm()
     // Check if we have view access
     if (!$perm['view'] || (!$perm['personal.list'] && !$perm['other.list'])) {
         msg(['type' => 'error', 'text' => $lang['perm.denied']]);
-
+		print_msg( 'error', $lang['news_title'], $lang['perm.denied'], 'javascript:history.go(-1)' );
         return;
     }
 
@@ -826,7 +830,7 @@ do {
     if ($action == 'edit') {
         $main_admin = editNewsForm();
 		if (!$main_admin) {
-			print_msg( 'warning', 'Новость', 'К сожалению, данная новость для Вас недоступна: возможно, был изменён её ID или она была удалена, или у Вас не хватает прав!', 'javascript:history.go(-1)' );
+			print_msg( 'warning', $lang['news_title'], $lang['msgo_error'], 'javascript:history.go(-1)' );
 		}
         break;
     }
@@ -860,43 +864,43 @@ do {
             case 'mass_currdate':
                 $curdate = time() + ($config['date_adjust'] * 60);
                 massNewsModify(['postdate' => $curdate], 'msgo_currdate', 'capprove');
-				return print_msg( 'info', 'Новость', 'Во всех выбранных новостях была установлена текущая дата '.$curdate.' !', '?mod=news' );
+				return;
                 break;
             case 'mass_approve':
                 massNewsModify(['approve' => 1], 'msgo_approved', 'approve');
-				return print_msg( 'info', 'Новость', 'Выбранные Вами новости успешно опубликованы!', '?mod=news' );
+				return;
                 break;
             case 'mass_mainpage':
                 massNewsModify(['mainpage' => 1], 'msgo_mainpaged', 'mainpage');
-				return print_msg( 'info', 'Новость', 'Выбранные Вами новости успешно разрешены на главной страница!', '?mod=news' );
+				return;
                 break;
             case 'mass_unmainpage':
                 massNewsModify(['mainpage' => 0], 'msgo_unmainpage', 'unmainpage');
-				return print_msg( 'warning', 'Новость', 'Внимание!<br>Выбранные новости были успешно убраны с главной страницы сайта!', '?mod=news' );
+				return;
                 break;
             case 'mass_forbidden':
                 massNewsModify(['approve' => 0], 'msgo_forbidden', 'forbidden');
-				return print_msg( 'warning', 'Новость', 'Внимание!<br>Выбранные новости были успешно заблокированы для показа!', '?mod=news' );
+				return;
                 break;
             case 'mass_com_forbidden':
                 massNewsModify(['allow_com' => 0], 'msgo_cforbidden', 'cforbidden');
-				return print_msg( 'warning', 'Новость', 'Внимание!<br>Во всех выбранных Вами новостях были запрещены комментарии!', '?mod=news' );
+				return;
                 break;
             case 'mass_com_approve':
                 massNewsModify(['allow_com' => 1], 'msgo_capproved', 'capprove');
-				return print_msg( 'warning', 'Новость', 'Во всех выбранных Вами новостях были разрешены комментарии!', '?mod=news' );
+				return;
                 break;
             case 'mass_fixed':
                 massNewsModify(['fixed' => 1], 'msgo_fixed', 'fixed');
-				return print_msg( 'info', 'Новость', 'Выбранные Вами новости успешно зафиксированы!', '?mod=news' );
+				return;
                 break;
             case 'mass_unfixed':
                 massNewsModify(['fixed' => 0], 'msgo_unfixed', 'unfixed');
-				return print_msg( 'warning', 'Новость', 'Внимание!<br>Выбранные новости были успешно убраны с фиксации!', '?mod=news' );
+				return;
                 break;
             case 'mass_delete':
                 massNewsDelete();
-				return print_msg( 'delete', 'Новость', 'Внимание!<br>Выбранная Вами новост(ь)и была успешно удален(а)ы!', '?mod=news' );
+				return;
                 break;
         }
     }

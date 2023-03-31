@@ -100,6 +100,9 @@ function processJSON()
         case 'core.users.search':
             $out = rpcAdminUsersSearch($params);
             break;
+        case 'core.author.search':
+            $out = rpcAdminAuthorSearch($params);
+            break;
         case 'core.registration.checkParams':
             $out = coreCheckRegParams($params);
             break;
@@ -227,6 +230,36 @@ function rpcAdminUsersSearch($params)
     $output = [];
     foreach ($mysql->select($SQL) as $row) {
         $output[] = [$row['name'], $row['news'].' '.$lang['news']];
+    }
+
+    return ['status' => 1, 'errorCode' => 0, 'data' => [$params, $output]];
+}
+
+function rpcAdminAuthorSearch($params)
+{
+    global $userROW, $mysql, $lang;
+
+    // Check for permissions
+    if (!checkPermission(['plugin' => '#admin', 'item' => 'users'], $userROW, 'view')) {
+        // ACCESS DENIED
+        return ['status' => 0, 'errorCode' => 3, 'errorText' => 'Access denied'];
+    }
+
+    $searchName = $params;
+
+    // Check search mode
+    // ! - show users by name
+    if ($searchName == '!') {
+        $SQL = 'select id, name, news from '.uprefix.'_users where id > 0 order by name desc limit 20';
+    } else {
+        // Return a list of users
+        $SQL = 'select id, name, news from '.uprefix.'_users where name like '.db_squote('%'.$searchName.'%').' order by name desc limit 20';
+    }
+
+    // Scan incoming params
+    $output = [];
+    foreach ($mysql->select($SQL) as $row) {
+        $output[] = [$row['name'], $row['news'].' - '.$lang['news']];
     }
 
     return ['status' => 1, 'errorCode' => 0, 'data' => [$params, $output]];

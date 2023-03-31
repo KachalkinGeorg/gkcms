@@ -61,16 +61,7 @@ if (!$config['load_profiler']) {
 	$count = $mysql->result($sqlQCount);
 	$countPages = ceil($count / $news_per_page);
 	
-/*     $pageNo = (isset($_REQUEST['page']) && $_REQUEST['page']) ? intval($_REQUEST['page']) : 0;
-    if (!$pageNo) {
-        $pageNo = 1;
-    }
-	$sortValue = "id DESC";
-    $queryFilter = count($conditions) ? 'where '.implode(' and ', $conditions) : '';
-    $sql = 'select * from '.prefix.'_profiler '.$queryFilter.' order by '.$sortValue.' '.'limit '.(($pageNo - 1) * $news_per_page).', '.$news_per_page; */
-	
 	foreach ($mysql->select($sqlQ . ' LIMIT ' . $start_from . ', ' . $news_per_page) as $row) {
-	//foreach ($mysql->select($sql) as $row) {
 		if($userROW['id'] == $row['userid']){
 			$username = $userROW['name'];
 		}
