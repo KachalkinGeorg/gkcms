@@ -239,7 +239,9 @@ function print_msg($type, $title, $text, $back = false) {
 			elseif($bc == 3) $color="dark";
 			else $color="success";
 			
-			if( $value == 'Посмотреть на сайте' ) $target = ' target="_blank"';
+			$view = $lang['addnews']['view'] ? $lang['editnews']['view'] : $lang['view'];
+			
+			if( $value == $view ) $target = ' target="_blank"';
 			else $target="";
 			
 			$buttons[] = '<a class="btn btn-' . $color . ' btn-position" href="' . $key . '"' . $target . '>' . $value . '</a>';
