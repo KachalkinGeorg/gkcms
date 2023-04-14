@@ -21,7 +21,7 @@ include_once root.'includes/news.php';
 
 function search_news()
 {
-    global $catz, $catmap, $mysql, $config, $userROW, $twig, $parse, $template, $lang, $PFILTERS, $SYSTEM_FLAGS, $TemplateCache;
+    global $catz, $catmap, $mysql, $config, $userROW, $twig, $parse, $template, $lang, $PFILTERS, $SYSTEM_FLAGS, $TemplateCache, $EXTRA_HTML_VARS;
 
     // PREPARE FILTER RULES FOR NEWS SHOWER
     $filter = [];
@@ -160,8 +160,27 @@ function search_news()
             .'</option>';
     }
 
+	if ($_REQUEST['page']){
+		$search_page = " - страница ". $_REQUEST['page'].".";
+	} else {
+		$search_page = "";			
+	}
+
     // Set meta tags for search page
-    $SYSTEM_FLAGS['info']['title']['group'] = $lang['search.title'];
+    $SYSTEM_FLAGS['info']['title']['group'] = $lang['search.title'] .$search_page;
+	$SYSTEM_FLAGS['meta']['description'] = ''.$lang['search.submit'].' '.$_REQUEST['search'].' '.$search_page.' '.home_title.' '.$_REQUEST['catid'].'';
+
+	$search_keywords = preg_replace('#\b[\d\w]{1,3}\b#iu', '', $_REQUEST['catid'] . $_REQUEST['search'] .' ' . home_title);
+	$search_keywords = preg_replace('#[^\d\w ]+#iu', '', $search_keywords);
+	$search_keywords = preg_replace('#[\s]+#iu', ' ', $search_keywords);
+	$search_keywords = preg_replace('#[\s]#iu', ',', $search_keywords);
+	$SYSTEM_FLAGS['meta']['keywords'] = mb_strtolower(trim($search_keywords, ','));
+
+	//Для поиска
+	$callingParams['addCanonicalLink'] = $config['canonical_search'];
+	if($callingParams['addCanonicalLink']){
+		$SYSTEM_FLAGS['meta']['canonical'] = generateLink('search', '', []);
+	}
 
     $template['vars']['mainblock'] .= $twig->render('search.table.tpl', $tvars);
 }

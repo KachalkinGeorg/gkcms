@@ -19,7 +19,7 @@ if (version_compare(PHP_VERSION, '7.4.0') < 0) {
 
 // Load CORE module
 include_once 'engine/core.php';
-include_once 'engine/includes/main.php';
+
 /**
  * @var $config
  * @var $userROW
@@ -56,7 +56,6 @@ initGZipHandler();
 $SYSTEM_FLAGS['info']['title'] = [];
 $SYSTEM_FLAGS['info']['title']['header'] = home_title;
 
-
     switch ($config['jsquery']) {
         case 0:
             $jsquery = '';
@@ -90,6 +89,8 @@ $template = [
 		'headers'    => $headers,
     ],
 ];
+
+include_once 'engine/includes/main.php';
 
 // ===================================================================
 // Check if site access is locked [ for everyone except admins ]
@@ -176,7 +177,8 @@ $template['vars']['categories'] = generateCategoryMenu();
 $timer->registerEvent('Category menu created');
 
 // Generate page title
-$template['vars']['titles'] = implode(' : ', array_values($SYSTEM_FLAGS['info']['title']));
+$separator = $config['separator'] ? $config['separator'] : ':';
+$template['vars']['titles'] = implode(' '.$separator.' ', array_values($SYSTEM_FLAGS['info']['title']));
 
 // Generate user menu
 coreUserMenu();
@@ -199,13 +201,13 @@ executeActionHandler('index_post');
 $template['vars']['metatags'] = '';
 $template['vars']['extracss'] = '';
 
+// Generate metatags
+$EXTRA_HTML_VARS[] = ['type' => 'plain', 'data' => GetMetatags()];
+
 // Fill extra CSS links
 foreach ($EXTRA_CSS as $css => $null) {
     $EXTRA_HTML_VARS[] = ['type' => 'css', 'data' => $css];
 }
-
-// Generate metatags
-$EXTRA_HTML_VARS[] = ['type' => 'plain', 'data' => GetMetatags()];
 
 // Fill additional HTML vars
 $htmlrow = [];

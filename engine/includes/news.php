@@ -83,7 +83,7 @@ function showNews($handlerName, $params)
             $callingParams['validateCategoryID'] = $params['catid'];
         }
 
-        $callingParams['addCanonicalLink'] = true;
+        $callingParams['addCanonicalLink'] = $config['canonical_news'];
 
         // Try to show news
         if (($row = news_showone($vars['id'], $vars['altname'], $callingParams)) !== false) {

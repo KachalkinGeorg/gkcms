@@ -104,7 +104,7 @@ function showStaticPage($params)
     }
 
     $tvars['print_static_url'] = generatePluginLink('static', 'print', ['id' => $row['id'], 'altname' => $params['altname']], [], true);
-
+	
     $template['vars']['[print-link]'] = "<a href=\"" . generatePluginLink('static', 'print', array('id' => $row['id'], 'altname' => $params['altname']), array(), true) . "\">";
     $template['vars']['[/print-link]'] = "</a>";
 	
@@ -138,6 +138,12 @@ function showStaticPage($params)
     $SYSTEM_FLAGS['info']['title']['item'] = secure_html($row['title']);
     $SYSTEM_FLAGS['meta']['description'] = $row['description'];
     $SYSTEM_FLAGS['meta']['keywords'] = $row['keywords'];
+
+	//Для статистической страницы
+	$callingParams['addCanonicalLink'] = $config['canonical_static'];
+	if($callingParams['addCanonicalLink']){
+		$SYSTEM_FLAGS['meta']['canonical'] = generatePluginLink('static', '', ['id' => $row['id'], 'altname' => $params['altname']], [], true);
+	}
 
     $template['vars']['titles'] .= ' : '.$row['title'];
     $template['vars']['mainblock'] .= $twig->render($templateName.'.tpl', $tvars);

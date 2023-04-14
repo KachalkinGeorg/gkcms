@@ -56,7 +56,7 @@ function coreActivateUser()
 
 function coreRegisterUser()
 {
-    global $ip, $lang, $config, $AUTH_METHOD, $SYSTEM_FLAGS, $userROW, $PFILTERS, $mysql;
+    global $ip, $lang, $config, $AUTH_METHOD, $SYSTEM_FLAGS, $userROW, $EXTRA_HTML_VARS, $PFILTERS, $mysql;
 
     $lang = LoadLang('registration', 'site');
     $SYSTEM_FLAGS['info']['title']['group'] = $lang['loc_registration'];
@@ -80,6 +80,9 @@ function coreRegisterUser()
         $auth = $AUTH_METHOD[$config['auth_module']];
         $params = $auth->get_reg_params();
         generate_reg_page($params);
+		if ($config['canonical_registr']){
+			$SYSTEM_FLAGS['meta']['canonical'] = generateLink('core', 'registration', []);
+		}
     } elseif ($_REQUEST['type'] == 'doregister' && $config['users_selfregister']) {
         // Receiving parameter list during registration
         $auth = $AUTH_METHOD[$config['auth_module']];
@@ -264,7 +267,7 @@ function generate_reg_page($params, $values = [], $msg = '')
 
 function coreRestorePassword()
 {
-    global $lang, $userROW, $config, $AUTH_METHOD, $SYSTEM_FLAGS, $mysql, $CurrentHandler;
+    global $lang, $userROW, $config, $AUTH_METHOD, $SYSTEM_FLAGS, $mysql, $CurrentHandler, $EXTRA_HTML_VARS;
 
     $lang = LoadLang('lostpassword', 'site');
     $SYSTEM_FLAGS['info']['title']['group'] = $lang['loc_lostpass'];
@@ -280,6 +283,9 @@ function coreRestorePassword()
     ) {
         $userid = isset($CurrentHandler['params']['userid']) ? $CurrentHandler['params']['userid'] : $_REQUEST['userid'];
         $code = isset($CurrentHandler['params']['code']) ? $CurrentHandler['params']['code'] : $_REQUEST['code'];
+		if ($config['canonical_lostpas']){
+			$SYSTEM_FLAGS['meta']['canonical'] = generateLink('core', 'lostpassword', []);
+		}
     } else {
         $userid = $_REQUEST['userid'];
         $code = $_REQUEST['code'];

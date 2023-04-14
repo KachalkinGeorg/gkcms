@@ -71,9 +71,9 @@ function news_showone($newsID, $alt_name, $callingParams = [])
 
         // Check if canonical link should be added
         if ($callingParams['addCanonicalLink']) {
-            $EXTRA_HTML_VARS[] = ['type' => 'plain', 'data' => '<link rel="canonical" href="'.newsGenerateLink($row, false, 0, true).'"/>'];
+			$SYSTEM_FLAGS['meta']['canonical'] = newsGenerateLink($row, false, 0, true);
         }
-
+		
         // Check if correct categories were specified [ only for SINGLE category display
         if ((isset($callingParams['validateCategoryID']) || isset($callingParams['validateCategoryAlt']) || 1) && $config['news_multicat_url']) {
             if (getIsSet($row['catid'])) {
@@ -396,7 +396,6 @@ function news_showone($newsID, $alt_name, $callingParams = [])
     $SYSTEM_FLAGS['info']['title']['group'] = GetCategories($row['catid'], true);
     $SYSTEM_FLAGS['info']['title']['item'] = secure_html($row['title']);
 
-
 	//$access = 0;
 	$acces=explode(',',$row['acces']);
 	
@@ -538,7 +537,7 @@ function newsProcessFilter($conditions)
 //
 function news_showlist($filterConditions = [], $paginationParams = [], $callingParams = [])
 {
-    global $mysql, $tpl, $userROW, $catz, $catmap, $config, $vars, $parse, $template, $lang, $PFILTERS, $twig, $parse;
+    global $mysql, $tpl, $userROW, $catz, $catmap, $config, $vars, $parse, $template, $lang, $PFILTERS, $twig, $parse, $currentCategory;
     global $year, $month, $day;
     global $timer;
     global $SYSTEM_FLAGS, $TemplateCache;
@@ -556,7 +555,7 @@ function news_showlist($filterConditions = [], $paginationParams = [], $callingP
     if (!$callingParams['style']) {
         $callingParams['style'] = 'short';
     }
-
+	
     // -> desired template - override template if needed
     if (isset($callingParams['overrideTemplateName']) && $callingParams['overrideTemplateName']) {
         $templateName = $callingParams['overrideTemplateName'];
@@ -841,6 +840,18 @@ function news_showlist($filterConditions = [], $paginationParams = [], $callingP
         }
         $tvars['vars']['news']['embed']['imgCount'] = count($tvars['vars']['news']['embed']['images']);
 		if(!empty($tvars['vars']['news']['embed']['images'][0])) {define('news.image', $tvars['vars']['news']['embed']['images'][0]); }
+		
+		//Для суб категории и ее страниц
+		$callingParams['addCanonicalLink'] = $config['canonical_sub_cat'];
+		if($callingParams['addCanonicalLink']){
+			if($currentCategory['id']){
+				$cat_canonical = generateLink('news', 'by.category', ['category' => $currentCategory['alt'], 'catid' => $currentCategory['id']]);
+				for ($catpage = 2; $catpage <= $CurrentHandler['params']['page']; $catpage++) {
+					$cat_canonical = generateLink('news', 'by.category', ['category' => $currentCategory['alt'], 'catid' => $currentCategory['id'], 'page' => $catpage]);
+				}
+				$SYSTEM_FLAGS['meta']['canonical'] = $cat_canonical;
+			}
+		}
 
         // Print icon if only one parent category
         if (isset($row['catid']) && $row['catid'] && !mb_stristr(',', $row['catid']) && isset($catmap[$row['catid']]) && ($catalt = $catmap[$row['catid']]) && isset($catz[$catalt]['icon']) && $catz[$catalt]['icon']) {
@@ -975,7 +986,19 @@ function news_showlist($filterConditions = [], $paginationParams = [], $callingP
             }
         }
     }
-
+	
+	//Для главной категории и ее страниц
+	$callingParams['addCanonicalLink'] = $config['canonical_cat'];
+    if ($callingParams['addCanonicalLink']) {
+		if($callingParams['paginationCategoryID']){
+			$cat_canonical = generateLink('news', 'by.category', ['category' => $currentCategory['alt'], 'catid' => $currentCategory['id']]);
+			for ($catpage = 2; $catpage <= $callingParams['page']; $catpage++) {
+				$cat_canonical = generateLink('news', 'by.category', ['category' => $currentCategory['alt'], 'catid' => $currentCategory['id'], 'page' => $catpage]);
+			}
+			$SYSTEM_FLAGS['meta']['canonical'] = $cat_canonical;
+        }
+    }
+		
     // Return result
     if ((isset($callingParams['extendedReturn']) && $callingParams['extendedReturn'])) {
         $returnData = [

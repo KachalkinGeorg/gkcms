@@ -12,8 +12,13 @@ if (!defined('NGCMS')) {
     exit('HAL');
 }
 
-//header('Content-Type: text/html; charset=utf-8');
-
+$callingParams['addCanonicalLink'] = $config['canonical_main'];
+if($callingParams['addCanonicalLink']){
+	if ($_SERVER['REQUEST_URI'] == '/'){
+		$SYSTEM_FLAGS['meta']['canonical'] = '/';
+	}
+}
+		
 if ($config['favorit_active']) {
 	add_act('index', 'news_favorites');
 }

@@ -2354,14 +2354,22 @@ function newsFillVariables($row, $fullMode, $page = 0, $disablePagination = 0, $
 // Fetch metatags rows
 function GetMetatags()
 {
-    global $config, $SYSTEM_FLAGS;
+	global $config, $mysql, $catz, $category, $SYSTEM_FLAGS;
 
-    if (!$config['meta']) {
-        return;
-    }
+	if (!$config['meta'])
+		return;
 
-    $meta['description'] = $config['description'];
-    $meta['keywords'] = $config['keywords'];
+	$meta['description']	=	$config['description'];
+	$meta['keywords']		=	$config['keywords'];
+
+	if ($category) {
+		if ($catz[$category]['description']) {
+			$meta['description'] = $catz[$category]['description'];
+		}
+		if ($catz[$category]['keywords']) {
+			$meta['keywords'] = $catz[$category]['keywords'];
+		}
+	}
 
     if (isset($SYSTEM_FLAGS['meta']['description']) && ($SYSTEM_FLAGS['meta']['description'] != '')) {
         $meta['description'] = $SYSTEM_FLAGS['meta']['description'];
@@ -2374,10 +2382,15 @@ function GetMetatags()
     if (isset($SYSTEM_FLAGS['meta']['robots']) && ($SYSTEM_FLAGS['meta']['robots'] != '')) {
         $meta['robots'] = $SYSTEM_FLAGS['meta']['robots'];
     }
+
+    if (isset($SYSTEM_FLAGS['meta']['canonical']) && ($SYSTEM_FLAGS['meta']['canonical'] != '')) {
+        $meta['canonical'] = $SYSTEM_FLAGS['meta']['canonical'];
+    }
 	
     $result = ($meta['description'] != '') ? '<meta name="description" content="'.secure_html($meta['description'])."\" />\r\n" : '';
     $result .= ($meta['keywords'] != '') ? '<meta name="keywords" content="'.secure_html($meta['keywords'])."\" />\r\n" : '';
     $result .= ($meta['robots'] != '') ? '<meta name="robots" content="'.secure_html($meta['robots'])."\" />\r\n" : '';
+	$result .= ($meta['canonical'] != '') ? '<link rel="canonical" href="'.home.$meta['canonical']."\" />\r\n" : '';
 
     return $result;
 }
@@ -2700,6 +2713,10 @@ function error404(): void
             $template['vars']['mainblock'] = $twig->render('404.internal.tpl', []);
 
             $SYSTEM_FLAGS['info']['title']['group'] = $lang['404.title'];
+			$SYSTEM_FLAGS['meta']['description'] = $lang['404.descr'];
+			if($config['canonical_404']){
+				$SYSTEM_FLAGS['meta']['canonical'] = '/';
+			}
     }
 }
 

@@ -16,7 +16,7 @@
 		<li class="nav-item"><a href="#userTabs-imgfiles" class="nav-link" data-toggle="tab"><span data-toggle="popover" data-placement="top" data-trigger="hover focus" data-content="{{ lang['files'] }}/{{ lang['img'] }}"><i class="fa fa-upload"></i> {{ lang['files'] }}/{{ lang['img'] }}</span></a></li>
 		<li class="nav-item"><a href="#userTabs-cache" class="nav-link" data-toggle="tab"><span data-toggle="popover" data-placement="top" data-trigger="hover focus" data-content="{{ lang['cache'] }}"><i class="fa fa-bar-chart"></i> {{ lang['cache'] }}</span></a></li>
 		<li class="nav-item"><a href="#userTabs-multi" class="nav-link" data-toggle="tab"><span data-toggle="popover" data-placement="top" data-trigger="hover focus" data-content="{{ lang['multi'] }}"><i class="fa fa-sitemap"></i> {{ lang['multi'] }}</span></a></li>
-		<li class="nav-item"><a href="#userTabs-scrin" class="nav-link" data-toggle="tab"><span data-toggle="popover" data-placement="top" data-trigger="hover focus" data-content="{{ lang['scrin'] }}"><i class="fa fa-imdb"></i> {{ lang['scrin'] }}</span></a></li>
+		<li class="nav-item"><a href="#userTabs-seo" class="nav-link" data-toggle="tab"><span data-toggle="popover" data-placement="top" data-trigger="hover focus" data-content="{{ lang['seo'] }}"><i class="fa fa-code"></i> {{ lang['seo'] }}</span></a></li>
 	</ul>
 	</div>
 
@@ -272,24 +272,6 @@
 					</td>
 				</tr>
 				<tr>
-					<td width="50%">{{ lang['meta'] }} <small class="form-text text-muted">{{ lang['meta_desc'] }}</small></td>
-					<td width="50%">
-						{{ mkSelectYN({'name' : 'save_con[meta]', 'value' : config['meta'] }) }}
-					</td>
-				</tr>
-				<tr>
-					<td width="50%">{{ lang['description'] }} <small class="form-text text-muted">{{ lang['description_desc'] }}</small></td>
-					<td width="50%">
-						<input type="text" name="save_con[description]" value="{{ config['description'] }}" class="form-control" />
-					</td>
-				</tr>
-				<tr>
-					<td width="50%">{{ lang['keywords'] }} <small class="form-text text-muted">{{ lang['keywords_desc'] }}</small></td>
-					<td width="50%">
-						<input type="text" name="save_con[keywords]" value="{{ config['keywords'] }}" class="form-control" />
-					</td>
-				</tr>
-				<tr>
 					<td width="50%">{{ lang['theme'] }} <small class="form-text text-muted">{{ lang['theme_desc'] }}</small></td>
 					<td width="50%">
 						{{ mkSelect({'name' : 'save_con[theme]', 'value' : config['theme'], 'values' : list['theme'] }) }}
@@ -494,15 +476,9 @@
 					</td>
 				</tr>
 				<tr>
-					<td width="50%">{{ lang['news.add.info'] }} <small class="form-text text-muted">{{ lang['news.add.info#desc'] }}</small></td>
+					<td width="50%">{{ lang['extended_more'] }} <small class="form-text text-muted">{{ lang['extended_more_desc'] }}</small></td>
 					<td width="50%">
-						{{ mkSelectYN({'name' : 'save_con[news.add.info]', 'value' : config['news.add.info'] }) }}
-					</td>
-				</tr>
-				<tr>
-					<td width="50%">{{ lang['news.add.scrin'] }} <small class="form-text text-muted">{{ lang['news.add.scrin#desc'] }}</small></td>
-					<td width="50%">
-						{{ mkSelectYN({'name' : 'save_con[news.add.scrin]', 'value' : config['news.add.scrin'] }) }}
+						{{ mkSelectNY({'name' : 'save_con[extended_more]', 'value' : config['extended_more'] }) }}
 					</td>
 				</tr>
 				<tr>
@@ -511,6 +487,44 @@
 						{{ mkSelectYN({'name' : 'save_con[news_without_content]', 'value' : config['news_without_content'] }) }}
 					</td>
 				</tr>
+				<tr>
+					<td width="50%">{{ lang['news.add.info'] }} <small class="form-text text-muted">{{ lang['news.add.info#desc'] }}</small></td>
+					<td width="50%">
+						{{ mkSelectYN({'name' : 'save_con[news.add.info]', 'value' : config['news.add.info'] }) }}
+					</td>
+				</tr>
+				<tr>
+					<td width="50%">{{ lang['news.add.scrin'] }} <small class="form-text text-muted">{{ lang['news.add.scrin#desc'] }}</small></td>
+					<td width="50%">
+						{{ mkSelectYN({'name' : 'save_con[news.add.scrin]', 'id' : 'scrinimg', 'value' : config['news.add.scrin'] }) }}
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div class="panel-body useScrin" style="font-family: Franklin Gothic Medium;text-transform: uppercase;color: #9f9f9f;"><i class="fa fa-imdb"></i> {{ lang['scrin_info'] }}</div>
+		<div class="table-responsive">
+			<table class="table table-striped">
+				<tr class="useScrin">
+					<td width="70%"><small class="form-text text-muted">{{ lang['scrin_key_api_info'] }}</small></td>
+					<td width="10%"></td>
+				</tr>
+				<tr class="useScrin">
+					<td width="50%">{{ lang['scrin_key_api'] }} <small class="form-text text-muted">{{ lang['scrin_key_api_desc'] }}</small></td>
+					<td width="50%">
+						<input type="text" name="save_con[scrin_api_key]" value="{{ config['scrin_api_key'] }}" class="form-control" />
+					</td>
+				</tr>
+				<tr class="useScrin">
+					<td width="50%">{{ lang['scrin_text'] }}</td>
+					<td width="50%">
+						<input type="text" name="save_con[scrin_text]" value="{{ config['scrin_text'] }}" class="form-control" />
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div class="panel-body" style="font-family: Franklin Gothic Medium;text-transform: uppercase;color: #9f9f9f;"></div>
+		<div class="table-responsive">
+			<table class="table table-striped">
 				<tr>
 					<td width="50%">{{ lang['date_adjust'] }} <small class="form-text text-muted">{{ lang['date_adjust_desc'] }}</small></td>
 					<td width="50%">
@@ -538,21 +552,15 @@
 					</td>
 				</tr>
 				<tr>
-					<td width="50%">{{ lang['blocks_for_reg'] }} <small class="form-text text-muted">{{ lang['blocks_for_reg_desc'] }}</small></td>
-					<td width="50%">
-						{{ mkSelectYN({'name' : 'save_con[blocks_for_reg]', 'value' : config['blocks_for_reg'] }) }}
-					</td>
-				</tr>
-				<tr>
-					<td width="50%">{{ lang['extended_more'] }} <small class="form-text text-muted">{{ lang['extended_more_desc'] }}</small></td>
-					<td width="50%">
-						{{ mkSelectNY({'name' : 'save_con[extended_more]', 'value' : config['extended_more'] }) }}
-					</td>
-				</tr>
-				<tr>
 					<td width="50%">{{ lang['use_smilies'] }} <small class="form-text text-muted">{{ lang['use_smilies_desc'] }}</small></td>
 					<td width="50%">
 						{{ mkSelectYN({'name' : 'save_con[use_smilies]', 'value' : config['use_smilies'] }) }}
+					</td>
+				</tr>
+				<tr>
+					<td width="50%">{{ lang['blocks_for_reg'] }} <small class="form-text text-muted">{{ lang['blocks_for_reg_desc'] }}</small></td>
+					<td width="50%">
+						{{ mkSelectYN({'name' : 'save_con[blocks_for_reg]', 'value' : config['blocks_for_reg'] }) }}
 					</td>
 				</tr>
 				<tr>
@@ -581,41 +589,45 @@
 				</tr>
 			</table>
 		</div>
-				
+
 		<div class="panel-body" style="font-family: Franklin Gothic Medium;text-transform: uppercase;color: #9f9f9f;">{{ lang['favorit_configuration'] }}</div>
 		<div class="table-responsive">
 			<table class="table table-striped">
 				<tr>
 					<td width="50%">{{ lang['favorit_active'] }} <small class="form-text text-muted">{{ lang['favorit_active#desc'] }}</small></td>
 					<td width="50%">
-						{{ mkSelectYN({'name' : 'save_con[favorit_active]', 'value' : config['favorit_active'] }) }}
+						{{ mkSelectYN({'name' : 'save_con[favorit_active]', 'id' : 'favorit_active', 'value' : config['favorit_active'] }) }}
 					</td>
 				</tr>
-				<tr>
+			</table>
+		</div>
+		<div class="table-responsive">
+			<table class="table table-striped">
+				<tr class="useFavorit">
 					<td width="50%">{{ lang['favorit_number'] }} <small class="form-text text-muted">{{ lang['favorit_number#desc'] }}</small></td>
 					<td width="50%">
 						<input type="text" name="save_con[favorit_number]" value="{{ config['favorit_number'] }}" class="form-control" style="max-width:150px; text-align: center;"/>
 					</td>
 				</tr>
-				<tr>
+				<tr class="useFavorit">
 					<td width="50%">{{ lang['favorit_maxlength'] }} <small class="form-text text-muted">{{ lang['favorit_maxlength#desc'] }}</small></td>
 					<td width="50%">
 						<input type="text" name="save_con[favorit_maxlength]" value="{{ config['favorit_maxlength'] }}" class="form-control" style="max-width:150px; text-align: center;"/>
 					</td>
 				</tr>
-				<tr>
+				<tr class="useFavorit">
 					<td width="50%">{{ lang['favorit_count'] }} <small class="form-text text-muted">{{ lang['favorit_count#desc'] }}</small></td>
 					<td width="50%">
 						{{ mkSelectYN({'name' : 'save_con[favorit_count]', 'value' : config['favorit_count'] }) }}
 					</td>
 				</tr>
-				<tr>
+				<tr class="useFavorit">
 					<td width="50%">{{ lang['favorit_cache'] }} <small class="form-text text-muted">{{ lang['favorit_cache#desc'] }}</small></td>
 					<td width="50%">
 						{{ mkSelectYN({'name' : 'save_con[favorit_cache]', 'value' : config['favorit_cache'] }) }}
 					</td>
 				</tr>
-				<tr>
+				<tr class="useFavorit">
 					<td width="50%">{{ lang['favorit_cacheExpire'] }} <small class="form-text text-muted">{{ lang['favorit_cacheExpire#desc'] }}</small></td>
 					<td width="50%">
 						<input type="text" name="save_con[favorit_cacheExpire]" value="{{ config['favorit_cacheExpire'] }}" class="form-control" />
@@ -623,6 +635,7 @@
 				</tr>
 			</table>
 		</div>
+				
 	</div></div>
 	
 		<!-- ########################## USERS TAB ########################## -->
@@ -1042,36 +1055,110 @@
 		</div>
 	</div></div>
 	
-		<!-- ########################## SCRIN TAB ########################## -->
-		<div id="userTabs-scrin" class="tab-pane">
+		<!-- ########################## SEO TAB ########################## -->
+		<div id="userTabs-seo" class="tab-pane">
 		<div class="panel panel-default">
-		<div class="panel-heading">{{ lang['scrin'] }}</div>
-		<div class="panel-body" style="font-family: Franklin Gothic Medium;text-transform: uppercase;color: #9f9f9f;">{{ lang['scrin_info'] }}</div>
+		<div class="panel-heading">{{ lang['seo'] }}</div>
+		<div class="panel-body" style="font-family: Franklin Gothic Medium;text-transform: uppercase;color: #9f9f9f;">{{ lang['meta'] }}</div>
 		<div class="table-responsive">
 			<table class="table table-striped">
 				<tr>
-					<td width="50%">{{ lang['scrin_key_api'] }} <small class="form-text text-muted">{{ lang['scrin_key_api_desc'] }}</small></td>
+					<td width="50%">{{ lang['separator'] }} <small class="form-text text-muted">{{ lang['separator_desc'] }}</small></td>
 					<td width="50%">
-						<input type="text" name="save_con[scrin_api_key]" value="{{ config['scrin_api_key'] }}" class="form-control" />
+						<input name="save_con[separator]" type="text" value="{{ config['separator'] }}" class="form-control" style="max-width: 40px;text-align: center;"/>
 					</td>
 				</tr>
 				<tr>
-					<td width="50%">{{ lang['scrin_text'] }}</td>
+					<td width="50%">{{ lang['meta'] }} <small class="form-text text-muted">{{ lang['meta_desc'] }}</small></td>
 					<td width="50%">
-						<input type="text" name="save_con[scrin_text]" value="{{ config['scrin_text'] }}" class="form-control" />
+						{{ mkSelectYN({'name' : 'save_con[meta]', 'value' : config['meta'] }) }}
+					</td>
+				</tr>
+				<tr>
+					<td width="50%">{{ lang['description'] }} <small class="form-text text-muted">{{ lang['description_desc'] }}</small></td>
+					<td width="50%">
+						<input type="text" name="save_con[description]" value="{{ config['description'] }}" class="form-control" />
+					</td>
+				</tr>
+				<tr>
+					<td width="50%">{{ lang['keywords'] }} <small class="form-text text-muted">{{ lang['keywords_desc'] }}</small></td>
+					<td width="50%">
+						<input type="text" name="save_con[keywords]" value="{{ config['keywords'] }}" class="form-control" />
 					</td>
 				</tr>
 			</table>
 		</div>
 		
-		<div class="panel-body" style="font-family: Franklin Gothic Medium;text-transform: uppercase;color: #9f9f9f;">FAQ</div>
+		<div class="panel-body" style="font-family: Franklin Gothic Medium;text-transform: uppercase;color: #9f9f9f;">{{ lang['canonical_configuration'] }}</div>
 		<div class="table-responsive">
 			<table class="table table-striped">
 				<tr>
-					<td ><small class="form-text text-muted">{{ lang['scrin_key_api_info'] }}</small></td>
+					<td width="50%">{{ lang['canonical'] }} <small class="form-text text-muted">{{ lang['canonical#desc'] }}</small></td>
+					<td width="50%">
+						{{ mkSelectYN({'id' : 'canonical', 'value' : '0' }) }}
+					</td>
 				</tr>
 			</table>
 		</div>
+		<div class="table-responsive">
+			<table class="table table-striped">
+				<tr class="useCanonical">
+					<td width="50%">{{ lang['canonical_main'] }} <small class="form-text text-muted">{{ lang['canonical_main#desc'] }}</small></td>
+					<td width="50%">
+						{{ mkSelectYN({'name' : 'save_con[canonical_main]', 'value' : config['canonical_main'] }) }}
+					</td>
+				</tr>
+				<tr class="useCanonical">
+					<td width="50%">{{ lang['canonical_news'] }} <small class="form-text text-muted">{{ lang['canonical_news#desc'] }}</small></td>
+					<td width="50%">
+						{{ mkSelectYN({'name' : 'save_con[canonical_news]', 'value' : config['canonical_news'] }) }}
+					</td>
+				</tr>
+				<tr class="useCanonical">
+					<td width="50%">{{ lang['canonical_static'] }} <small class="form-text text-muted">{{ lang['canonical_static#desc'] }}</small></td>
+					<td width="50%">
+						{{ mkSelectYN({'name' : 'save_con[canonical_static]', 'value' : config['canonical_static'] }) }}
+					</td>
+				</tr>
+				<tr class="useCanonical">
+					<td width="50%">{{ lang['canonical_cat'] }} <small class="form-text text-muted">{{ lang['canonical_cat#desc'] }}</small></td>
+					<td width="50%">
+						{{ mkSelectYN({'name' : 'save_con[canonical_cat]', 'value' : config['canonical_cat'] }) }}
+					</td>
+				</tr>
+				<tr class="useCanonical">
+					<td width="50%">{{ lang['canonical_sub_cat'] }} <small class="form-text text-muted">{{ lang['canonical_sub_cat#desc'] }}</small></td>
+					<td width="50%">
+						{{ mkSelectYN({'name' : 'save_con[canonical_sub_cat]', 'value' : config['canonical_sub_cat'] }) }}
+					</td>
+				</tr>
+				<tr class="useCanonical">
+					<td width="50%">{{ lang['canonical_registr'] }} <small class="form-text text-muted">{{ lang['canonical_registr#desc'] }}</small></td>
+					<td width="50%">
+						{{ mkSelectYN({'name' : 'save_con[canonical_registr]', 'value' : config['canonical_registr'] }) }}
+					</td>
+				</tr>
+				<tr class="useCanonical">
+					<td width="50%">{{ lang['canonical_lostpas'] }} <small class="form-text text-muted">{{ lang['canonical_lostpas#desc'] }}</small></td>
+					<td width="50%">
+						{{ mkSelectYN({'name' : 'save_con[canonical_lostpas]', 'value' : config['canonical_lostpas'] }) }}
+					</td>
+				</tr>
+				<tr class="useCanonical">
+					<td width="50%">{{ lang['canonical_search'] }} <small class="form-text text-muted">{{ lang['canonical_search#desc'] }}</small></td>
+					<td width="50%">
+						{{ mkSelectYN({'name' : 'save_con[canonical_search]', 'value' : config['canonical_search'] }) }}
+					</td>
+				</tr>
+				<tr class="useCanonical">
+					<td width="50%">{{ lang['canonical_404'] }} <small class="form-text text-muted">{{ lang['canonical_404#desc'] }}</small></td>
+					<td width="50%">
+						{{ mkSelectYN({'name' : 'save_con[canonical_404]', 'value' : config['canonical_404'] }) }}
+					</td>
+				</tr>
+			</table>
+		</div>
+
 	</div></div>
 	
 		<!-- ########################## CACHE TAB ########################## -->
@@ -1122,6 +1209,27 @@
 </form>
 
 <script type="text/javascript">
+	$("#scrinimg").on('change', toggleScrin)
+		.trigger('change');
+
+	function toggleScrin(event) {
+		$(".useScrin").toggle("1" === $("#scrinimg option:selected").val());
+	}
+
+	$("#canonical").on('change', toggleCanonical)
+		.trigger('change');
+
+	function toggleCanonical(event) {
+		$(".useCanonical").toggle("1" === $("#canonical option:selected").val());
+	}
+
+	$("#favorit_active").on('change', toggleFavorit)
+		.trigger('change');
+
+	function toggleFavorit(event) {
+		$(".useFavorit").toggle("1" === $("#favorit_active option:selected").val());
+	}
+	
 	$("#mail_mode").on('change', toggleSmtp)
 		.trigger('change');
 

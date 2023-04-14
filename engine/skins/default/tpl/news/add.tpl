@@ -206,22 +206,24 @@
 		<div class="tab-pane" id="tabadditional" >
 			<div id="additional" class="panel-body">
 
+				{% if (pluginIsActive('xfields')) %}
 				<div class="form-row mb-3">
-					{% if (pluginIsActive('xfields')) %}
 					<table class="table table table-striped">
 						{{ plugin.xfields[0] }}
 					</table>
-					{% endif %}
-					{% for entry in extends.additional %}
+				</div>
+				{% endif %}
+				
+				{% for entry in extends.additional %}
+				<div class="form-row mb-3">
 					<table class="table table table-striped">
 						<tr class="thead-light">
 							<th colspan="2">{{ entry.title }}</th>
 						</tr>
 						{{ entry.body }}
 					</table>
-                    {% endfor %}
 				</div>
-					
+                {% endfor %}
 			</div>
 		</div>
 		
