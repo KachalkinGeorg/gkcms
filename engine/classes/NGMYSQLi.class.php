@@ -77,7 +77,7 @@ class NGMYSQLi extends NGDB
 
         // Try to switch CHARSET
         try {
-            mysqli_query($this->db, "/*!40101 SET NAMES '".$this->dbCharset."' */");
+            mysqli_query($this->db, "/*!40101 SET NAMES 'utf8mb4' */");
         } catch (Exception $e) {
             throw new Exception("NGMYSQLi: Error switching to charset '".$this->dbCharset."' (".$e->getCode().") [".$e->getMessage()."]");
         }

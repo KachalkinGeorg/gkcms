@@ -143,7 +143,14 @@
 				<tr>
 					<td width="50%">{{ lang['flood_time'] }} <small class="form-text text-muted">{{ lang['flood_time_desc'] }}</small></td>
 					<td width="50%">
-						<input type="text" name="save_con[flood_time]" value="{{ config['flood_time'] }}" class="form-control" style="max-width:150px; text-align: center;"/>
+						<div class="input-group">
+							<input type="text" name="save_con[flood_time]" value="{{ config['flood_time'] }}" class="form-control" style="max-width:150px; text-align: center;"/>
+							<div class="input-group-append">
+							<a class="btn btn-outline-primary" data-toggle="popover" data-placement="top" data-trigger="focus" data-html="true" title="" data-content="{{ lang['flood_time_info'] }}" tabindex="0" data-original-title="{{ lang['flood_time'] }}">
+								<i class="fa fa-question"></i>
+							</a>
+							</div>
+						</div>
 					</td>
 				</tr>
 				<tr>
@@ -158,6 +165,11 @@
 						{{ mkSelect({'name' : 'save_con[captcha_font]', 'value' : config['captcha_font'], 'values' : list['captcha_font'] }) }}
 					</td>
 				</tr>
+			</table>
+		</div>	
+		<div class="panel-body" style="font-family: Franklin Gothic Medium;text-transform: uppercase;color: #9f9f9f;">{{ lang['different'] }}</div>
+		<div class="table-responsive">
+			<table class="table table-striped">
 				<tr>
 					<td width="50%">{{ lang['use_crypto_salt'] }} <small class="form-text text-muted">{{ lang['use_crypto_salt_desc'] }}</small></td>
 					<td width="50%">
@@ -182,6 +194,12 @@
 						{{ mkSelectYN({'name' : 'save_con[ssl_only]', 'value' : config['ssl_only'] }) }}
 					</td>
 				</tr>
+				<tr>
+					<td width="50%">{{ lang['last_modif'] }} <small class="form-text text-muted">{{ lang['last_modif_desc'] }}</small></td>
+					<td width="50%">
+						{{ mkSelectYN({'name' : 'save_con[last_modif]', 'value' : config['last_modif'] }) }}
+					</td>
+				</tr>			
 				<tr>
 					<td width="50%">{{ lang['sql_error'] }} <small class="form-text text-muted">{{ lang['sql_error_desc'] }}</small></td>
 					<td width="50%">

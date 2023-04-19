@@ -43,6 +43,16 @@ include_once 'engine/core.php';
     exit();
 } */
 
+if($config['last_modif']) {
+	$modified_date = getlastmod();
+	@header('Last-Modified: '.gmdate('D, d M Y H:i:s', $modified_date).' GMT');
+
+	if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) && strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) >= $editdate) {
+		@header($_SERVER['SERVER_PROTOCOL'] . ' 304 Not Modified');
+		exit;
+	}
+}
+
 if($config['iframe']) {
 	if( !preg_match('#^(http|https)://(www.)?(webvisor.com)#', isset($_SERVER['HTTP_REFERER'])) ) {
 		@header ("X-Frame-Options: SAMEORIGIN");

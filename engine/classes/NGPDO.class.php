@@ -76,7 +76,7 @@ class NGPDO extends NGDB
 
         // Try to switch CHARSET
         try {
-            $this->db->exec("/*!40101 SET NAMES '".$this->dbCharset."' */");
+            $this->db->exec("/*!40101 SET NAMES 'utf8mb4' */");
         } catch (PDOException $e) {
             throw new Exception("NG_PDO: Error switching to charset '".$this->dbCharset."' (".$e->getCode().") [".$e->getMessage()."]");
         }
