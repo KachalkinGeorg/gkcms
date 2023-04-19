@@ -2715,7 +2715,7 @@ function error404(): void
             $SYSTEM_FLAGS['info']['title']['group'] = $lang['404.title'];
 			$SYSTEM_FLAGS['meta']['description'] = $lang['404.descr'];
 			if($config['canonical_404']){
-				$SYSTEM_FLAGS['meta']['canonical'] = '/';
+				$SYSTEM_FLAGS['meta']['canonical'] = home.'/';
 			}
     }
 }
