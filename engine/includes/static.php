@@ -142,7 +142,7 @@ function showStaticPage($params)
 	//Для статистической страницы
 	$callingParams['addCanonicalLink'] = $config['canonical_static'];
 	if($callingParams['addCanonicalLink']){
-		$SYSTEM_FLAGS['meta']['canonical'] = generatePluginLink('static', '', ['id' => $row['id'], 'altname' => $params['altname']], [], true);
+		$SYSTEM_FLAGS['meta']['canonical'] = home.generatePluginLink('static', '', ['id' => $row['id'], 'altname' => $params['altname']], [], true);
 	}
 
     $template['vars']['titles'] .= ' : '.$row['title'];

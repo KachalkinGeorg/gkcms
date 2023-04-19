@@ -849,7 +849,7 @@ function news_showlist($filterConditions = [], $paginationParams = [], $callingP
 				for ($catpage = 2; $catpage <= $CurrentHandler['params']['page']; $catpage++) {
 					$cat_canonical = generateLink('news', 'by.category', ['category' => $currentCategory['alt'], 'catid' => $currentCategory['id'], 'page' => $catpage]);
 				}
-				$SYSTEM_FLAGS['meta']['canonical'] = $cat_canonical;
+				$SYSTEM_FLAGS['meta']['canonical'] = home.$cat_canonical;
 			}
 		}
 
@@ -995,7 +995,7 @@ function news_showlist($filterConditions = [], $paginationParams = [], $callingP
 			for ($catpage = 2; $catpage <= $callingParams['page']; $catpage++) {
 				$cat_canonical = generateLink('news', 'by.category', ['category' => $currentCategory['alt'], 'catid' => $currentCategory['id'], 'page' => $catpage]);
 			}
-			$SYSTEM_FLAGS['meta']['canonical'] = $cat_canonical;
+			$SYSTEM_FLAGS['meta']['canonical'] = home.$cat_canonical;
         }
     }
 		

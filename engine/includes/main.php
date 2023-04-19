@@ -15,7 +15,7 @@ if (!defined('NGCMS')) {
 $callingParams['addCanonicalLink'] = $config['canonical_main'];
 if($callingParams['addCanonicalLink']){
 	if ($_SERVER['REQUEST_URI'] == '/'){
-		$SYSTEM_FLAGS['meta']['canonical'] = '/';
+		$SYSTEM_FLAGS['meta']['canonical'] = home.'/';
 	}
 }
 		

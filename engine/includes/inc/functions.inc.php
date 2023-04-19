@@ -2390,7 +2390,7 @@ function GetMetatags()
     $result = ($meta['description'] != '') ? '<meta name="description" content="'.secure_html($meta['description'])."\" />\r\n" : '';
     $result .= ($meta['keywords'] != '') ? '<meta name="keywords" content="'.secure_html($meta['keywords'])."\" />\r\n" : '';
     $result .= ($meta['robots'] != '') ? '<meta name="robots" content="'.secure_html($meta['robots'])."\" />\r\n" : '';
-	$result .= ($meta['canonical'] != '') ? '<link rel="canonical" href="'.home.$meta['canonical']."\" />\r\n" : '';
+	$result .= ($meta['canonical'] != '') ? '<link rel="canonical" href="'.$meta['canonical']."\" />\r\n" : '';
 
     return $result;
 }

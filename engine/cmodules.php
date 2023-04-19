@@ -81,7 +81,7 @@ function coreRegisterUser()
         $params = $auth->get_reg_params();
         generate_reg_page($params);
 		if ($config['canonical_registr']){
-			$SYSTEM_FLAGS['meta']['canonical'] = generateLink('core', 'registration', []);
+			$SYSTEM_FLAGS['meta']['canonical'] = home.generateLink('core', 'registration', []);
 		}
     } elseif ($_REQUEST['type'] == 'doregister' && $config['users_selfregister']) {
         // Receiving parameter list during registration
@@ -284,7 +284,7 @@ function coreRestorePassword()
         $userid = isset($CurrentHandler['params']['userid']) ? $CurrentHandler['params']['userid'] : $_REQUEST['userid'];
         $code = isset($CurrentHandler['params']['code']) ? $CurrentHandler['params']['code'] : $_REQUEST['code'];
 		if ($config['canonical_lostpas']){
-			$SYSTEM_FLAGS['meta']['canonical'] = generateLink('core', 'lostpassword', []);
+			$SYSTEM_FLAGS['meta']['canonical'] = home.generateLink('core', 'lostpassword', []);
 		}
     } else {
         $userid = $_REQUEST['userid'];

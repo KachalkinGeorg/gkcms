@@ -179,7 +179,7 @@ function search_news()
 	//Для поиска
 	$callingParams['addCanonicalLink'] = $config['canonical_search'];
 	if($callingParams['addCanonicalLink']){
-		$SYSTEM_FLAGS['meta']['canonical'] = generateLink('search', '', []);
+		$SYSTEM_FLAGS['meta']['canonical'] = home.generateLink('search', '', []);
 	}
 
     $template['vars']['mainblock'] .= $twig->render('search.table.tpl', $tvars);
