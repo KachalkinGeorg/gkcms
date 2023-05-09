@@ -43,16 +43,6 @@ include_once 'engine/core.php';
     exit();
 } */
 
-if($config['last_modif']) {
-	$modified_date = getlastmod();
-	@header('Last-Modified: '.gmdate('D, d M Y H:i:s', $modified_date).' GMT');
-
-	if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) && strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) >= $editdate) {
-		@header($_SERVER['SERVER_PROTOCOL'] . ' 304 Not Modified');
-		exit;
-	}
-}
-
 if($config['iframe']) {
 	if( !preg_match('#^(http|https)://(www.)?(webvisor.com)#', isset($_SERVER['HTTP_REFERER'])) ) {
 		@header ("X-Frame-Options: SAMEORIGIN");
@@ -205,6 +195,29 @@ $template['vars']['category'] = (isset($_REQUEST['category']) && ($_REQUEST['cat
 executeActionHandler('index_post');
 
 // ===================================================================
+
+// Last-Modified
+if($config['last_modif']) {
+
+  	$LastModified_unix = $SYSTEM_FLAGS['news']['db.record']['editdate'] ? $SYSTEM_FLAGS['news']['db.record']['editdate'] : getlastmod();
+	$LastModified = gmdate("D, d M Y H:i:s \G\M\T", $LastModified_unix);
+	$IfModifiedSince = false;
+
+	if (isset($_ENV['HTTP_IF_MODIFIED_SINCE']))
+		$IfModifiedSince = strtotime(substr($_ENV['HTTP_IF_MODIFIED_SINCE'], 5));
+
+	if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE']))
+		$IfModifiedSince = strtotime(substr($_SERVER['HTTP_IF_MODIFIED_SINCE'], 5));
+
+	if ($IfModifiedSince && $IfModifiedSince >= $LastModified_unix) {
+		@header($_SERVER['SERVER_PROTOCOL'] . ' 304 Not Modified');
+		die();
+	}
+
+	@header('Last-Modified: '. $LastModified);
+}
+
+
 // Prepare JS/CSS/RSS references
 
 // Make empty OLD STYLE variables

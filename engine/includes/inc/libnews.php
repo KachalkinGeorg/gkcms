@@ -39,7 +39,7 @@
 function news_showone($newsID, $alt_name, $callingParams = [])
 {
     global $mysql, $tpl, $userROW, $catz, $catmap, $config, $template, $parse, $lang, $SYSTEM_FLAGS, $PFILTERS, $EXTRA_HTML_VARS;
-    global $timer, $editdate, $postdate;
+    global $timer;
     global $year, $month, $day;
 
     // Calculate exec time
@@ -70,13 +70,6 @@ function news_showone($newsID, $alt_name, $callingParams = [])
         }
 		
 		//$date = LangDate("j Q Y - H:i:s", $row['editdate']);
-		
-		$postdate = $row['postdate'];
-		$editdate = $row['editdate'];
-		
-		if ($config['last_modif'] && $editdate) {
-			@header ("Last-Modified: " . date('r', $editdate) ." GMT");
-		}
 
         // Check if canonical link should be added
         if ($callingParams['addCanonicalLink']) {

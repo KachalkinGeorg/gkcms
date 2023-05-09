@@ -40,6 +40,7 @@ function showStaticPage($params)
 
     // Save some significant news flags for plugin processing
     $SYSTEM_FLAGS['static']['db.id'] = $row['id'];
+	$SYSTEM_FLAGS['static']['db.record'] = $row;
 
     if (is_array($PFILTERS['static'])) {
         foreach ($PFILTERS['static'] as $k => $v) {
