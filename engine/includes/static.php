@@ -19,7 +19,7 @@ $lang = LoadLang('static', 'site');
 // * altname	- alt. name of the page
 function showStaticPage($params)
 {
-    global $config, $twig, $mysql, $userROW, $parse, $template, $lang, $SYSTEM_FLAGS, $PFILTERS, $SUPRESS_TEMPLATE_SHOW;
+    global $config, $twig, $mysql, $userROW, $parse, $template, $lang, $SYSTEM_FLAGS, $PFILTERS, $SUPRESS_TEMPLATE_SHOW, $LastModified;
 
     loadActionHandlers('static');
 
@@ -116,6 +116,8 @@ function showStaticPage($params)
     }
 
     executeActionHandler('static', $row);
+	
+	if( $row['postdate'] ) $LastModified = $row['postdate'];
 
     if (!$row['template']) {
         $templateName = 'static/default';

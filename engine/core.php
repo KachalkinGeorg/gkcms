@@ -59,7 +59,7 @@ global $AUTH_METHOD, $AUTH_CAPABILITIES, $PPAGES, $PFILTERS, $RPCFUNC, $TWIGFUNC
 global $RPCADMFUNC, $SUPRESS_TEMPLATE_SHOW, $SUPRESS_MAINBLOCK_SHOW, $SYSTEM_FLAGS;
 global $DSlist, $PERM, $confPerm, $confPermUser, $systemAccessURL, $cron;
 global $timer, $mysql, $ip, $parse, $tpl, $lang, $config;
-global $TemplateCache, $siteDomainName;
+global $TemplateCache, $siteDomainName, $LastModified;
 global $currentHandler, $ngTrackID, $ngCookieDomain;
 global $twigGlobal, $twig, $twigLoader, $twigStringLoader;
 global $multiDomainName;
@@ -88,13 +88,25 @@ $SUPRESS_MAINBLOCK_SHOW = 0;
 $CurrentHandler = [];
 $TemplateCache = [];
 $lang = [];
-$SYSTEM_FLAGS = [
-    'actions.disabled' => [],
-    'http.headers'     => [
-        'content-type'  => 'text/html; charset=utf-8',
-        'cache-control' => 'private',
-    ],
-];
+
+if($config['last_modif']) {
+	$SYSTEM_FLAGS = [
+		'actions.disabled' => [],
+		'http.headers'     => [
+			'content-type'  => 'text/html; charset=utf-8',
+			'cache-control' => 'no-cache, no-store',
+			'Expires' => gmdate('D, d M Y H:i:s', time() - 3600) . ' GMT',
+		],
+	];
+}else{
+	$SYSTEM_FLAGS = [
+		'actions.disabled' => [],
+		'http.headers'     => [
+			'content-type'  => 'text/html; charset=utf-8',
+			'cache-control' => 'private',
+		],
+	];
+}
 
 $twigGlobal = [
     'flags' => [

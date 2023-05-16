@@ -38,7 +38,7 @@
 //			news row - when news is found
 function news_showone($newsID, $alt_name, $callingParams = [])
 {
-    global $mysql, $tpl, $userROW, $catz, $catmap, $config, $template, $parse, $lang, $SYSTEM_FLAGS, $PFILTERS, $EXTRA_HTML_VARS;
+    global $mysql, $tpl, $userROW, $catz, $catmap, $config, $template, $parse, $lang, $SYSTEM_FLAGS, $PFILTERS, $EXTRA_HTML_VARS, $LastModified;
     global $timer;
     global $year, $month, $day;
 
@@ -70,6 +70,9 @@ function news_showone($newsID, $alt_name, $callingParams = [])
         }
 		
 		//$date = LangDate("j Q Y - H:i:s", $row['editdate']);
+		
+		if( $row['editdate'] AND $row['editdate'] > $LastModified ) $LastModified = $row['editdate'];
+		elseif( $row['postdate'] > $LastModified ) $LastModified = $row['postdate'];
 
         // Check if canonical link should be added
         if ($callingParams['addCanonicalLink']) {

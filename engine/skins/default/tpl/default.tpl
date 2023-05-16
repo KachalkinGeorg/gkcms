@@ -72,6 +72,7 @@
 			</div>
 		</a>
 	  </div>
+	  
 	  <div class="col-sm-6 media-list media-list-linked">
 		<a class="media-link" href="?mod=cron">
 			<div class="media-left"><i class="fa fa-tasks fa-2x" aria-hidden="true"></i></div>
@@ -89,6 +90,18 @@
 			<div class="media-body">
 				<h6 class="media-heading  text-semibold">{{ lang['gsmg'] }}</h6>
 				<span class="text-muted text-size-small">{{ lang['gsmg_d'] }}</span>
+			</div>
+		</a>
+	  </div>
+	 {% endif %}
+	 
+	{% if (pluginIsActive('mapsite')) %}		
+	  <div class="col-sm-6 media-list media-list-linked">
+		<a class="media-link" href="?mod=extra-config&plugin=mapsite">
+			<div class="media-left"><i class="fa fa-sitemap fa-2x" aria-hidden="true"></i></div>
+			<div class="media-body">
+				<h6 class="media-heading  text-semibold">{{ lang['mapsite'] }}</h6>
+				<span class="text-muted text-size-small">{{ lang['mapsite_d'] }}</span>
 			</div>
 		</a>
 	  </div>
@@ -117,7 +130,7 @@
 		</a>
 	  </div>
 	 {% endif %}
-	 
+
 	 {% if (pluginIsActive('ads_pro')) %}
 	  <div class="col-sm-6 media-list media-list-linked">
 		<a class="media-link" href="?mod=extra-config&plugin=ads_pro">

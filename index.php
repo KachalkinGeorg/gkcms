@@ -199,22 +199,80 @@ executeActionHandler('index_post');
 // Last-Modified
 if($config['last_modif']) {
 
-  	$LastModified_unix = $SYSTEM_FLAGS['news']['db.record']['editdate'] ? $SYSTEM_FLAGS['news']['db.record']['editdate'] : getlastmod();
-	$LastModified = gmdate("D, d M Y H:i:s \G\M\T", $LastModified_unix);
-	$IfModifiedSince = false;
+	$wsnaw = gmmktime(gmdate("H"), gmdate("i"), gmdate("s"), gmdate("m"), gmdate("d"), gmdate("Y"));
 
-	if (isset($_ENV['HTTP_IF_MODIFIED_SINCE']))
-		$IfModifiedSince = strtotime(substr($_ENV['HTTP_IF_MODIFIED_SINCE'], 5));
-
-	if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE']))
-		$IfModifiedSince = strtotime(substr($_SERVER['HTTP_IF_MODIFIED_SINCE'], 5));
-
-	if ($IfModifiedSince && $IfModifiedSince >= $LastModified_unix) {
-		@header($_SERVER['SERVER_PROTOCOL'] . ' 304 Not Modified');
-		die();
+	if(!isset($LastModified)){
+		// Если это не статья, то у страницы нет даты изменения и поэтому генерируем сами
+		
+		if ($_SERVER['REQUEST_URI'] == '/'){
+			// если это главная
+			// Формируем каждый час новую дату
+			$LastModified = gmmktime(gmdate("H"), gmdate("d"), gmdate("d")+gmdate("m"), gmdate("m"), gmdate("d"), gmdate("Y"));
+			// Задаём время обновления
+			$wsuptimer = 3600;
+		}
+		else{
+			// Формируем каждый день новую дату
+			// Имитируя ежедневное обновление
+			$LastModified = gmmktime(gmdate("m"), gmdate("d"), gmdate("d")+gmdate("m"), gmdate("m"), gmdate("d"), gmdate("Y"));
+			// Задаём время обновления
+			$wsuptimer = 86400;
+		}
+		
+		if($wsnaw < $LastModified){
+			// если сформированная время больше текущей, то отнимаем нужное время и генерируем дату так, как она была бы сгенерирована в то время
+			$wstest = $LastModified - $wsuptimer;
+			$LastModified = gmmktime(gmdate("H",$wstest), gmdate("d",$wstest), gmdate("d",$wstest)+gmdate("m",$wstest), gmdate("m",$wstest), gmdate("d",$wstest), gmdate("Y",$wstest));
+		}
+		
+	} else {
+		// Если это статья у которой известна дата изменения/создания
+		// Отдаём её на обновление каждый месяц
+		
+		$wsdday = gmdate("d",$LastModified);
+		if($wsdday > 28) $wsdday = 28; // дата для удобства, так как 28 день есть во всех месяцах
+		// Формируем 28-ое число текущего месяца
+		$wstemp = gmmktime(gmdate("H",$LastModified), gmdate("i",$LastModified), gmdate("s",$LastModified), gmdate("m"), $wsdday, gmdate("Y"));
+		// Если сформированная дата меньше реальной, то конечно отображаем реальную как есть, а если больше, то используем её
+		if($wstemp > $LastModified){
+			if($wstemp < $wsnaw){
+				// если сформированная дата уже наступила
+				$LastModified = $wstemp;
+			} else {
+				// если сформированная дата больше текущей, то получаем такую-же дету месяц назад
+				$wsdm = gmdate("m") - 1;
+				$wsdy = gmdate("Y");
+				if($wsdm == 0){
+					$wsdm = 12; // Если прошлый месяц получился 0, значит это был декабрь
+					--$wsdy; // значит ещё и год отнять надо
+				}
+				$wstemp = gmmktime(gmdate("H",$LastModified), gmdate("i",$LastModified), gmdate("s",$LastModified), $wsdm, $wsdday, $wsdy);
+				if($wstemp > $LastModified){
+					$LastModified = $wstemp;
+				}
+			}
+		}
+		
 	}
+	
+	if($LastModified) {
+		
+		$IfModifiedSince = false;
 
-	@header('Last-Modified: '. $LastModified);
+		if (isset($_ENV['HTTP_IF_MODIFIED_SINCE']))
+			$IfModifiedSince = strtotime(substr($_ENV['HTTP_IF_MODIFIED_SINCE'], 5));
+
+		if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE']))
+			$IfModifiedSince = strtotime(substr($_SERVER['HTTP_IF_MODIFIED_SINCE'], 5));
+	
+		if ($IfModifiedSince && $IfModifiedSince >= $LastModified) {
+			ob_end_clean();
+			@header($_SERVER['SERVER_PROTOCOL'] . ' 304 Not Modified');
+			die();
+		}
+	
+		@header('Last-Modified: '. date('r', $LastModified) ." GMT");
+	}
 }
 
 

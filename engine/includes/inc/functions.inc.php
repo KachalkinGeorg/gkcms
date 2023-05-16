@@ -684,11 +684,11 @@ function sendEmailMessage($to, $subject, $message, $filename = false, $mail_from
 
     // Fill `sender` field
 	$config['mailfrom_name'] = str_replace( '&amp;', '&', $config['mailfrom_name'] );
-	$admin_mail = ($config['admin_mail']) ? $config['admin_mail'] : $_SERVER['SERVER_NAME'];
+	$server_sender = ($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : 'GKCMS '.$_SERVER['SERVER_NAME'];
     if ($config['mailfrom_name']) {
         $mail->FromName = $config['mailfrom_name'];
 	} else {
-		$mail->FromName = $admin_mail;
+		$mail->FromName = $server_sender;
     }
     if ($mail_from) {
         $mail->From = $mail_from;

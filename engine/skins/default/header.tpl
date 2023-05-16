@@ -20,10 +20,9 @@
 
 <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
 	<a href="{{ php_self }}" class="navbar-brand col-md-3 col-lg-2 mr-0 px-3"><i class="fa fa-laptop"></i>  {{ lang['admin_panel'] }}</a>
-	<button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-toggle="collapse" data-target="#menu-content" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
-		<span class="navbar-toggler-icon"></span>
+	<button class="btn btn-dark btn-sm" style="border-color: #f0f8ff00;" type="button" data-toggle="collapse" data-target="#menu-content" aria-controls="sidebarMenu" aria-expanded="true" aria-label="Toggle navigation">
+		<i class="fa fa-bars"></i>
 	</button>
-		
 	<div class="btn-group ml-auto mr-2 py-1 " role="group" aria-label="Button group with nested dropdown">
 		<div class="btn-group">
 			<a href="{{ home }}" class="btn btn-outline-light btn-sm" title="{{ lang['mainpage'] }}" style="border-color: #f0f8ff00;" target="_blank">
@@ -81,12 +80,10 @@
 
 <div class="container-fluid">
 	<div class="container-page">
-		<div class="nav-side-menu">
-		
+		<div id="menu-content" class="nav-side-menu collapse show">
 		<div class="menu-list">
-			
-				<ul id="menu-content" class="menu-content collapse out">
-				
+			<ul class="menu-content collapse out">
+
 			<div class="sidebar-user">
 				<div class="sidebar-user-content">
 					<img src="{{ skin_UAvatar }}" class="img-circle" alt="{{ users }}">
@@ -94,7 +91,7 @@
 					<span class="text-size-small">{{ skin_UStatus }}</span>
 				</div>
 				<li class="user-menu collapsed">
-					<a href="#" data-toggle="collapse" data-target="#user-content" ><span>Аккаунт</span> <span class="badge badge-light">{{ unnAppLabel }}</span><i class="caret"></i></a>
+					<a href="#" data-toggle="collapse" data-target="#user-content" ><span>{{ lang['accaunt'] }}</span> <span class="badge badge-light">{{ unnAppLabel }}</span><i class="caret"></i></a>
 				</li>
 				<ul class="navigation navigation-wrapper collapse" id="user-content">
 					<li>{{ unapprov_nav1 }}</li>
@@ -107,8 +104,33 @@
 				</ul>
 			</div>
 			
-					<li class="nav-header"><span>Список разделов</span></li>
-					<li class="nav-header"><a href="{{ home }}" target="_blank"><i class="fa fa-external-link"></i> {{ lang['mainpage'] }}</a></li>
+					<li class="nav-header next-menu collapsed"><span>Список разделов</span></li>
+					<li class="nav-header next-menu collapsed"><a href="{{ home }}" target="_blank"><span><i class="fa fa-external-link"></i> {{ lang['mainpage'] }}</span></a></li>
+					<li class="divider"></li>
+					{%
+						set showService = global.mod == 'configuration'
+							or global.mod == 'options'
+							or global.mod == 'dbo'
+							or global.mod == 'rewrite'
+							or global.mod == 'cron'
+							or global.mod == 'newsletter'
+							or global.mod == 'statistics'
+							or global.mod == 'replace'
+					%}
+					<li class="nav-header next-menu collapsed{{ h_active_system ? ' active' : '' }}">
+						<a href="#" data-toggle="collapse" data-target="#nav-service"><span><i class="fa fa-cog"></i> {{ lang['system'] }}</span> <i class="arrow"></i></a>
+					</li>
+					<ul class="sub-menu collapse{{ showService ? ' show' : '' }}" id="nav-service">
+						{% if (perm.options) %}<li><a href="{{ php_self }}?mod=options">{{ lang['options_all'] }}</a></li>{% endif %}
+						{% if (perm.configuration) %}<li><a href="{{ php_self }}?mod=configuration">{{ lang['configuration'] }}</a></li>{% endif %}
+						{% if (perm.dbo) %}<li><a href="{{ php_self }}?mod=dbo">{{ lang['options_database'] }}</a></li>{% endif %}
+						{% if (perm.rewrite) %}<li><a href="{{ php_self }}?mod=rewrite">{{ lang['rewrite'] }}</a></li>{% endif %}
+						{% if (perm.cron) %}<li><a href="{{ php_self }}?mod=cron">{{ lang['cron_m'] }}</a></li>{% endif %}
+						{% if (perm.newsletter) %}<li><a href="{{ php_self }}?mod=newsletter">{{ lang['newsletter'] }}</a></li>{% endif %}
+						<li><a href="{{ php_self }}?mod=statistics">{{ lang['statistics'] }} </a></li>
+						{% if (perm.replace) %}<li><a href="{{ php_self }}?mod=replace">{{ lang['replace'] }}</a></li>{% endif %}
+					</ul>
+					<li class="divider"></li>
 					{%
 						set showContent = global.mod == 'news'
 							or global.mod == 'categories'
@@ -117,10 +139,10 @@
 							or global.mod == 'files'
 							or global.mod == 'lastcomments'
 					%}						
-					<li class="nav-header next-menu collapsed {{ h_active_options ? 'active' : '' }}">
-						<a href="#" data-toggle="collapse" data-target="#nav-content" ><span><i class="fa fa-newspaper-o"></i>{{ lang['news_a'] }}</span> <i class="arrow"></i></a>
+					<li class="nav-header next-menu collapsed{{ h_active_options ? ' active' : '' }}">
+						<a href="#" data-toggle="collapse" data-target="#nav-content" ><span><i class="fa fa-newspaper-o"></i> {{ lang['news_a'] }}</span> <i class="arrow"></i></a>
 					</li>
-					<ul class="sub-menu collapse {{ showContent ? 'show' : ''}}" id="nav-content">
+					<ul class="sub-menu collapse{{ showContent ? ' show' : ''}}" id="nav-content">
 						{% if (perm.editnews) %}<li><a href="{{ php_self }}?mod=news">{{ lang['news.edit'] }}</a></li>{% endif %}
 						{% if (perm.categories) %}<li><a href="{{ php_self }}?mod=categories">{{ lang['news.categories'] }}</a></li>{% endif %}
 						{% if (perm.static) %}<li><a href="{{ php_self }}?mod=static">{{ lang['static'] }}</a></li>{% endif %}
@@ -136,41 +158,19 @@
 							or global.mod == 'perm'
 							or global.mod == 'rules'
 					%}
-					<li class="nav-header next-menu collapsed {{ h_active_userman ? 'active' : '' }}">
+					<li class="nav-header next-menu collapsed{{ h_active_userman ? ' active' : '' }}">
 						<a href="#" data-toggle="collapse" data-target="#nav-users"><span><i class="fa fa-users"></i> {{ lang['userman'] }}</span> <i class="arrow"></i></a>
 					</li>
-					<ul class="sub-menu collapse {{ showUsers ? 'show' : '' }}" id="nav-users">
+					<ul class="sub-menu collapse{{ showUsers ? ' show' : '' }}" id="nav-users">
 						{% if (perm.users) %}<li><a href="{{ php_self }}?mod=users">{{ lang['users'] }}</a></li>{% endif %}
 						{% if (perm.ipban) %}<li><a href="{{ php_self }}?mod=ipban">{{ lang['ipban_m'] }}</a></li>{% endif %}
 						<li><a href="{{ php_self }}?mod=ugroup">{{ lang['ugroup'] }}</a></li>
 						<li><a href="{{ php_self }}?mod=perm">{{ lang['uperm'] }}</a></li>
 						{% if (perm.rules) %}<li><a href="{{ php_self }}?mod=rules">{{ lang['rules'] }}</a></li>{% endif %}
 					</ul>
-					{%
-						set showService = global.mod == 'configuration'
-							or global.mod == 'options'
-							or global.mod == 'dbo'
-							or global.mod == 'rewrite'
-							or global.mod == 'cron'
-							or global.mod == 'newsletter'
-							or global.mod == 'statistics'
-							or global.mod == 'replace'
-					%}
-					<li class="nav-header next-menu collapsed {{ h_active_system ? 'active' : '' }}">
-						<a href="#" data-toggle="collapse" data-target="#nav-service"><span><i class="fa fa-cog"></i> {{ lang['system'] }}</span> <i class="arrow"></i></a>
-					</li>
-					<ul class="sub-menu collapse {{ showService ? 'show' : '' }}" id="nav-service">
-						{% if (perm.options) %}<li><a href="{{ php_self }}?mod=options">{{ lang['options_all'] }}</a></li>{% endif %}
-						{% if (perm.configuration) %}<li><a href="{{ php_self }}?mod=configuration">{{ lang['configuration'] }}</a></li>{% endif %}
-						{% if (perm.dbo) %}<li><a href="{{ php_self }}?mod=dbo">{{ lang['options_database'] }}</a></li>{% endif %}
-						{% if (perm.rewrite) %}<li><a href="{{ php_self }}?mod=rewrite">{{ lang['rewrite'] }}</a></li>{% endif %}
-						{% if (perm.cron) %}<li><a href="{{ php_self }}?mod=cron">{{ lang['cron_m'] }}</a></li>{% endif %}
-						{% if (perm.newsletter) %}<li><a href="{{ php_self }}?mod=newsletter">{{ lang['newsletter'] }}</a></li>{% endif %}
-						<li><a href="{{ php_self }}?mod=statistics">{{ lang['statistics'] }} </a></li>
-						{% if (perm.replace) %}<li><a href="{{ php_self }}?mod=replace">{{ lang['replace'] }}</a></li>{% endif %}
-					</ul>
-					<li class="nav-header {{ h_active_extras ? 'active' : '' }} ">
-						<a href="{{ php_self }}?mod=extras"><i class="fa fa-puzzle-piece"></i>{{ lang['extras'] }}</a>
+
+					<li class="nav-header next-menu collapsed{{ h_active_extras ? ' active' : '' }}">
+						<a href="{{ php_self }}?mod=extras"><span><i class="fa fa-puzzle-piece"></i> {{ lang['plugin'] }}</span></a>
 					</li>
 					
 					{%
@@ -178,21 +178,29 @@
 							or global.mod == 'loadlog'
 							or global.mod == 'profillog'
 					%}
-					<li class="nav-header next-menu collapsed {{ h_active_logs ? 'active' : '' }}">
+					<li class="nav-header next-menu collapsed{{ h_active_logs ? ' active' : '' }}">
 						<a href="#" data-toggle="collapse" data-target="#nav-loges"><span><i class="fa fa-info-circle"></i> {{ lang['loges'] }}</span> <i class="arrow"></i></a>
 					</li>
-					<ul class="sub-menu collapse {{ showLoges ? 'show' : '' }}" id="nav-loges">
+					<ul class="sub-menu collapse{{ showLoges ? ' show' : '' }}" id="nav-loges">
 						{% if (perm.syslog) %}<li><a href="{{ php_self }}?mod=syslog">{{ lang['sys_log'] }}</a></li>{% endif %}
 						{% if (perm.loadlog) %}<li><a href="{{ php_self }}?mod=loadlog">{{ lang['load_log'] }}</a></li>{% endif %}
 						{% if (perm.profillog) %}<li><a href="{{ php_self }}?mod=profillog">{{ lang['profil_log'] }}</a></li>{% endif %}
 					</ul>
-					
-					{% if (perm.templates) %}<li class="nav-header {{ h_active_templates ? 'active' : '' }} "><a href="{{ php_self }}?mod=templates"><i class="fa fa-th-large"></i>{{ lang['templates_m'] }}</a></li>{% endif %}
+
+					{% if (perm.templates) %}<li class="nav-header next-menu collapsed{{ h_active_templates ? 'active' : '' }} "><a href="{{ php_self }}?mod=templates"><span><i class="fa fa-th-large"></i> {{ lang['templates_m'] }}</a></span></li>{% endif %}
 					<li class="dropdown-divider"></li>
-					<li class="nav-header"><a href="{{ php_self }}?mod=docs"><i class="fa fa-book" aria-hidden="true"></i> Документация</a></li>
-					<li class="nav-header"><a href="https://ngcms.ru/forum/" target="_blank"><i class="fa fa-comments-o" aria-hidden="true"></i> Форум поддержки</a></li>
-					<li class="nav-header"><a href="https://ngcms.ru/" target="_blank"><i class="fa fa-globe fa-lg"></i>Официальный сайт</a></li>
-					<li class="nav-header"><a href="https://github.com/vponomarev/ngcms-core" target="_blank"><i class="fa fa-github"></i> Github</a></li>
+					{%
+						set showHelps = global.mod == 'docs'
+					%}
+					<li class="nav-header next-menu collapsed{{ h_active_help ? ' active' : '' }}">
+						<a href="#" data-toggle="collapse" data-target="#nav-helps"><span><i class="fa fa-leanpub"></i> {{ lang['helps'] }}</span> <i class="arrow"></i></a>
+					</li>
+					<ul class="sub-menu collapse{{ showHelps ? ' show' : '' }}" id="nav-helps">
+						<li><a href="{{ php_self }}?mod=docs"><i class="fa fa-book" aria-hidden="true"></i> Документация</a></li>
+						<li><a href="https://ngcms.ru/forum/" target="_blank"><i class="fa fa-comments-o" aria-hidden="true"></i> Форум поддержки</a></li>
+						<li><a href="https://ngcms.ru/" target="_blank"><i class="fa fa-globe fa-lg"></i>Официальный сайт</a></li>
+						<li><a href="https://github.com/vponomarev/ngcms-core" target="_blank"><i class="fa fa-github"></i> Github</a></li>
+					</ul>
 				</ul>
 			</div>
 		</div>

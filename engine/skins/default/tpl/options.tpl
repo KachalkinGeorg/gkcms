@@ -21,7 +21,8 @@
 			</div>
 		</a>
 	  </div>
-
+	</div>
+	<div class="row box-section">
 	  <div class="col-sm-6 media-list media-list-linked">
 		<a class="media-link" href="?mod=rewrite">
 			<div class="media-left"><i class="fa fa-chain-broken fa-2x"></i></div>
@@ -40,7 +41,8 @@
 			</div>
 		</a>
 	  </div>
-
+	</div>
+	<div class="row box-section">
 	  <div class="col-sm-6 media-list media-list-linked">
 		<a class="media-link" href="?mod=statistics">
 			<div class="media-left"><i class="fa fa-bar-chart fa-2x"></i></div>
@@ -60,9 +62,8 @@
 			</div>
 		</a>
 	  </div>
-	  
-	 </div>
-	 
+	</div>
+
 	</div>
 </div>
 
@@ -89,7 +90,8 @@
 			</div>
 		</a>
 	  </div>
-	  
+	</div>
+	<div class="row box-section">
 	  <div class="col-sm-6 media-list media-list-linked">
 		<a class="media-link" href="?mod=ipban">
 			<div class="media-left"><i class="fa fa-user-times fa-2x"></i></div>
@@ -109,7 +111,8 @@
 			</div>
 		</a>
 	  </div>
-	  
+	</div>
+	<div class="row box-section">
 	  <div class="col-sm-6 media-list media-list-linked">
 		<a class="media-link" href="?mod=rules">
 			<div class="media-left"><i class="fa fa-book fa-2x"></i></div>
@@ -131,7 +134,8 @@
 		</a>
 	  </div>
 		{% endif %}
-		
+	</div>
+	<div class="row box-section">
 		{% if (pluginIsActive('auth_social')) %}
 	  <div class="col-sm-6 media-list media-list-linked">
 		<a class="media-link" href="?mod=extra-config&plugin=auth_social">
@@ -183,7 +187,8 @@
 			</div>
 		</a>
 	  </div>
-
+	</div>
+	<div class="row box-section">
 	  <div class="col-sm-6 media-list media-list-linked">
 		<a class="media-link" href="?mod=news&action=add">
 			<div class="media-left"><i class="fa fa-file-text-o fa-2x"></i></div>
@@ -230,6 +235,8 @@
 			</div>
 		</a>
 	  </div>
+	</div>
+	<div class="row box-section">
 	  <div class="col-sm-6 media-list media-list-linked">
 		<a class="media-link" href="?mod=files">
 			<div class="media-left"><i class="fa fa-file-archive-o fa-2x"></i></div>
@@ -248,6 +255,8 @@
 			</div>
 		</a>
 	  </div>
+	</div>
+	<div class="row box-section">
 	  <div class="col-sm-6 media-list media-list-linked">
 		<a class="media-link" href="?mod=lastcomments">
 			<div class="media-left"><i class="fa fa-commenting-o fa-2x"></i></div>
@@ -293,6 +302,8 @@
 			</div>
 		</a>
 	  </div> 
+	</div>
+	<div class="row box-section">
 	  <div class="col-sm-6 media-list media-list-linked">
 		<a class="media-link" href="?mod=syslog">
 			<div class="media-left"><i class="fa fa-info-circle fa-2x"></i></div>

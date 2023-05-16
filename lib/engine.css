@@ -135,6 +135,7 @@
     background-color: #fff;
     border: 1px solid #c0d4de;
 }
+
 /*---Userinfo---*/
 .userinfo {
     padding-left: 125px;
@@ -194,6 +195,110 @@
 }
 .grey {
     color: #919191;
+}
+
+/*---paginator---*/
+.paginator li {
+	display: inline-block;
+}
+.paginator { text-align: center;clear:both;display:block;  line-height: 20px; cursor:default; margin-bottom: 15px; margin-right: 3px; padding: 8px;}
+.paginator li span {color:#fff; font-size:12px;}
+.paginator li span {text-decoration:none;text-align:center; border-radius:3px; text-align: center; color:#fff;display:inline-block;padding:0px 8px 0px 8px;background:rgba(28, 37, 36, 1);}
+.paginator li span:hover {background:#141819;text-decoration:none;}
+.paginator b {
+    text-decoration: none;
+    text-align: center;
+    border-radius: 3px;
+    text-align: center;
+    color: #fff;
+    display: inline-block;
+    padding: 0px 8px 0px 8px;
+    background: rgba(28, 37, 36, 1);
+}
+.paginator li b:hover {background:#141819;text-decoration:none;}
+.paginator li a, .swchItem {background:rgba(48, 68, 55, 1);border-radius:3px;color:#fff;display:inline-block;padding:0px 8px 0px 8px;text-align: center; text-decoration:none;}
+.paginator li a:hover {color:#fff;background:#727374;text-decoration:none;}
+
+/*---navigation---*/
+.storenumber {
+    font-weight: bold;
+}
+
+.basenavi {
+    font-size: 1.15em;
+    height: 29px;
+}
+
+.bnnavi {
+    margin-right: 5px;
+    padding-left: 5px;
+    height: 29px;
+}
+.navigation li {
+	display: inline-block;
+}
+.navigation { text-align: center;clear:both;display:block;  line-height: 20px; cursor:default; margin-bottom: 15px; margin-right: 3px; padding: 8px;}
+.navigation li span {color:#fff; font-size:12px;}
+.navigation li span {text-decoration:none;text-align:center; border-radius:3px; text-align: center; color:#fff;display:inline-block;padding:0px 8px 0px 8px;background:rgba(28, 37, 36, 1);}
+.navigation li span:hover {background:#141819;text-decoration:none;}
+a.swchItem span {color:#fff; text-decoration:none;}
+a.swchItem:hover {background:#727374;text-decoration:none;}
+.navigation b {
+    text-decoration: none;
+    text-align: center;
+    border-radius: 3px;
+    text-align: center;
+    color: #fff;
+    display: inline-block;
+    padding: 0px 8px 0px 8px;
+    background: rgba(28, 37, 36, 1);
+}
+.navigation li b:hover {background:#141819;text-decoration:none;}
+a.swchItem b {color:#fff; text-decoration:none;}
+.navigation li a, .swchItem {background:rgba(48, 68, 55, 1);border-radius:3px;color:#fff;display:inline-block;padding:0px 8px 0px 8px;text-align: center; text-decoration:none;}
+.navigation li a:hover {color:#fff;background:#727374;text-decoration:none;}
+span.swchItemDots span {color: #626268;}
+
+.nextprev .thide, .toptop {
+    width: 26px;
+    padding-top: 29px;
+}
+
+.nextprev a span {
+    cursor: pointer;
+}
+
+.nextprev span .pnext {
+    background-position: -26px -29px;
+}
+
+.nextprev a .pnext {
+    background-position: -26px -87px;
+}
+
+.nextprev a:hover .pnext {
+    background-position: -26px -58px;
+}
+
+.nextprev span .pprev {
+    background-position: 0 -29px;
+}
+
+.nextprev a .pprev {
+    background-position: 0 -87px;
+}
+
+.nextprev a:hover .pprev {
+    background-position: 0 -58px;
+}
+
+.toptop {
+    background-position: 0 -116px;
+    width: 29px;
+}
+
+.toptop:hover {
+    background-position: 0 -145px;
 }
 
 /* futu alert окно */
@@ -647,6 +752,7 @@
    }
 }
 /**end.Модальное окно**/
+
 /*  */
 .label {
 	margin: 0 0 15px 0;
