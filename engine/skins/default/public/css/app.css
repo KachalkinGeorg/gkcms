@@ -1750,7 +1750,7 @@ a.text-dark:focus,a.text-dark:hover{color:#121416!important}
 .form-control-dark:focus{border-color:transparent;box-shadow:0 0 0 3px hsla(0,0%,100%,.25)}
 .breadcrumb-item .fa,.dropdown-item .fa,.nav-link .fa{margin-right:8px}
 
-.nav-side-menu {font-family: verdana;font-size: 12px;font-weight: 200;background-color: #2e353d;width: 260px;height: 100%;color: #e1ffff;display: table-cell;vertical-align:top;}
+.nav-side-menu {font-family: verdana;font-size: 12px;font-weight: 200;background-color: #2e353d;width: 260px;/* height: 100%; */height: 100vh;color: #e1ffff;display: table-cell;vertical-align:top;}
 .nav-side-menu .brand{background-color:#23282e;line-height:50px;display:block;text-align:center;font-size:14px}
 .nav-side-menu .toggle-btn{display:none}.nav-side-menu li,.nav-side-menu ul{list-style:none;padding:0;margin:0;line-height:35px;cursor:pointer}
 .nav-side-menu li :not(collapsed) .arrow:before,.nav-side-menu ul :not(collapsed) .arrow:before{content:'\f105';font-family:'FontAwesome';display:block;font-size:16px;width:16px;line-height:1;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
