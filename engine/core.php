@@ -88,22 +88,21 @@ $SUPRESS_MAINBLOCK_SHOW = 0;
 $CurrentHandler = [];
 $TemplateCache = [];
 $lang = [];
-
 if($config['last_modif']) {
 	$SYSTEM_FLAGS = [
 		'actions.disabled' => [],
 		'http.headers'     => [
 			'content-type'  => 'text/html; charset=utf-8',
-			'cache-control' => 'no-cache, no-store',
-			'Expires' => gmdate('D, d M Y H:i:s', time() - 3600) . ' GMT',
+			'cache-control' => 'private',
 		],
 	];
-}else{
+}else{	
 	$SYSTEM_FLAGS = [
 		'actions.disabled' => [],
 		'http.headers'     => [
 			'content-type'  => 'text/html; charset=utf-8',
-			'cache-control' => 'private',
+			'cache-control' => 'no-cache, no-store',
+			'expires' => gmdate('D, d M Y H:i:s', time() - 3600) . ' GMT',
 		],
 	];
 }
