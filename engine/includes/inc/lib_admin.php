@@ -288,6 +288,14 @@ function massDeleteNews($list, $permCheck = true)
             $mysql->query('delete from '.prefix.'_comments WHERE post='.db_squote($nrow['id']));
         }
 
+        if( $nrow['num_images'] > 0 ){
+            foreach ($mysql->select("SELECT folder, name, preview FROM " . prefix . "_images WHERE plugin='gk' AND linked_id=" . $nrow['id']) as $imgRow) {
+                $fm = new GKcms\File\FileManager();
+                $fm->imageNewsDelete($imgRow);
+            }
+            $mysql->query("DELETE FROM " . prefix . "_images WHERE plugin='gk' AND linked_id=" . (int)$nrow['id']);
+        }
+
         $mysql->query('delete from '.prefix.'_news where id='.db_squote($nrow['id']));
         $mysql->query('delete from '.prefix.'_news_map where newsID = '.db_squote($nrow['id']));
 
@@ -1162,6 +1170,90 @@ function editNews($mode = [])
     }
 	
 	return 1;
+}
+
+function newsImageUpload($files, $post){
+    global $config, $userROW, $mysql;
+
+    if( !isAjaxRequest() ){
+		ajaxError('Ошибочный запрос!');
+    }
+
+    if( empty($userROW) ){
+		ajaxError('Ошибка загрузки изображения');
+    }
+
+    if( empty($config['images_dir']) ){
+		ajaxError('Не определена папка для загрузки изображений!');
+    }
+
+    $uploader = new GKcms\File\ImageUploader();
+    $uploader->setDestination($config['images_dir'], date("Y-m"));
+    $uploader->setExtensions( array_map('trim', explode(',', $config['images_ext'])) );
+    $uploader->setMaxDimensions($config['images_max_width'], $config['images_max_height']);
+    $uploader->resizeIfBigger(true);
+    $uploader->setFilesize($config['images_max_size']);
+    $uploader->filenameRandom();
+    $uploader->setThumbMode(false);
+    if ( $config['thumb_mode'] == 2 || ($config['thumb_mode'] == 0 && $post['imageCreateThumb'] == 'true') ) {
+        $uploader->setThumbMode(true, $config['thumb_size_width']);
+    }
+
+    try {
+		$ids = $mysql->lastid('news')+1;
+		if(!$post['newsId']){
+			$postimg = $ids;
+		}else{
+			$postimg = $post['newsId'];
+		}
+        $uploadInfo = $uploader->uploadNewsMode($files, 'newsimage', $postimg);
+    } catch (\Exception $e) {
+		ajaxError($e->getMessage());
+    }
+
+    $imageBasename = $uploadInfo['filename'] . '.' . $uploadInfo['mime'];
+    $imageUrl = $uploadInfo['path'] . '/' . $imageBasename;
+    $thumbUrl = (!isset($uploadInfo['thumb']['error'])) ? $uploadInfo['thumb']['path'] . '/' . $imageBasename : '';
+
+	$imgfull = $config['images_url'] . '/' . $uploadInfo['path'] . '/' . $imageBasename;
+	$imgshort = $config['images_url'] . '/' . $uploadInfo['thumb']['path'] . '/' . $imageBasename;
+			
+    $imageId = $uploadInfo['image_id'];
+    $imageLink = '[<a href="#" alt="Вставить изображение" onclick=\'insertext("[img=\"'.$imgfull.'\"]'.$imageId.'[/img] ","",currentInputAreaID);return false;\'>Картинка</a>]';
+    $thumbLink = ($thumbUrl) ? '[<a href="#" alt="Вставить миниатюру" onclick=\'insertext("[img=\"'.$imgshort.'\"]'.$imageId.'[/img] ", "", currentInputAreaID);return false;\'>Миниатюра</a>] ' : '';
+    $previewImg = $config['images_url']. '/' . (($thumbUrl) ? $thumbUrl : $imageUrl);
+
+    ajaxJson([
+        'id' => $imageId,
+        'data' => "<img width='50px' height='50px' src='".$previewImg."'>&nbsp;&nbsp;{$thumbLink}{$imageLink} - " . $imageBasename . " [{$uploadInfo['width']}x{$uploadInfo['height']}, " . \GKcms\File\FileHelper::formatSize($uploadInfo['size']) . "] ",
+    ]);
+}
+
+function newsImageDelete($imageId){
+    global $mysql;
+
+    if( !isAjaxRequest() ){
+		ajaxError('Ошибочный запрос!');
+    }
+
+    $imageId = (int)$imageId;
+    if (!is_array($image = $mysql->record("SELECT name, folder, preview, linked_id FROM " . prefix . "_images WHERE id=" . $imageId))) {
+		ajaxError('Неправильный идентификатор изображения!');
+    }
+
+    try {
+        $mysql->query("DELETE FROM " . prefix . "_images WHERE id=" . $imageId);
+        if($image['linked_id']) {
+            $mysql->query("UPDATE " . prefix . "_news SET num_images=num_images-1 WHERE id=".(int)$image['linked_id']);
+        }
+    } catch (\Exception $e) {
+		ajaxError('Проблема при удалении изображения (БД)');
+    }
+
+    $fm = new GKcms\File\FileManager();
+    $fm->imageNewsDelete($image);
+
+    ajaxOk();
 }
 
 function admcookie_get()

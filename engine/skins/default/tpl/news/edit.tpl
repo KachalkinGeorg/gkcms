@@ -213,6 +213,7 @@
 					<!-- /XFields -->
 				</table>
 				{% endif %}
+		
 				</div>
 
 			</div>
@@ -620,6 +621,42 @@
 		{{ plugin.xfields.general }}
 		<!-- /XFields [GENERAL] -->
 	{% endif %}
+	
+	<div id="modal-uplimg" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="uplimg-modal-label" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 id="uplimg-modal-label" class="modal-title">Загрузка изображений</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				</div>
+				<div class="modal-body">
+					<div>
+					{% if (flags.thumb_create_option) %}
+						<input type="checkbox" id="imageCreateThumb" name="imageCreateThumb" value="" checked="checked"/> Создать миниатюру&nbsp;&nbsp;
+					{% endif %}
+						<input type="checkbox" id="imageRandomTitle" name="imageRandomTitle" checked="checked"/> Случайное название
+					</div>
+					<br />
+					<div class="table-responsive">
+					<table id="newsimage-area" class="table table-sm mb-0">
+						{% for image in images %}
+							<tr id="newsimage-item-{{ image.id }}"><td style="margin: 10px 0;">{{ image.entry }}</td> <td style="vertical-align: middle;"><a href="#" onclick="if(confirm('Удалить')) deleteNewsImage({{ image.id }}); return false;" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a></td></tr>
+						{% endfor %}
+					</table>
+					</div>
+					<hr>
+                    <div>
+						<input type="file" id="uploadimage" name="newsimage" value=""/>
+						<input type="button" value="Загрузить" class="btn btn-sm btn-outline-secondary" onclick="return uploadNewsImage();"/>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-outline-dark" data-dismiss="modal">{{ lang.editnews['close'] }}</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
 </form>
 
 {% if (pluginIsActive('comments')) %}
@@ -774,6 +811,75 @@ insertselcat();
 	// Add first row
 	var attachAbsoluteRowID = 0;
 	attachAddRow();
+</script>
+<script language="javascript" type="text/javascript">
+    function uploadNewsImage() {
+        var $input = $("#uploadimage");
+        var fd = new FormData;
+
+        if(!$input.val()) {
+			$.notify({message:'Выберите изображение!'},{type: 'error'});
+            return;
+        }
+
+        fd.append('newsimage', $input.prop('files')[0]);
+        fd.append('newsId', {{id}});
+        fd.append('imageRandomTitle', $("#imageRandomTitle").is(':checked'));
+        fd.append('imageCreateThumb', $("#imageCreateThumb").is(':checked'));
+
+        $.ajax({
+            url: '{{php_self}}?mod=news&action=uploadimage',
+            data: fd,
+            processData: false,
+            contentType: false,
+            type: 'POST',
+            dataType: 'json',
+            success: function (result) {
+                if(result.error) {
+					$.notify({message:result.error},{type: 'error'});
+                    return;
+                }
+                $("#newsimage-area").append('<li id="newsimage-item-'+result.id+'" style="margin: 10px 0;">'+result.data+' <a href="#" onclick="if(confirm(\'Удалить изображение?\')) deleteNewsImage('+result.id+'); return false;" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a></li>');
+                $input.val('');
+                $("#newsimage-item-"+result.id).css('background-color', '#b4d8b2');
+                setTimeout(function() { $("#newsimage-item-"+result.id).css('background-color', '#ffffff') }, 3000);
+            },
+            error: function (result) {
+				$.notify({message:'Ошибка загрузки изображения'},{type: 'error'});
+            }
+        });
+    }
+
+    function deleteNewsImage(imageId) {
+        if(imageId < 1) {
+			$.notify({message:'Неправильный идентификатор!'},{type: 'error'});
+            return;
+        }
+
+        var fd = new FormData;
+        fd.append('imageId', imageId);
+
+        $.ajax({
+            url: '{{php_self}}?mod=news&action=deleteimage',
+            data: fd,
+            processData: false,
+            contentType: false,
+            type: 'POST',
+            dataType: 'json',
+            success: function (data) {
+                if(data.error) {
+					$.notify({message:data.error},{type: 'error'});
+                    return;
+                }
+
+                $("#newsimage-item-"+imageId).css('background-color', '#da7b7b');
+                setTimeout(function() { $("#newsimage-item-"+imageId).remove(); }, 2000);
+            },
+            error: function (data) {
+				$.notify({message:'Ошибка удаления изображения'},{type: 'error'});
+            }
+        });
+    }
 </script>
 <script language="javascript" type="text/javascript">
 	$(document).ready(function() {

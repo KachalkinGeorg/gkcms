@@ -15,7 +15,7 @@ if (!defined('NGCMS')) {
 
 $lang = LoadLang('newsletter', 'admin');
 
-$breadcrumb = breadcrumb('<i class="fa fa-envelope-square btn-position"></i><span class="text-semibold">'.$lang['newsletter'].'</span>', ''.$lang['pm_mail'].'' );
+$breadcrumb = breadcrumb('<i class="fa fa-envelope-o btn-position"></i><span class="text-semibold">'.$lang['newsletter'].'</span>', ''.$lang['pm_mail'].'' );
 
 function newsletter($method, $group, $subject, $message) {
 	global $lang, $mysql, $userROW, $config;

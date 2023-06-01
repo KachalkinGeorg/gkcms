@@ -27,6 +27,32 @@ spl_autoload_register(function ($className) {
     }
 });
 
+
+spl_autoload_register(function ($class) {
+    if (strncmp('GKcms\\', $class, 6) === 0) {
+        $file = __DIR__ . '/core/' . str_replace('GKcms\\', '', $class);
+    } else {
+        $isLib = true;
+        $file = __DIR__ . '/core/' . $class;
+    }
+
+    $file = str_replace('\\', '/', $file) . '.php';
+    if ( file_exists($file) ) {
+        require_once $file;
+        return;
+    }
+
+    if(isset($isLib)){
+        $arr = explode('/', $file);
+        $last = array_pop($arr);
+        array_push($arr, 'src', $last);
+        $src = implode('/', $arr);
+        if ( file_exists($src) ) {
+            require_once $src;
+        }
+    }
+});
+
 // Magic function for immediate closure call
 function NGRun($f)
 {

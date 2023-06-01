@@ -10,6 +10,10 @@
 	</div>
 
 	<div class="btn-group btn-group-sm mr-2">
+		<button type="button" data-toggle="modal" data-target="#modal-uplimg" class="btn btn-outline-dark" title="Загрузить"><i class="fa fa-folder-open-o"></i></button>	
+	</div>
+	
+	<div class="btn-group btn-group-sm mr-2">
 		<button id="tags-font" type="button" class="btn btn-outline-dark dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 			<i class="fa fa-font"></i>
 		</button>
@@ -495,24 +499,24 @@
 			<i class="fa fa-ellipsis-h"></i>
 		</button>
 
-		<button type="button" data-toggle="modal" data-target="#modal-smiles" class="btn btn-outline-dark">
+		<button type="button" data-toggle="modal" data-target="#modal-smiles" class="btn btn-outline-dark" title="Вставить смайлик">
 			<i class="fa fa-smile-o"></i>
 		</button>	
 		
 	</div>
 
 	<div class="btn-group btn-group-sm mr-2">
-		<button type="button" data-toggle="modal" data-target="#modal-url" class="btn btn-outline-dark">
+		<button type="button" data-toggle="modal" data-target="#modal-url" class="btn btn-outline-dark" title="Вставить ссылку">
 			<i class="fa fa-link"></i>
 		</button>
-		<button type="button" data-toggle="modal" data-target="#modal-email" class="btn btn-outline-dark">	
+		<button type="button" data-toggle="modal" data-target="#modal-email" class="btn btn-outline-dark" title="Вставить E-Mail">	
 			<i class="fa fa-envelope-o"></i>
 		</button>
-		<button type="button" data-toggle="modal" data-target="#modal-image" class="btn btn-outline-dark">		
+		<button type="button" data-toggle="modal" data-target="#modal-image" class="btn btn-outline-dark" title="Вставить изображение">		
 			<i class="fa fa-file-image-o"></i>
 		</button>		
 	</div>
-	
+
 </div>
 
 <div id="modal-url" class="modal fade" tabindex="-1" role="dialog">

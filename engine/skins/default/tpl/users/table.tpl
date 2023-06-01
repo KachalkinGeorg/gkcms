@@ -35,7 +35,7 @@
 							<div class="input-group-prepend input-group-append">
 								<label class="input-group-text"><i class="fa fa-users"></i></label>
 							</div>
-							<select name="group" class="custom-select" style="max-width:220px;"/>
+							<select name="group" class="custom-select" style="max-width:220px;">
 								<option value="0">-- {{ lang['any'] }} --</option>
 								{% for g in ugroup %}
 								<option value="{{ g.id }}" {{ group == g.id ? 'selected' : ''}}>{{ g.name }}</option>

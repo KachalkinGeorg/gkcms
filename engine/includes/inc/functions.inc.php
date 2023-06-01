@@ -3845,6 +3845,31 @@ function ngCollectTrace($style = 0)
     return true;
 }
 
+function isAjaxRequest()
+{
+    return isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest';
+}
+
+function ajaxJson($data) {
+    echo json_encode($data);
+    exit;
+}
+
+function ajaxError($errorText) {
+    echo json_encode(['error' => $errorText]);
+    exit;
+}
+
+function ajaxOk() {
+    echo true;
+    exit;
+}
+
+function ajaxFail() {
+    echo false;
+    exit;
+}
+
 /**
  * debug.
  *

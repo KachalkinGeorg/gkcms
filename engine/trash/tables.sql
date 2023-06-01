@@ -105,6 +105,7 @@ CREATE TABLE `XPREFIX_images` (
   `plugin` char(30) default '',
   `pidentity` char(30) default '',
   `storage` int(1) default 0,
+  `filesize` int(10) default 0,
   PRIMARY KEY  (`id`),
   KEY `link` (`linked_ds`, `linked_id`)
 ) ENGINE=InnoDB;

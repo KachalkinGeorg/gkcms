@@ -189,6 +189,7 @@ function editNewsForm()
             'multicat.disabled'   => (!$perm[$permGroupMode.'.multicat']) ? true : false,
             'altname.disabled'    => (!$perm[$permGroupMode.'.altname']) ? true : false,
             'mondatory_cat'       => (!$perm[$permGroupMode.'.nocat']) ? true : false,
+			'thumb_create_option' => ($config['thumb_mode'] == 0) ? true : false,
         ],
     ];
 
@@ -203,6 +204,33 @@ function editNewsForm()
 
     $tVars['flags']['params.lost'] = ($tVars['flags']['publish.lost'] || $tVars['flags']['html.lost'] || $tVars['flags']['mainpage.lost'] || $tVars['flags']['pinned.lost'] || $tVars['flags']['catpinned.lost'] || $tVars['flags']['multicat.lost']) ? 1 : 0;
 
+    if($row['save_rawcontent']){
+        if ( $rawContent = $mysql->result("SELECT content_raw FROM " . prefix . "_news_rawcontent WHERE news_id = " . (int)$id, 1) ) {
+            $row['content'] = $rawContent;
+        }
+    }
+
+    $tVars['images'] = [];
+    $images = $mysql->select("SELECT * FROM " . prefix . "_images WHERE plugin = 'gk' AND linked_id = " . (int)$row['id'], 1);
+
+    if(!empty($images)) {
+        foreach($images as $image) {
+            $imgurl = str_replace($config['images_url'].'/','', $config['images_url'] . '/' . $image['folder'] . '/' . $image['name']);
+			$imgfull = $config['images_url'] . '/' . $image['folder'] . '/' . $image['name'];
+			$imgshort = $config['images_url'] . '/' . $image['folder'] . '/thumb/' . $image['name'];
+            $thumbUrl = ($image['thumb']) ? str_replace($config['images_url'].'/','', $config['images_url'] . '/' . $image['folder'] . '/thumb/' . $image['name']) : '';
+
+            $imageLink = '[<a href="#" alt="Вставить изображение" onclick=\'insertext("[img=\"'.$imgfull.'\"]'.$image['id'].'_'.$image['name'].'[/img] ","",currentInputAreaID);return false;\'>Картинка</a>]';
+            $thumbLink = ($thumbUrl) ? '[<a href="#" alt="Вставить миниатюру" onclick=\'insertext("[img=\"'.$imgshort.'\"]'.$image['id'].'_'.$image['name'].'[/img] ", "", currentInputAreaID);return false;\'>Миниатюра</a>] ' : '';
+            $previewImg = $config['images_url']. '/' . (($thumbUrl) ? $thumbUrl : $imgurl);
+
+            $tVars['images'][] = [
+                'id' => $image['id'],
+                'entry' => "<img width='50px' height='50px' src='".$previewImg."'>&nbsp;&nbsp;{$thumbLink}{$imageLink} - ".$image['name']." [{$image['width']}x{$image['height']}, ".Formatsize($image['filesize'])."] ",
+            ];
+        }
+    }
+	
     // Generate data for content input fields
     if ($config['news.edit.split']) {
         $tVars['content']['delimiter'] = '';
@@ -790,6 +818,7 @@ function addNewsForm($retry = '')
             'can_publish'         => $perm['personal.publish'],
             'altname.disabled'    => (!$perm['personal.altname']) ? true : false,
             'mondatory_cat'       => (!$perm['personal.nocat']) ? true : false,
+			'thumb_create_option' => ($config['thumb_mode'] == 0) ? true : false,
         ],
     ];
 
@@ -814,6 +843,22 @@ $subaction = getIsSet($_REQUEST['subaction']);
 
 // Main execution block
 do {
+	
+    if ($action == "uploadimage") {
+        if(empty($_FILES)){
+			ajaxError('Файл не загружен');
+        }
+
+        newsImageUpload($_FILES, $_POST);
+    }
+
+    if ($action == "deleteimage") {
+        if(empty($_POST['imageId']) || intval($_POST['imageId']) < 1){
+			ajaxError('Неправильный идентификатор изображения');
+        }
+
+        newsImageDelete($_POST['imageId']);
+    }
     // Manage "ADD" mode
     if ($action == 'add') {
         $replay = false;
