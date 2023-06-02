@@ -252,19 +252,24 @@ function manage_showlist($type)
     }
 
     if (isset($_REQUEST['author']) && $_REQUEST['author']) {
-        array_push($filter, 'user = '.db_squote($_REQUEST['author']));
+        $filter[] = 'user = '.db_squote($_REQUEST['author']);
     }
 
     if (isset($_REQUEST['category']) && $_REQUEST['category']) {
-        array_push($filter, 'folder = '.db_squote($_REQUEST['category']));
+		$filter[] = 'folder = '.db_squote($_REQUEST['category']);
     }
-
+	
     if ($userROW['status'] > 2) {
-        array_push($filter, 'owner_id='.db_squote($userROW['id']));
+        $filter[] = 'owner_id='.db_squote($userROW['id']);
     }
 
     if (isset($_REQUEST['postdate']) && $_REQUEST['postdate'] && preg_match('/^(\d{4})(\d{2})$/', $_REQUEST['postdate'], $match)) {
-        array_push($filter, '(month(from_unixtime(date)) = '.db_squote($match[2]).' and year(from_unixtime(date)) = '.db_squote($match[1]).')');
+        $filter[] = '(month(from_unixtime(date)) = '.db_squote($match[2]).' and year(from_unixtime(date)) = '.db_squote($match[1]).')';
+    }
+
+	if (isset($_REQUEST['linked_ds']) && $_REQUEST['linked_ds'] == 0) {
+		$ifactiv = "checked";
+		$filter[] = 'linked_ds =0';
     }
 
     // Determine SQL table / directory for files
@@ -272,7 +277,7 @@ function manage_showlist($type)
     $dir = $fmanager->dname;
 
     // Show only images, that are not linked to any DataStorage
-    array_push($filter, 'linked_ds = 0');
+    //array_push($filter, 'linked_ds = 0');
     $limit = (count($filter) ? 'where '.implode(' and ', $filter) : '');
     $query['sql'] = 'select * from '.prefix.'_'.$fmanager->tname.' '.$limit.' order by date desc limit '.$start_from.', '.$npp;
     $query['count'] = 'select count(*) as cnt from '.prefix.'_'.$fmanager->tname.' '.$limit;
@@ -281,9 +286,17 @@ function manage_showlist($type)
     foreach ($mysql->select($query['sql']) as $row) {
         $nCount++;
         $folder = $row['folder'] ? $row['folder'].'/' : '';
-        $fname = $fmanager->dname.$folder.$row['name'];
-        $fileurl = $fmanager->uname.'/'.$folder.$row['name'];
-        $thumburl = $fmanager->uname.'/'.$folder.'thumb/'.$row['name'];
+		if($row['storage'] == 0){
+			$folimg = $fmanager->uname;
+			$fpatch = $fmanager->dname;
+		}
+		if($row['storage'] == 1){
+			$folimg = $fmanager->dsn;
+			$fpatch = $fmanager->gdsn;
+		}	
+        $fname = $fpatch.$folder.$row['name'];
+        $fileurl = $folimg.'/'.$folder.$row['name'];
+        $thumburl = $folimg.'/'.$folder.'thumb/'.$row['name'];
         if (is_readable($fname)) {
             $fsize = FormatSize(filesize($fname));
         } else {
@@ -306,7 +319,7 @@ function manage_showlist($type)
         $tpl->template('entries', tpl_actions.$mod);
         $tvars['vars'] = [
             'php_self'     => $PHP_SELF,
-            'rename'       => $rename,
+			'rename'       => $rename,
             'view_thumb'   => $row['preview'] ? $row['view_thumb'] : '',
             'file_link'    => $file_link,
             'file_name'    => $row['orig_name'],
@@ -376,7 +389,7 @@ function manage_showlist($type)
         $pagesCount = ceil($itemCount / $npp);
 
         if ($pagesCount) {
-            $pagesss = generateAdminPagelist(['current' => $cstart, 'count' => $pagesCount, 'url' => admin_url.'/admin.php?mod='.$type.'s&action=list'.($_REQUEST['npp'] ? '&npp='.$npp : '').($_REQUEST['author'] ? '&author='.$_REQUEST['author'] : '').($_REQUEST['category'] ? '&category='.$_REQUEST['category'] : '').($_REQUEST['postdate'] ? '&postdate='.$_REQUEST['postdate'] : '').'&page=%page%']);
+            $pagesss = generateAdminPagelist(['current' => $cstart, 'count' => $pagesCount, 'url' => admin_url.'/admin.php?mod='.$type.'s&action=list'.($_REQUEST['npp'] ? '&npp='.$npp : '').($_REQUEST['author'] ? '&author='.$_REQUEST['author'] : '').($_REQUEST['category'] ? '&category='.$_REQUEST['category'] : '').(isset($_REQUEST['linked_ds']) && $_REQUEST['linked_ds'] ? '&linked_ds=0' : '').($_REQUEST['postdate'] ? '&postdate='.$_REQUEST['postdate'] : '').'&page=%page%']);
         }
     }
 
@@ -421,11 +434,13 @@ function manage_showlist($type)
     $tpl->template('table', tpl_actions.$mod);
     $tvars['vars'] = [
         'php_self'       => $PHP_SELF,
+		'home'        	 => home,
         'dateslist'      => $dateslist,
         'dirlist'        => $dirlist,
         'dirlistS'       => $dirlistS,
         'authorlist'     => $authorlist,
         'npp'            => $npp,
+		'ifactiv'   	 => $ifactiv,
         'entries'        => $entries,
         'pagesss'        => $pagesss,
         'dirlistcat'     => $dirlistcat,

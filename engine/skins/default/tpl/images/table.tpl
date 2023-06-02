@@ -1,57 +1,101 @@
+<script type="text/javascript" src="{home}/engine/includes/highslide/highslide.js"></script>
+<link rel="stylesheet" type="text/css" href="{home}/engine/includes/highslide/highslide.css" />
+<script type="text/javascript">
+	hs.graphicsDir = '{home}/engine/includes/highslide/graphics/';
+	hs.wrapperClassName = 'wide-border';
+	hs.headingEval = 'this.a.title';
+	hs.align = 'center';
+	hs.transitions = ['expand', 'crossfade'];
+	hs.outlineType = 'rounded-white';
+	hs.fadeInOut = true;
+	//hs.dimmingOpacity = 0.75;
+
+	// Add the controlbar
+	hs.addSlideshow({
+		//slideshowGroup: 'group1',
+		interval: 5000,
+		repeat: false,
+		useControls: true,
+		fixedControls: 'fit',
+		overlayOptions: {
+			opacity: .75,
+			position: 'bottom center',
+			hideOnMouseOut: true
+		}
+	});
+</script>	
 <!-- Filter form: BEGIN -->
 <div id="collapseImagesFilter" class="collapse">
 	<div class="card mb-4">
+	<div class="card-header">{l_filter}</div>
 		<div class="card-body">
 			<form action="{php_self}" method="get" name="options_bar">
 				<input type="hidden" name="mod" value="images" />
 				<input type="hidden" name="action" value="list" />
 				<input type="hidden" name="area" value="{area}" />
 
-				<div class="row">
-					<!--Block 1-->
-					<div class="col-lg-3">
-						<div class="form-group">
-							<label>{l_month}</label>
-							<select name="postdate" class="custom-select">
+			<table class="table table-sm mb-0">
+				<tr>				
+					<td width="12px" style="display: inline-flex;">
+						<div class="btn-sm btn-default"><input type="checkbox" name="linked_ds" value="0" {ifactiv} class="form-control" style="vertical-align: baseline;" /></div></td>
+					<td><label> - Отобразить только файлы загруженные на сервер в общаю папку</label></td>
+				</tr>
+			</table>
+	
+			<table class="table table-sm mb-0">
+				<tr>			
+					<td><label style="padding: .375rem 0rem .75rem 0rem;">{l_month}</label></td>
+					<td>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend input-group-append">
+								<label class="input-group-text"><i class="fa fa-calendar"></i></label>
+							</div>
+							<select name="postdate" class="custom-select" style="max-width:220px;">
 								<option selected value="">- {l_all} -</option>
 								{dateslist}
 							</select>
 						</div>
-					</div>
-
-					<!--Block 2-->
-					<div class="col-lg-3">
-						<div class="form-group">
-							<label>{l_category}</label>
+					</td>
+					<td><label style="padding: .375rem 0rem .75rem 0rem;">{l_category}</label></td>
+					<td>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend input-group-append">
+								<label class="input-group-text"><i class="fa fa-folder-open-o"></i></label>
+							</div>
 							{dirlistcat}
 						</div>
-					</div>
+					</td>
 
-					<!--Block 3-->
-					<div class="col-lg-3">
-						<div class="form-group">
-							[status]
-							<label>{l_author}</label>
-							<select name="author" class="custom-select">
+					[status]
+					<td><label style="padding: .375rem 0rem .75rem 0rem;">{l_author}</label></td>
+					<td>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend input-group-append">
+								<label class="input-group-text"><i class="fa fa-user-o"></i></label>
+							</div>
+							<select name="author" class="custom-select" style="max-width:220px;">
 								<option value="">- {l_all} -</option>
 								{authorlist}
 							</select>
-							[/status]
 						</div>
-					</div>
-
-					<!--Block 4-->
-					<div class="col-lg-3">
-						<div class="form-group">
-							<label>{l_per_page}</label>
-							<input type="text" name="npp" value="{npp}" class="form-control" />
+					</td>
+					[/status]
+					
+					<td><label style="padding: .375rem 0rem .75rem 0rem;">{l_per_page}</label></td>
+					<td>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend input-group-append">
+								<label class="input-group-text"><i class="fa fa-low-vision"></i></label>
+							</div>
+							<input type="text" name="npp" value="{npp}" class="form-control" style="max-width:150px;"/>
 						</div>
-
-						<div class="form-group mb-0 text-right">
-							<button type="submit" class="btn btn-outline-primary">{l_show}</button>
-						</div>
-					</div>
-				</div>
+					</td>
+				</tr>
+			</table>
+				
+			<div class="panel-footer" align="center" style="margin-left: -20px;margin-right: -20px;margin-bottom: -20px;">
+				<button type="submit" class="btn btn-outline-primary">{l_show}</button>
+			</div>
 			</form>
 		</div>
 	</div>
@@ -75,7 +119,7 @@
 				<i class="fa fa-folder-open-o"></i>
 			</button>
 			[/status]
-			<button type="button" class="btn2" data-toggle="collapse" data-target="#collapseImagesFilter" title="{l_filter}">
+			<button type="button" class="btn2" data-toggle="collapse" data-target="#collapseImagesFilter" aria-expanded="false" aria-controls="collapseImagesFilter" title="{l_filter}">
 				<i class="fa fa-filter"></i>
 			</button>
 		</div>

@@ -47,6 +47,8 @@ class file_managment
                 $this->max_y = intval($config['images_max_y']);
                 $this->dim_act = intval($config['images_dim_action']);
                 $this->tname = 'images';
+				$this->dsn = $config['attach_url'];
+				$this->gdsn = $config['attach_dir'];
                 $this->dname = $config['images_dir'];
                 $this->uname = $config['images_url'];
                 $this->tcat = 0;
@@ -55,6 +57,8 @@ class file_managment
                 $this->required_type = explode(',', str_replace(' ', '', $config['files_ext']));
                 $this->max_size = $config['files_max_size'] * 1024;
                 $this->tname = 'files';
+				$this->dsn = $config['attach_url'];
+				$this->gdsn = $config['attach_dir'];
                 $this->dname = $config['files_dir'];
                 $this->uname = $config['files_url'];
                 $this->tcat = 0;

@@ -134,8 +134,8 @@
 
 			<div class="form-group row">
 				<div class="col-sm-9 offset-sm-3">
-					<div class="form-check" data-toggle="collapse" data-target="#collapseEditPreview">
-						<input id="edit_preview" type="checkbox" name="flagPreview" value="1" class="form-check-input" />
+					<div data-toggle="collapse" data-target="#collapseEditPreview">
+						<input id="edit_preview" type="checkbox" name="flagPreview" value="1" />
 						<label for="edit_preview" class="form-check-label">{l_create_edit_preview}</label>
 					</div>
 				</div>

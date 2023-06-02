@@ -591,6 +591,9 @@ pre code{font-size:inherit;color:inherit;word-break:normal}
 .suggestBlock thead th,.table thead th{vertical-align:bottom;border-bottom:2px solid #dee2e6}
 .suggestBlock tbody+tbody,.table tbody+tbody{border-top:2px solid #dee2e6}
 .suggestBlock td,.suggestBlock th,.table-sm td,.table-sm th{padding:.3rem}
+@media (max-width:767.98px){
+	.suggestBlock td,.suggestBlock th,.table-sm td,.table-sm th{display: block;}
+}
 .table.table-striped{margin-bottom: 0;}
 .table-bordered,.table-bordered td,.table-bordered th{border:1px solid #dee2e6}
 .table-bordered thead td,.table-bordered thead th{border-bottom-width:2px}
@@ -821,6 +824,9 @@ a.btn.disabled,fieldset:disabled a.btn{pointer-events:none}
 .fadeOutUp{-webkit-animation-name:fadeOutUp;animation-name:fadeOutUp}
 
 .collapse:not(.show){display:none}
+@media (max-width:767.98px){
+	.menu-content.collapse:not(.show){display:block}
+}
 .collapsing{position:relative;height:0;overflow:hidden;transition:height .35s ease}@media (prefers-reduced-motion:reduce){.collapsing{transition:none}}
 .dropdown,.dropleft,.dropright,.dropup{position:absolute}.dropdown-toggle{white-space:nowrap}.dropdown-toggle:after{display:inline-block;margin-left:.255em;vertical-align:.255em;content:"";border-top:.3em solid;border-right:.3em solid transparent;border-bottom:0;border-left:.3em solid transparent}
 .dropdown-toggle:empty:after{margin-left:0}
