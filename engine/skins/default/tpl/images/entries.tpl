@@ -1,4 +1,5 @@
 <tr>
+	<td>{id}</td>
 	<td>{insert_file}</td>
 	<td>{insert_thumb}</td>
 	<td>{insert_preview}</td>
@@ -12,6 +13,6 @@
 	<td nowrap>{size}</td>
 	<td>{folder}</td>
 	<td>{user}</td>
-	<td><a href="{edit_link}" title="{l_edit}"><i class="fa fa-pencil"></i></a></td>
+	<td><a href="{edit_link}" data-placement="left" data-popup="tooltip" data-original-title="{l_edit}" title="{l_edit}"><i class="fa fa-pencil"></i></a></td>
 	<td><input type="checkbox" name=files[] value="{id}" /></td>
 </tr>

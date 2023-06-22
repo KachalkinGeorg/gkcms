@@ -23,7 +23,7 @@ $lang = LoadLang('files', 'admin');
 // Init file managment class
 $fmanager = new file_managment();
 
-$breadcrumb = breadcrumb('<i class="fa fa-file-text-o btn-position"></i><span class="text-semibold">'.$lang['files_title'].'</span>', '<i class="fa fa-file-text-o"></i>'.$lang['files_title'].'');
+$breadcrumb = breadcrumb('<i class="fa fa-file-text-o btn-position"></i><span class="text-semibold">'.$lang['files'].'</span>', '<i class="fa fa-file-text-o"></i>'.$lang['files_title'].'');
 
 // Check perms
 $perms = checkPermission(['plugin' => '#admin', 'item' => 'files'], null, [

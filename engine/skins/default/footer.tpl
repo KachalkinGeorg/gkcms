@@ -26,7 +26,7 @@ window.NGCMS = {
 <script type="text/javascript">
 	$(document).ready(function() {
 		$('[data-toggle="popover"]').popover();
-		$('[data-toggle="tooltip"]').tooltip();
+		$('[data-popup="tooltip"]').tooltip();
 	});
 	
     $('#full_screen').on('click',function() {

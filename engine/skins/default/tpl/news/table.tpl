@@ -111,8 +111,8 @@
 	<div class="panel panel-default">
 		<div class="panel-heading">{{ lang.editnews['news_pupl'] }}
 		<div class="panel-head-right">
-			<a href="{{ php_self }}?mod=news&action=add" class="btn2"><i class="fa fa-plus-circle"></i> {{ lang.addnews['addnews_title'] }}</a>
-			<button type="button" class="btn2" data-toggle="collapse" data-target="#collapseNewsFilter" aria-expanded="false" aria-controls="collapseNewsFilter" title="{{ lang['filter'] }}">
+			<a href="{{ php_self }}?mod=news&action=add" class="btn2" data-placement="top" data-popup="tooltip" data-original-title="{{ lang.addnews['addnews_title'] }}" title="{{ lang.addnews['addnews_title'] }}"><i class="fa fa-plus-circle"></i> {{ lang.addnews['addnews_title'] }}</a>
+			<button type="button" class="btn2" data-toggle="collapse" data-target="#collapseNewsFilter" aria-expanded="false" aria-controls="collapseNewsFilter" data-placement="top" data-popup="tooltip" data-original-title="{{ lang['filter'] }}" title="{{ lang['filter'] }}">
 				<i class="fa fa-filter"></i>
 			</button>
 		</div>
@@ -146,10 +146,10 @@
 							<td width="30">{{ entry.newsid }}</td>
 							<td width="60">{{ entry.itemdate }}</td>
 							<td width="48" nowrap>
-								{% if entry.flags.mainpage %}<i class="fa fa-home" title="{{ lang['on_main'] }}"></i>{% else %}<i class="fa fa-home text-danger" title="{{ lang['off_main'] }}"></i>{% endif %}
-								{% if (entry.attach_count > 0) %}<i class="fa fa-paperclip" title="{{ lang['attach.count'] }}: {{ entry.attach_count }}"></i>{% endif %}
-								{% if (entry.images_count > 0) %}<i class="fa fa-images" title="{{ lang['images.count'] }}: {{ entry.images_count }}"></i>{% endif %}
-								{% if entry.flags.fixed %}<i class="fa fa-thumb-tack text-dark" title="{{ lang['on_fixed'] }}"></i>{% endif %}
+								{% if entry.flags.mainpage %}<span data-placement="top" data-popup="tooltip" data-original-title="{{ lang['on_main'] }}" title="{{ lang['on_main'] }}"><i class="fa fa-home"></i></span>{% else %}<span data-placement="top" data-popup="tooltip" data-original-title="{{ lang['off_main'] }}" title="{{ lang['off_main'] }}"><i class="fa fa-home text-danger"></i></span>{% endif %}
+								{% if (entry.attach_count > 0) %}<span data-placement="top" data-popup="tooltip" data-original-title="{{ lang['attach.count'] }}: {{ entry.attach_count }}" title="{{ lang['attach.count'] }}: {{ entry.attach_count }}"><i class="fa fa-paperclip"></i></span>{% endif %}
+								{% if (entry.images_count > 0) %}<span data-placement="top" data-popup="tooltip" data-original-title="{{ lang['images.count'] }}: {{ entry.images_count }}" title="{{ lang['images.count'] }}: {{ entry.images_count }}"><i class="fa fa-images"></i></span>{% endif %}
+								{% if entry.flags.fixed %}<span data-placement="top" data-popup="tooltip" data-original-title="{{ lang['on_fixed'] }}" title="{{ lang['on_fixed'] }}"><i class="fa fa-thumb-tack text-dark"></i></span>{% endif %}
 							</td>
 							<td nowrap>
 								{% if entry.flags.editable %}<a href="{{ php_self }}?mod=news&action=edit&id={{ entry.newsid }}">{% endif %}
@@ -168,23 +168,23 @@
 							</td>
 							<td align="center">
 								{% if (entry.state == 1) %}
-									<i class="fa fa-check-circle text-success" title="{{ lang['state.published'] }}"></i>
+									<span data-placement="top" data-popup="tooltip" data-original-title="{{ lang['state.published'] }}" title="{{ lang['state.published'] }}"><i class="fa fa-check-circle text-success"></i></span>
 								{% elseif (entry.state == 0) %}
-									<i class="fa fa-ban text-warning" title="{{ lang['state.unpiblished'] }}"></i>
+									<span data-placement="top" data-popup="tooltip" data-original-title="{{ lang['state.unpiblished'] }}" title="{{ lang['state.unpiblished'] }}"><i class="fa fa-ban text-warning"></i></span>
 								{% else %}
-									<i class="fa fa-times text-danger" title="{{ lang['state.draft'] }}"></i>
+									<span data-placement="top" data-popup="tooltip" data-original-title="{{ lang['state.draft'] }}" title="{{ lang['state.draft'] }}"><i class="fa fa-times text-danger"></i></span>
 								{% endif %}
 								{% if (pluginIsActive('comments')) %}
 									{% if (entry.com == 1) %}
-										<i class="fa fa-commenting text-info" title="{{ lang['com.published'] }}"></i>
+										<span data-placement="top" data-popup="tooltip" data-original-title="{{ lang['com.published'] }}" title="{{ lang['com.published'] }}"><i class="fa fa-commenting text-info"></i></span>
 									{% elseif (entry.com == 0) %}
-										<i class="fa fa-commenting text-warning" title="{{ lang['com.unpiblished'] }}"></i>
+										<span data-placement="top" data-popup="tooltip" data-original-title="{{ lang['com.unpiblished'] }}" title="{{ lang['com.unpiblished'] }}"><i class="fa fa-commenting text-warning"></i></span>
 									{% endif %}
 								{% endif %}
 							</td>
 							<td nowrap>{{ entry.allcats }}</td>
 							<td>
-								<a href="{{ php_self }}?mod=users&action=editForm&id={{ entry.userid }}">{{ entry.username }}</a>
+								<a href="{{ php_self }}?mod=users&action=editForm&id={{ entry.userid }}" data-placement="top" data-popup="tooltip" data-original-title="{{ entry.username }}" title="{{ entry.username }}">{{ entry.username }}</a>
 							</td>
 							<td>
 								<input type="checkbox" name="selected_news[]" value="{{ entry.newsid }}" />

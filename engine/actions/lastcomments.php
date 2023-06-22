@@ -14,7 +14,7 @@ if (!defined('NGCMS')) {
 
 $lang = LoadLang('lastcomments', 'admin');
 
-$breadcrumb = breadcrumb('<i class="fa fa-commenting-o btn-position"></i><span class="text-semibold">'.$lang['lastcomments'].'</span>', ''.$lang['last_comments'].'' );
+$breadcrumb = breadcrumb('<i class="fa fa-commenting-o btn-position"></i><span class="text-semibold">'.$lang['lastcomments'].'</span>', '<i class="fa fa-commenting-o btn-position"></i>'.$lang['last_comments'].'' );
 
 if (!getPluginStatusActive('comments')) {
 	msg(['type' => 'error', 'text' => $lang['w_comm']]);
@@ -130,14 +130,14 @@ if ($_REQUEST['action'] == 'delete') {
 
 		$data =  langdate('d.m.Y H:i:s', $prd['postdate']);
 		$com = '' . $text . '';
-		$news = '<a href="' . newsGenerateLink(array('id' => $prd['nid'], 'alt_name' => $prd['alt_name'], 'catid' => $prd['catid'], 'postdate' => $prd['npostdate'])) . '" title="'.$lang['open_news'].'" target="_blank">' . str_replace('<', '&lt;', $prd['title']) . '</a> <a href="?mod=news&action=edit&id=' . $prd['nid'] . '" title="'.$lang['edit'].'" target="_blank"><i class="fa fa-pencil-square"></i></a>';
+		$news = '<a href="' . newsGenerateLink(array('id' => $prd['nid'], 'alt_name' => $prd['alt_name'], 'catid' => $prd['catid'], 'postdate' => $prd['npostdate'])) . '" data-placement="left" data-popup="tooltip" data-original-title="'.$lang['open_news'].'" title="'.$lang['open_news'].'" target="_blank">' . str_replace('<', '&lt;', $prd['title']) . '</a> <a href="?mod=news&action=edit&id=' . $prd['nid'] . '" data-placement="left" data-popup="tooltip" data-original-title="'.$lang['edit'].'" title="'.$lang['edit'].'" target="_blank"><i class="fa fa-pencil-square"></i></a>';
 		if ($prd['author_id']) {
-			$author = '<a href="?mod=users&action=editForm&id=' . $prd['author_id'] . '" title="'.$lang['edit'].'" target="_blank">' . str_replace('<', '&lt;', $prd['author']) . '</a><br/><small><a href="mailto:' . $prd['mail'] . '">' . $prd['mail'] . '</a></small>';
+			$author = '<a href="?mod=users&action=editForm&id=' . $prd['author_id'] . '" data-placement="left" data-popup="tooltip" data-original-title="'.$lang['edit'].'" title="'.$lang['edit'].'" target="_blank">' . str_replace('<', '&lt;', $prd['author']) . '</a><br/><small><a href="mailto:' . $prd['mail'] . '">' . $prd['mail'] . '</a></small>';
 		} else {
 			$author = '' . str_replace('<', '&lt;', $prd['author']) . '<br/><small><a href="mailto:' . $prd['mail'] . '">' . $prd['mail'] . '</a></small>';
 		}
-		$ip = '[' . $prd['ip'] . '] - <a href="?mod=ipban&iplock=' . $prd['ip'] . '" title="'.$lang['ipban'].'' . $prd['ip'] . '" target="_blank"><i class="fa fa-ban"></i></a> <a href="http://www.nic.ru/whois/?ip=' . $prd['ip'] . '" title="'.$lang['ipwhois'].'' . $prd['ip'] . '" target="_blank"><i class="fa fa-question-circle"></i></a>';
-		$act = '<a class="btn btn-outline-primary" href="?mod=editcomments&newsid=' . $prd['nid'] . '&comid=' . $prd['id'] . '" title="'.$lang['edit'].'" target="_blank"><i class="fa fa-pencil-square-o"></i></a> <a class="btn btn-outline-danger" href="?mod=editcomments&subaction=deletecomment&newsid=' . $prd['nid'] . '&comid=' . $prd['id'] . '&poster=' . $prd['author'] . '" title="'.$lang['del'].'"><i class="fa fa-trash" style="color: red;"></i></a>';
+		$ip = '[' . $prd['ip'] . '] - <a href="?mod=ipban&iplock=' . $prd['ip'] . '" data-placement="left" data-popup="tooltip" data-original-title="'.$lang['ipban'].'" title="'.$lang['ipban'].'' . $prd['ip'] . '" target="_blank"><i class="fa fa-ban"></i></a> <a href="http://www.nic.ru/whois/?ip=' . $prd['ip'] . '" data-placement="left" data-popup="tooltip" data-original-title="'.$lang['ipwhois'].'" title="'.$lang['ipwhois'].'' . $prd['ip'] . '" target="_blank"><i class="fa fa-question-circle"></i></a>';
+		$act = '<a class="btn btn-outline-primary" href="?mod=editcomments&newsid=' . $prd['nid'] . '&comid=' . $prd['id'] . '" data-placement="left" data-popup="tooltip" data-original-title="'.$lang['edit'].'" title="'.$lang['edit'].'" target="_blank"><i class="fa fa-pencil-square-o"></i></a> <a class="btn btn-outline-danger" href="?mod=editcomments&subaction=deletecomment&newsid=' . $prd['nid'] . '&comid=' . $prd['id'] . '&poster=' . $prd['author'] . '" data-placement="left" data-popup="tooltip" data-original-title="'.$lang['del'].'" title="'.$lang['del'].'"><i class="fa fa-trash" style="color: red;"></i></a>';
 
         $tEntry[] = [
             'id'   	 => $prd['id'],

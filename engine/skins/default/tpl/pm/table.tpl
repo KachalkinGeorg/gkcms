@@ -1,6 +1,6 @@
 <div class="panel panel-default">
   <div class="panel-heading">
-     Список писем
+     {{ lang.list_pm }}
 	 <div class="panel-head-right">
 		<i class="fa fa-paper-plane"></i> <a href="?mod=pm&action=write" class="btn2">{{ lang.write }}</a>
 	 </div>
@@ -28,9 +28,9 @@
 					<tr>
 						<td>{{ entry.date }}</td>
 						<td><center>{{ entry.time }}</center></td>
-						<td><a href="?mod=pm&action=read&pmid={{ entry.id }}&token={{ token }}">{{ entry.subject }}</a></td>
-						<td nowrap>{% if entry.flags.haveSender %}<a href="{{ entry.senderProfileURL }}">{{ entry.senderName }}</a>{% else %}{{ entry.senderName }}{% endif %}</td>
-						<td><center>{% if entry.flags.viewed %}<i class="fa fa-eye text-success" title="{{ lang.viewed }}"></i>{% else %}<i class="fa fa-low-vision text-warning" title="{{ lang.unviewed }}"></i>{% endif %}</center></td>
+						<td><a href="?mod=pm&action=read&pmid={{ entry.id }}&token={{ token }}" data-placement="left" data-popup="tooltip" data-original-title="{{ entry.subject }}">{{ entry.subject }}</a></td>
+						<td nowrap>{% if entry.flags.haveSender %}<a href="{{ entry.senderProfileURL }}" data-placement="left" data-popup="tooltip" data-original-title="{{ entry.senderName }}">{{ entry.senderName }}</a>{% else %}{{ entry.senderName }}{% endif %}</td>
+						<td><center>{% if entry.flags.viewed %}<span data-placement="left" data-popup="tooltip" data-original-title="{{ lang.viewed }}" title="{{ lang.viewed }}"><i class="fa fa-eye text-success"></i></span>{% else %}<span data-placement="left" data-popup="tooltip" data-original-title="{{ lang.unviewed }}" title="{{ lang.unviewed }}"><i class="fa fa-low-vision text-warning"></i></span>{% endif %}</center></td>
 						<td><input type="checkbox" name="selected_pm[]" value="{{ entry.id }}" /></td>
 					</tr>
 				{% else %}

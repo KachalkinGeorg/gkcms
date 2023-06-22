@@ -44,7 +44,7 @@ switch ($subaction) {
         break;
     case 'delete':
         manage_delete('image');
-		return print_msg( 'delete', $lang['images_title'], 'Все выбранные изображения были успешно удалены!', '?mod=images' );
+		return print_msg( 'delete', $lang['images_title'], $lang['msgk_deleted'], '?mod=images' );
         break;
     case 'rename':
         $main_admin = $fmanager->file_rename(['type' => 'image', 'id' => $_REQUEST['id'], 'newname' => $_REQUEST['rf']]);
@@ -58,14 +58,14 @@ switch ($subaction) {
         $main_admin = manage_upload('image');
         break;
     case 'editForm':
-		$breadcrumb = breadcrumb('<i class="fa fa-picture-o btn-position"></i><span class="text-semibold">Редактирование</span>', array('?mod=images' => '<i class="fa fa-file-image-o btn-position"></i>'.$lang['images_title'].'', '<i class="fa fa-pencil-square-o"></i>Редактирование - ['.$_REQUEST['id'].']' ) );
+		$breadcrumb = breadcrumb('<i class="fa fa-picture-o btn-position"></i><span class="text-semibold">'.$lang['images'].'</span>', array('?mod=images' => '<i class="fa fa-file-image-o btn-position"></i>'.$lang['images_title'].'', '<i class="fa fa-pencil-square-o"></i>'.$lang['edit_title'].' - ['.$_REQUEST['id'].']' ) );
         $main_admin = manage_editForm('image', $_REQUEST['id']);
         break;
     case 'editApply':
         $main_admin = manage_editApply('image', $_POST['id']);
         break;
 	default:
-		$breadcrumb = breadcrumb('<i class="fa fa-picture-o btn-position"></i><span class="text-semibold">'.$lang['images_title'].'</span>', '<i class="fa fa-picture-o"></i>'.$lang['images_title'].'');
+		$breadcrumb = breadcrumb('<i class="fa fa-picture-o btn-position"></i><span class="text-semibold">'.$lang['images'].'</span>', '<i class="fa fa-picture-o"></i>'.$lang['images_title'].'');
 		$main_admin = manage_showlist('image');
 }
 

@@ -28,9 +28,9 @@
 						<label class="col-lg-6 col-form-label">{{ lang['identifier'] }}</label>
 						<div class="col-lg-6">
 						<div class="input-group">
-							<input placeholder="Введите идентификатор..." type="text" name="identity" value="{{ entry.identity }}" class="form-control" />
+							<input placeholder="{{ lang['plac_id'] }}" type="text" name="identity" value="{{ entry.identity }}" class="form-control" />
 							<div class="input-group-append">
-							<a class="btn btn-outline-primary" data-toggle="popover" data-placement="right" data-trigger="focus" data-html="true" title="ИДЕНТИФИКАТОР" data-content="Идентификатор - это имя, которое идентифицирует (то есть маркирует порядковый ИД группы)" tabindex="0">
+							<a class="btn btn-outline-primary" data-toggle="popover" data-placement="right" data-trigger="focus" data-html="true" title="{{ lang['identifier'] }}" data-content="{{ lang['identifier_info'] }}" tabindex="0">
 								<i class="fa fa-question"></i>
 							</a>
 							</div>

@@ -17,7 +17,7 @@ if (!defined('NGCMS')) {
 // Статус онлайн или оффлайн
 function on_of_line($id)
 {
-	global $config, $mysql, $userROW;
+	global $config, $mysql, $lang, $userROW;
 
 	if ($config['on_of_line']) {
 		$_TIME = time () + ($config['date_adjust'] * 60);
@@ -26,9 +26,9 @@ function on_of_line($id)
 		$last = $row['last'] + 300;
 
 		if ( $last > $_TIME) {
-			$line = '<img style="vertical-align: middle;" src="'.home.'/lib/online.png" title="Пользователь Онлайн" alt="Пользователь Онлайн" />';
+			$line = '<img style="vertical-align: middle;" src="'.home.'/lib/online.png" title="'.$lang['user_online'].'" alt="'.$lang['user_online'].'" />';
 		} else {
-			$line = '<img style="vertical-align: middle;" src="'.home.'/lib/offline.png" title="Пользователь offline" alt="Пользователь offline" />';
+			$line = '<img style="vertical-align: middle;" src="'.home.'/lib/offline.png" title="'.$lang['user_ofline'].'" alt="'.$lang['user_ofline'].'" />';
 			$mysql->query('UPDATE ' . uprefix . '_users SET last = ' . db_squote($_TIME) . ' where id = ' . intval($userROW['id']) . '');
 		}
 	} else {
@@ -40,7 +40,7 @@ function on_of_line($id)
 // Диалоговое окно профиля пользователя
 function print_show_profile($id, $user, $text)
 {
-    global $PHP_SELF, $main_admin, $config, $lang, $UGROUP, $mysql;
+    global $PHP_SELF, $main_admin, $config, $lang, $UGROUP, $userROW, $mysql;
 	
 	$lang = LoadLang('users', 'admin');
 
@@ -60,48 +60,54 @@ function print_show_profile($id, $user, $text)
     }
 	
 	if (getPluginStatusActive('ublog')) {
-		$news_link = '[ <a href="/plugin/ublog/?uid='.$id.'&uname='.$user.'">просмотреть статьи</a> ]';
+		$news_link = '[ <a href="/plugin/ublog/?uid='.$id.'&uname='.$user.'">'.$lang['blog_view'].'</a> ]';
 	}
 	
-	$username = $row['alt_name'] ? $row['alt_name'] : 'неизвестно';
-	$status = (($row['status'] >= 1) && ($row['status'] <= 4)) ? $lang['st_' . $row['status']] : 'Неизвестен';
-	$gender = $lang['gender_' . $row['gender']];
-	$last = ($row['last'] > 0) ? LangDate("l, j Q Y - H:i", $row['last']) : $lang['no_last'];
-	$reg = langdate("j Q Y", $row['reg']);
-	$news = $row['news'];
-	$com = $row['com'];
-	$news_link = $news_link;
-	$line = on_of_line($id);
-	$users_link = '/users/'.$user.'.html';
-	$profile_link = generateLink('uprofile', 'edit');
-		
+	$user_name = $row['alt_name'] ? $row['alt_name'] : $lang['unknowne'];
+	$username = '<li><span class="grey">'.$lang['pr_name_full'].':</span> <b>'.$user_name.'</b></li>';
+	
+	$grup = isset($UGROUP[$row['status']]) ? $UGROUP[$row['status']]['name'] : $lang['unknown'];
+	$status = '<li><span class="grey">'.$lang['pr_grup'].':</span> '.$grup.'</li>';
+	$lastv = ($row['last'] > 0) ? LangDate("l, j Q Y - H:i", $row['last']) : $lang['no_last'];
+	$last = '<li><span class="grey">'.$lang['pr_vizit'].':</span> <b>'.$lastv.'</b></li>';
+	$gender = '<li><span class="grey">'.$lang['pr_gender'].':</span> <b>'.$lang['gender_' . $row['gender']].'</b></li>';
+	$reg = '<li><span class="grey">'.$lang['pr_dreg'].':</span> <b>'.langdate("j Q Y", $row['reg']).'</b></li>';
+	$news = '<li><span class="grey">'.$lang['pr_post'].':</span> '.$row['news'].' '.$news_link.'</li>';
+	$com = '<li><span class="grey">'.$lang['pr_com'].':</span> <b>'.$row['com'].'</b></li>';
+	
+	if ($config['on_of_line']) {
+		$line = '<li><span class="grey">'.$lang['pr_stat'].':</span> '.on_of_line($id).'</li>';
+	}
+	$users_link = '<a href="/users/'.$user.'.html" class="profile-button">'.$lang['pr_view'].'</a>';
+	
+	if( $userROW['name'] == $row['name'] ) {
+		$profile_link = '<a href="'.generateLink('uprofile', 'edit').'" class="profile-button">'.$lang['pr_edit'].'</a>';
+	}
+	
 $main_admin = '<div id="'.$id.'" class="profile">
 	<div class="profile-wrapper">
 		<div class="profile-inner">
 			<div class="profile-header">
-				<div class="profile-title">Информация о профиле <b>'.$user.'</b></div>
-                <a href="#close" title="Закрыть" class="profile-close"><i class="fa fa-times-circle fa-2x"></i></a>
+				<div class="profile-title">'.$lang['pr_info_profile'].' <b>'.$user.'</b></div>
+                <a href="#close" title="'.$lang['close'].'" class="profile-titlebar-close"><span class="profile-close"></span></a>
             </div>
 <div class="profile-text">
 	<div class="userinfo">
 		<div class="lcol">
-			<div class="avatar" style="margin: 0;"><img src="'.$avatars.'" alt="'.$user.'"></div>
+			<div style="margin: 0;"><img src="'.$avatars.'" alt="'.$user.'" width="80px" height="80px"></div>
 		</div>
 		<div class="rcol">
 			<ul class="reset">
-			<li><span class="grey">Имя:</span> <b>'.$user.'</b></li>
-				<li><span class="grey">Полное имя:</span> <b>'.$username.'</b></li>
-				<li><span class="grey">Группа:</span> '.$status.'</li>
-				<li><span class="grey">Дата посещения:</span> <b>'.$last.'</b></li>
-				<li><span class="grey">Дата регистрации:</span> <b>'.$reg.'</b></li>
-				<li><span class="grey">Публикаций:</span> '.$news.' '.$news_link.'</li>
-				<li><span class="grey">Комментариев:</span> <b>'.$com.' <!-- [ {com_link} ] --></b></li>
-
-				<li><span class="grey">ИД:</span> <b>'.$id.'</b></li>
-				<li><span class="grey">Пол:</span> <b>'.$gender.'</b></li>
-<!-- 				
-				<li><span class="grey">Дата рождения:</span><b>'.$birthday.'</b></li> -->
-				<li><span class="grey">Статус:</span> '.$line.'</li>
+				<li><span class="grey">'.$lang['pr_name'].':</span> <b>'.$user.'</b></li>
+				<li><span class="grey">'.$lang['pr_id'].':</span> <b>'.$id.'</b></li>
+				'.$username.'
+				'.$status.'
+				'.$last.'
+				'.$reg.'
+				'.$news.'
+				'.$com.'
+				'.$gender.'
+				'.$line.'
 			</ul>
 		</div>
 		<div class="clr"></div>
@@ -110,7 +116,7 @@ $main_admin = '<div id="'.$id.'" class="profile">
 			</div>
 			<div class="profile-footer">
 				<div class="profile-buttonset">
-					<!-- <a href="'.$profile_link.'" class="profile-button">Редактировать профиль</a>  --><a href="'.$users_link.'" class="profile-button">Просмотреть профиль</a>
+					'.$profile_link.' '.$users_link.'
 				</div>
 			</div>
 
@@ -124,14 +130,14 @@ $main_admin = '<div id="'.$id.'" class="profile">
 // Диалоговое окно для сайта
 function print_popup_dialog($id, $title, $text)
 {
-    global $PHP_SELF, $main_admin;
+    global $PHP_SELF, $lang, $main_admin;
 
 $main_admin = '<div id="'.$id.'" class="popup">
 	<div class="popup-wrapper">
 		<div class="popup-inner">
 			<div class="popup-header">
 				<div class="popup-title">'.$title.'</div>
-                <a href="#close" title="Закрыть" class="popup-close"><i class="fa fa-times-circle fa-2x"></i></a>
+                <a href="#close" title="'.$lang['close'].'" class="popup-titlebar-close"><span class="popup-close"></span></a>
             </div>
             <div class="popup-text">'.$text.'</div>
   		</div>
@@ -144,19 +150,19 @@ $main_admin = '<div id="'.$id.'" class="popup">
 // Диалоговое окно в админке
 function print_modal_dialog($id, $title, $text, $action)
 {
-    global $PHP_SELF, $main_admin;
+    global $PHP_SELF, $lang, $main_admin;
 	
 $main_admin = '<div id="modal-'.$id.'" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="'.$id.'-modal-label" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
 				<h5 id="'.$id.'-modal-label" class="modal-title">'.$title.'</h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i class="fa fa-times-circle"></i></span></button>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">X</span></button>
 			</div>
 			<div class="modal-body">
 				'.$text.'
 			</div>
-			<div class="modal-footer"> '.$action.' <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Отмена</button></div>
+			<div class="modal-footer"> '.$action.' <button type="button" class="btn btn-outline-dark" data-dismiss="modal">'.$lang['btn_cancel'].'</button></div>
 		</div>
 	</div>
 </div>';
@@ -177,11 +183,11 @@ $main_admin = '<div id="modal-'.$id.'" class="modal fade" tabindex="-1" role="di
 // Хлебные крошки в админке
 
 function breadcrumb($title, $subtitle) {
-	global $tpl, $PHP_SELF, $main_admin;
+	global $tpl, $PHP_SELF, $lang, $main_admin;
 
 	if( !is_array( $subtitle )) $subtitle = array ( '' => $subtitle);
 	
-	$breadcrumb = array( '<li class="breadcrumb-item"><a href="admin.php"><i class="fa fa-home btn-position"></i>Главная</a></li>' );
+	$breadcrumb = array( '<li class="breadcrumb-item"><a href="'.$PHP_SELF.'" data-popup="tooltip" data-original-title="'.$lang['main_link'].'"><i class="fa fa-home btn-position"></i>'.$lang['main'].'</a></li>' );
 
 	foreach ($subtitle as $key => $value) {
 		
@@ -201,19 +207,19 @@ function breadcrumb($title, $subtitle) {
 	  </div>
 	  <div class="d-md-adds">
 			<div class="heading-btn-group">
-				<a href="?mod=news&action=add" class="btn btn-link btn-float text-size-small has-text legitRipple"><i class="fa fa-file-text-o fa-2x"></i> <span>Добавить</span></a>
-				<a href="?mod=news" class="btn btn-link btn-float text-size-small has-text legitRipple"><i class="fa fa-edit fa-2x"></i> <span>Редактировать</span></a>
+				<a href="?mod=news&action=add" class="btn btn-link btn-float text-size-small has-text legitRipple"><i class="fa fa-file-text-o fa-2x"></i> <span>'.$lang['btn_add'].'</span></a>
+				<a href="?mod=news" class="btn btn-link btn-float text-size-small has-text legitRipple"><i class="fa fa-edit fa-2x"></i> <span>'.$lang['btn_edit'].'</span></a>
 			</div>
 	  </div>
 	</div>
 		<ol class="breadcrumb-header">
 			' . $breadcrumb . '
 			<li class="breadcrumb-elements">
-				<a href="#" class="dropdown-toggle legitRipple" data-toggle="dropdown"><i class="fa fa-cog" aria-hidden="true"></i> Настройки</a>
+				<a href="#" class="dropdown-toggle legitRipple" data-toggle="dropdown"><i class="fa fa-cog" aria-hidden="true"></i> '.$lang['admin_setting'].'</a>
 				<ul class="dropdown-menu dropdown-menu-right">
-					<li><a class="dropdown-item" href="?mod=statistics"><i class="fa fa-bar-chart"></i> Статистика</a></li>
+					<li><a class="dropdown-item" href="?mod=statistics"><i class="fa fa-bar-chart"></i> '.$lang['admin_static'].'</a></li>
 					<li class="divider"></li>
-					<li><a class="dropdown-item" href="?mod=configuration"><i class="fa fa-cogs"></i> Настройка системы</a></li>
+					<li><a class="dropdown-item" href="?mod=configuration"><i class="fa fa-cogs"></i> '.$lang['admin_system_set'].'</a></li>
 				</ul>
 			</li>
 		</ol>
@@ -239,9 +245,7 @@ function print_msg($type, $title, $text, $back = false) {
 			elseif($bc == 3) $color="dark";
 			else $color="success";
 			
-			$view = $lang['addnews']['view'] ? $lang['editnews']['view'] : $lang['view'];
-			
-			if( $value == $view ) $target = ' target="_blank"';
+			if( $value == $lang['view'] ) $target = ' target="_blank"';
 			else $target="";
 			
 			$buttons[] = '<a class="btn btn-' . $color . ' btn-position" href="' . $key . '"' . $target . '>' . $value . '</a>';
@@ -251,7 +255,7 @@ function print_msg($type, $title, $text, $back = false) {
 			if($bc > 4) $bc = 1;
 		}
 	} elseif( $back ) {
-		$buttons[] = '<a class="btn btn-info" href="' . $back . '">Вернуться назад</a>';
+		$buttons[] = '<a class="btn btn-info" href="' . $back . '">'.$lang['back'].'</a>';
 	}
 	
 	if(count($buttons) ) {
@@ -259,7 +263,7 @@ function print_msg($type, $title, $text, $back = false) {
 	} else $back ="";
 	
 	
-	if ($type == "error") $title = 'Уведомление об ошибке';
+	if ($type == "error") $title = $lang['admin_notif_error'];
 	
 	if ($plugin){
 		$titl = array('?mod=extras' => '<i class="fa fa-puzzle-piece btn-position"></i>'.$lang['extras'].'', '<i class="fa fa-exclamation btn-position"></i>'.$title.'' );
@@ -750,7 +754,7 @@ function templateLoadVariables($die = false, $loadMode = 0)
     $filename = ($loadMode ? tpl_actions : tpl_site).'variables.ini';
     if (!is_file($filename)) {
         if ($die) {
-            exit('Internal error: cannot locate Template Variables file');
+            exit(''.$lang['template_error'].'');
         }
 
         return false;
@@ -781,7 +785,7 @@ function msg($params, $mode = 0, $disp = -1)
     }
 
     if (!templateLoadVariables(false, $mode)) {
-        exit('Internal system error: '.var_export($params, true));
+        exit(''.$lang['variable_error'].': '.var_export($params, true));
     }
 
     // Use msgSticker in admin mode

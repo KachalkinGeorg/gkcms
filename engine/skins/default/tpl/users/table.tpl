@@ -35,7 +35,7 @@
 							<div class="input-group-prepend input-group-append">
 								<label class="input-group-text"><i class="fa fa-users"></i></label>
 							</div>
-							<select name="group" class="custom-select" style="max-width:220px;">
+							<select name="group" class="custom-select" style="max-width:220px;"/>
 								<option value="0">-- {{ lang['any'] }} --</option>
 								{% for g in ugroup %}
 								<option value="{{ g.id }}" {{ group == g.id ? 'selected' : ''}}>{{ g.name }}</option>
@@ -88,9 +88,9 @@
   {{ lang['users_all'] }}
 		<div class="panel-head-right">
 			{% if flags.canModify %}
-				<button type="button" class="btn2" data-toggle="modal" data-target="#adduserModal" title="{{ lang['adduser'] }}"><i class="fa fa-user-plus position-left"></i> {{ lang['adduser'] }}</button>
+				<button type="button" class="btn2" data-toggle="modal" data-target="#adduserModal" data-placement="left" data-popup="tooltip" data-original-title="{{ lang['adduser'] }}" title="{{ lang['adduser'] }}"><i class="fa fa-user-plus position-left"></i> {{ lang['adduser'] }}</button>
 			{% endif %}
-			<button type="button" class="btn2" data-toggle="collapse" data-target="#collapseUsersFilter" aria-expanded="false" aria-controls="collapseUsersFilter" title="{{ lang['filter'] }}">
+			<button type="button" class="btn2" data-toggle="collapse" data-target="#collapseUsersFilter" aria-expanded="false" aria-controls="collapseUsersFilter" data-placement="left" data-popup="tooltip" data-original-title="{{ lang['filter'] }}" title="{{ lang['filter'] }}">
 				<i class="fa fa-filter"></i>
 			</button>
 		</div>
@@ -138,7 +138,7 @@
 					<th width="5%">&nbsp;</th>
 					<th width="5%">
 						{% if flags.canModify %}
-						<input type="checkbox" name="master_box" title="{l_select_all}" onclick="javascript:check_uncheck_all(form_users)" />
+						<input type="checkbox" name="master_box" data-placement="left" data-popup="tooltip" data-original-title="{l_select_all}" title="{l_select_all}" onclick="javascript:check_uncheck_all(form_users)" />
 						{% endif %}
 					</th>
 				</tr>
@@ -170,9 +170,9 @@
 					<td>{{ entry.groupName }}</td>
 					<td>
 						{% if entry.flags.isActive %}
-							<i class="fa fa-check text-success" title="{{ lang['active'] }}"></i>
+							<span data-placement="left" data-popup="tooltip" data-original-title="{{ lang['active'] }}" title="{{ lang['active'] }}"><i class="fa fa-check text-success"></i></span>
 						{% else %}
-							<i class="fa fa-times text-danger" title="{{ lang['unactive'] }}"></i>
+							<span data-placement="left" data-popup="tooltip" data-original-title="{{ lang['unactive'] }}" title="{{ lang['unactive'] }}"><i class="fa fa-times text-danger"></i></span>
 						{% endif %}
 					</td>
 					<td>
@@ -240,14 +240,14 @@
 					<div class="form-group row">
 						<label class="col-sm-4 col-form-label">{{ lang.name }}</label>
 						<div class="col-sm-8">
-							<input type="text" name="regusername" placeholder="Введите логин..." class="form-control" />
+							<input type="text" name="regusername" placeholder="{{ lang.plac_login }}" class="form-control" />
 						</div>
 					</div>
 					
 					<div class="form-group row">
 						<label class="col-sm-4 col-form-label">{{ lang.alt_name }}</label>
 						<div class="col-sm-8">
-							<input type="text" name="regaltname" placeholder="Введите имя пользователя..." class="form-control" />
+							<input type="text" name="regaltname" placeholder="{{ lang.plac_author }}" class="form-control" />
 						</div>
 					</div>
 					

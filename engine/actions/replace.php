@@ -14,7 +14,7 @@ if (!defined('NGCMS')) {
 
 $lang = LoadLang('replace', 'admin');
 
-$breadcrumb = breadcrumb('<i class="fa fa-exchange btn-position"></i><span class="text-semibold">'.$lang['replace'].'</span>', ''.$lang['replace.descr'].'' );
+$breadcrumb = breadcrumb('<i class="fa fa-exchange btn-position"></i><span class="text-semibold">'.$lang['replace'].'</span>', '<i class="fa fa-exchange btn-position"></i>'.$lang['replace_title'].'' );
 
 if (!getPluginStatusActive('comments')) {
 	msg(['type' => 'error', 'title' => $lang['warning'], 'text' => $lang['w_com']]);

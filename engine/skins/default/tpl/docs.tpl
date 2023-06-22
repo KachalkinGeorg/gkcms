@@ -2,7 +2,7 @@
 	<div class="panel-heading">
      {{ lang['docs'] }}
 		<div class="panel-head-right">
-			<a href="#" style="position: absolute;right: -8px;top: 2px;cursor: pointer;" class="btn2" title="На весь экран" onclick="$('#docs').toggleClass('full-content');return false;"><i class="fa fa-arrows-alt fa-lg"></i></a>
+			<a href="#" style="position: absolute;right: -8px;top: 2px;cursor: pointer;" class="btn2" title="{{ lang['full_screen'] }}" onclick="$('#docs').toggleClass('full-content');return false;"><i class="fa fa-arrows-alt fa-lg"></i></a>
 		</div>
 	</div>
 <div class="panel-body" style="padding: 0;margin: 0;">

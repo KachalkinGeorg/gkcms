@@ -14,11 +14,11 @@
 						<div class="input-group mb-3">
 							<div class="input-group-prepend input-group-append">
 								<label class="input-group-text"><i class="fa fa-calendar"></i></label>
-								<label class="input-group-text">с</label>
+								<label class="input-group-text">{{ lang['dr1'] }}</label>
 							</div>
 							<input type="text" id="dr1" name="dr1" value="{{fDateStart}}" pattern="[0-9]{2}\.[0-9]{2}\.[0-9]{4}" placeholder="{{ "now" | date('d.m.Y') }}" autocomplete="off" style="max-width:188px;">
 							<div class="input-group-prepend">
-								<span class="input-group-text">по</span>
+								<span class="input-group-text">{{ lang['dr2'] }}</span>
 							</div>
 							<input type="text" id="dr2" name="dr2" value="{{fDateEnd}}" pattern="[0-9]{2}\.[0-9]{2}\.[0-9]{4}" placeholder="{{ "now" | date('d.m.Y') }}" autocomplete="off" style="max-width:220px;">
 						</div>
@@ -48,7 +48,7 @@
   <div class="panel-heading">
   {{ lang['load_log'] }}
 		<div class="panel-head-right">
-			<button type="button" class="btn2" data-toggle="collapse" data-target="#collapseLoadLogFilter" aria-expanded="false" aria-controls="collapseLoadLogFilter" title="{{ lang['filter'] }}">
+			<button type="button" class="btn2" data-toggle="collapse" data-target="#collapseLoadLogFilter" aria-expanded="false" aria-controls="collapseLoadLogFilter" data-placement="top" data-popup="tooltip" data-original-title="{{ lang['filter'] }}" title="{{ lang['filter'] }}">
 				<i class="fa fa-filter"></i>
 			</button>
 		</div>

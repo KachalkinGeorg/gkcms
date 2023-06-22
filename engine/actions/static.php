@@ -77,7 +77,7 @@ function listStatic()
 
         $tEntry['url'] = $row['approve'] ? ('<a href="'.$link.'" target="_blank">'.$link.'</a>') : '';
         $tEntry['title'] = str_replace(["'", '"'], ['&#039;', '&quot;'], $row['title']);
-        $tEntry['status'] = ($row['approve']) ? '<img src="'.skins_url.'/images/yes.png" alt="'.$lang['approved'].'" />' : '<img src="'.skins_url.'/images/no.png" alt="'.$lang['unapproved'].'" />';
+        $tEntry['status'] = ($row['approve']) ? '<span data-placement="left" data-popup="tooltip" data-original-title="'.$lang['approved'].'" title="'.$lang['approved'].'"><i class="fa fa-check-circle text-success"></i></span>' : '<span data-placement="left" data-popup="tooltip" data-original-title="'.$lang['unapproved'].'" title="'.$lang['unapproved'].'"><i class="fa fa-ban text-warning"></i></span>';
 
         $tEntries[] = $tEntry;
     }
@@ -101,7 +101,7 @@ function listStatic()
 
     exec_acts('static_list');
 
-	$breadcrumb = breadcrumb('<i class="fa fa-file-text-o btn-position"></i><span class="text-semibold">'.$lang['static_title'].'</span>', '<i class="fa fa-file-text-o"></i>'.$lang['static_title'].'' );
+	$breadcrumb = breadcrumb('<i class="fa fa-file-text-o btn-position"></i><span class="text-semibold">'.$lang['static'].'</span>', '<i class="fa fa-file-text-o"></i>'.$lang['static_title'].'' );
 
     $xt = $twig->loadTemplate('skins/default/tpl/static/table.tpl');
 
@@ -136,7 +136,7 @@ function massStaticModify($setValue, $langParam, $tag = '')
 
     if (!$selected) {
         msg(['type' => 'error', 'text' => $lang['msge_selectnews'], 'info' => $lang['msgi_selectnews']]);
-
+		print_msg( 'error', $lang['static'], $lang['msgk_selectnews'], 'javascript:history.go(-1)' );
         return;
     }
 
@@ -144,6 +144,7 @@ function massStaticModify($setValue, $langParam, $tag = '')
         $mysql->query('UPDATE '.prefix."_static SET $setValue WHERE id=".db_squote($id));
     }
     msg(['type' => 'info', 'text' => $lang[$langParam]]);
+	return print_msg( 'success', $lang['static'], $lang[$langParam], '?mod=static' );
 }
 
 //
@@ -171,7 +172,7 @@ function massStaticDelete()
 
     if (!$selected) {
         msg(['type' => 'error', 'text' => $lang['msge_selectnews'], 'info' => $lang['msgi_selectnews']]);
-
+		print_msg( 'error', $lang['static'], $lang['msgk_selectnews'], 'javascript:history.go(-1)' );
         return;
     }
 
@@ -186,7 +187,7 @@ function massStaticDelete()
         }
     }
     msg(['type' => 'info', 'text' => $lang['msgo_deleted']]);
-	return print_msg( 'delete', 'Статистическая страница', 'Выша статистическая страница была успешно удалена.', '?mod=static' );
+	return print_msg( 'delete', $lang['static'], $lang['msgk_deleted'], '?mod=static' );
 }
 
 // Return list of available templates
@@ -242,8 +243,8 @@ function addEditStaticForm($operationMode = 1, $sID = 0)
     if (($operationMode == 3) || ($operationMode == 4)) {
         if (!$requestID || !is_array($row = $mysql->record('select * from '.prefix.'_static where id = '.db_squote($requestID)))) {
 			msg(['type' => 'error', 'text' => $lang['msge_not_found']]);
-
-            return 0;
+            print_msg( 'delete', $lang['static'], $lang['msgk_not_found'], '?mod=static' );
+			return;
         }
         $editMode = 1;
         $origRow = $row;
@@ -381,7 +382,7 @@ function addStatic()
 
     if ((!strlen(trim($title))) || (!strlen(trim($content)))) {
 		msg(['type' => 'error', 'title' => $lang['msge_fields'], 'text' => $lang['msgi_fields']]);
-		print_msg( 'warning', 'Статистическая страница', ''.$lang['msge_fields'].'<br>'.$lang['msgi_fields'].'', 'javascript:history.go(-1)' );
+		print_msg( 'warning', $lang['static'], $lang['msgk_fields'], 'javascript:history.go(-1)' );
         return 0;
     }
 
@@ -391,7 +392,7 @@ function addStatic()
     if ($alt_name) {
         if (is_array($mysql->record('select id from '.prefix.'_static where alt_name = '.db_squote($alt_name).' limit 1'))) {
             msg(['type' => 'error', 'text' => $lang['msge_alt_name'], 'info' => $lang['msgi_alt_name']]);
-			print_msg( 'warning', 'Статистическая страница', ''.$lang['msge_alt_name'].'<br>'.$lang['msgi_alt_name'].'', 'javascript:history.go(-1)' );
+			print_msg( 'warning', $lang['static'], $lang['msgk_alt_name'], 'javascript:history.go(-1)' );
             return 0;
         }
         $SQL['alt_name'] = $alt_name;
@@ -446,7 +447,7 @@ function addStatic()
         'info' => str_replace(array('%url%', '%url_edit%', '%url_list%'), array($link, $PHP_SELF.'?mod=static&action=editForm&id='.$id, $PHP_SELF.'?mod=static'), $lang['msg.added.descr']),
     ]);
 
-	print_msg( 'info', 'Статистическая страница', 'Новая статья <strong>'.$title.'</strong> была успешно добавлена!<br>Вы можете сделать следующее.', array('?mod=static&action=addForm' => 'Добавить еще', '?mod=static&action=editForm&id='.$id => 'Редактировать', ''.$link.'' => 'Посмотреть на сайте', '?mod=static' => 'Вернуться назад' ) );
+	print_msg( 'info', $lang['static'], str_replace('%title%', $title, $lang['msgk_add_ok']), array('?mod=static&action=addForm' => $lang['add'], '?mod=static&action=editForm&id='.$id => $lang['edit'], ''.$link.'' => $lang['view'], '?mod=static' => $lang['back'] ) );
     return $id;
 }
 
@@ -481,13 +482,13 @@ function editStatic()
     // Try to find news that we're trying to edit
     if (!is_array($row = $mysql->record('select * from '.prefix.'_static where id='.db_squote($id)))) {
         msg(['type' => 'error', 'text' => $lang['msge_not_found']]);
-		print_msg( 'error', 'Статистическая страница', ''.$lang['msge_not_found'].'', 'javascript:history.go(-1)' );
+		print_msg( 'error', $lang['static'], $lang['msgk_not_found'], 'javascript:history.go(-1)' );
         return -1;
     }
 
     if ((!strlen(trim($title))) || (!strlen(trim($content)))) {
 		msg(['type' => 'error', 'title' => $lang['msge_fields'], 'text' => $lang['msgi_fields']]);
-		print_msg( 'error', 'Статистическая страница', ''.$lang['msge_fields'].'<br>'.$lang['msgi_fields'].'', 'javascript:history.go(-1)' );
+		print_msg( 'error', $lang['static'], $lang['msgk_fields'], 'javascript:history.go(-1)' );
         return 0;
     }
 
@@ -496,7 +497,7 @@ function editStatic()
     // Check for dup if alt_name is specified
     if (is_array($mysql->record('select id from '.prefix.'_static where alt_name = '.db_squote($alt_name).' and id <> '.$row['id'].' limit 1'))) {
 		msg(['type' => 'error', 'title' => $lang['msge_alt_name'], 'text' => $lang['msgi_alt_name']]);
-		print_msg( 'error', 'Статистическая страница', ''.$lang['msge_alt_name'].'<br>'.$lang['msgi_alt_name'].'', 'javascript:history.go(-1)' );
+		print_msg( 'error', $lang['static'], $lang['msgk_alt_name'], 'javascript:history.go(-1)' );
         return 0;
     }
     $SQL['alt_name'] = $alt_name;
@@ -537,7 +538,7 @@ function editStatic()
 
 
 	msg(['type' => 'info', 'title' => $lang['info'], 'text' => str_replace(array('%url%','%name%'), array($link,$title), $lang['msg.edited']), 'info' => str_replace('%url%', '?mod=static&action=editForm&id='.$id.'', $lang['msg.edited#descr'])]);
-	print_msg( 'update', 'Статистическая страница', 'Статья <strong>'.$title.'</strong> была успешно отредактирована!<br>Вы можете сделать следующее.', array('?mod=static&action=addForm' => 'Добавить еще', '?mod=static&action=editForm&id='.$id => 'Редактировать', ''.$link.'' => 'Посмотреть на сайте', '?mod=static' => 'Вернуться назад' ) );
+	print_msg( 'update', $lang['static'], str_replace('%title%', $title, $lang['msgk_edit_ok']), array('?mod=static&action=addForm' => $lang['add'], '?mod=static&action=editForm&id='.$id => $lang['edit'], ''.$link.'' => $lang['view'], '?mod=static' => $lang['back'] ) );
 
     /*
         msg(array(
@@ -580,16 +581,17 @@ switch ($action) {
         break;
 
     case 'editForm':
-        $main_admin = addEditStaticForm(3);
+        addEditStaticForm(3);
+        if (!$main_admin) {
+            $main_admin = addEditStaticForm(3);
+        }
         break;
 
             case 'do_mass_approve':
                 massStaticModify('approve = 1', 'msgo_approved', 'approve');
-				return print_msg( 'success', 'Статистическая страница', 'Ваша статистическая страница была успешно опубликована!', 'javascript:history.go(-1)' );
                 break;
             case 'do_mass_forbidden':
                 massStaticModify('approve = 0', 'msgo_forbidden', 'forbidden');
-				return print_msg( 'warning', 'Статистическая страница', 'Внимание!<br>Ваша статистическая страница снята с публикации!', 'javascript:history.go(-1)' );
                 break;
             case 'do_mass_delete':
                 massStaticDelete();

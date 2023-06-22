@@ -160,6 +160,18 @@
 	  </div>
 		{% endif %}
 
+		{% if (pluginIsActive('uprofile')) %}
+	  <div class="col-sm-6 media-list media-list-linked">
+		<a class="media-link" href="?mod=extra-config&plugin=uprofile">
+			<div class="media-left"><i class="fa fa-user-circle-o fa-2x"></i></div>
+			<div class="media-body">
+				<h6 class="media-heading text-semibold">{{ lang['uprofile'] }}</h6>
+				<span class="text-muted text-size-small">{{ lang['uprofile_d'] }}</span>
+			</div>
+		</a>
+	  </div>
+		{% endif %}
+		
 	</div> 
 	</div>
 </div>

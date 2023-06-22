@@ -196,8 +196,8 @@ if (is_array($userROW)) {
 		$newpm = $mysql->result('SELECT count(id) FROM '.prefix.'_pm WHERE to_id = '.db_squote($userROW['id']).' AND viewed = "0"');
 		$newpmText = ($newpm != '0') ? $newpm.' '.Padeg($newpm, $lang['head_pm_skl']) : $lang['head_pm_no'];
 		
-		$newpm_nav = '<a class="navigation-item" href="'.$PHP_SELF.'?mod=pm" title="'.$lang['pm_t'].'"><i class="fa fa-envelope-o"></i>'.$newpmText.'</a>';
-		$newpm_down ='<a class="dropdown-item" href="'.$PHP_SELF.'?mod=pm" title="'.$lang['pm_t'].'"><i class="fa fa-envelope-o"></i>'.$newpmText.'</a>';
+		$newpm_nav = '<a class="navigation-item" href="'.$PHP_SELF.'?mod=pm" title="'.$lang['pm_t'].'"><i class="fa fa-envelope-o"></i><span>'.$newpmText.'</span></a>';
+		$newpm_down ='<a class="dropdown-item" href="'.$PHP_SELF.'?mod=pm" data-popup="tooltip" data-original-title="'.$lang['pm_t'].'" title="'.$lang['pm_t'].'"><i class="fa fa-exclamation"></i>'.$newpmText.'</a>';
 	}
 
     // Calculate number of un-approved news
@@ -231,8 +231,6 @@ $.timepicker.setDefaults($.timepicker.regional['".$lang['langcode']."']);
 $datetimepicker_lang = ($lang['langcode'] == 'ru') ? $datetimepicker_lang_default : '';
 
 $tVars = [
-	'breadcrumb'    	  => $breadcrumb,
-	'notify'        	  => $notify,
     'php_self'            => $PHP_SELF,
     'home_title'          => $config['home_title'],
     'newpm'               => $newpm,
@@ -288,8 +286,6 @@ $tVars = [
     echo $xt->render($tVars);
 }
 
-
-
 // Register global vars
 $twigGlobal['action'] = $action;
 $twigGlobal['subaction'] = $subaction;
@@ -301,6 +297,9 @@ if ($mod != 'preview') {
 		'main_admin'    => $main_admin,
 		'breadcrumb'    => $breadcrumb,
 		'notify'        => $notify,
+		'token'         => genUToken('admin.statistics'),
+		'skins_url'		=> $skins_url,
+		'home'			=> home,
         'year' 			=> date('Y'),
     );
 

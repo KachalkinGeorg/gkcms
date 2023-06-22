@@ -15,10 +15,10 @@ if (!defined('NGCMS')) {
 
 $lang = LoadLang('newsletter', 'admin');
 
-$breadcrumb = breadcrumb('<i class="fa fa-envelope-o btn-position"></i><span class="text-semibold">'.$lang['newsletter'].'</span>', ''.$lang['pm_mail'].'' );
+$breadcrumb = breadcrumb('<i class="fa fa-envelope-o btn-position"></i><span class="text-semibold">'.$lang['newsletter'].'</span>', '<i class="fa fa-envelope-o btn-position"></i>'.$lang['pm_mail'].'' );
 
 function newsletter($method, $group, $subject, $message) {
-	global $lang, $mysql, $userROW, $config;
+	global $lang, $mysql, $userROW, $config, $UGROUP;
 	
 	$send_to = $userROW['id'];
 	$author = $userROW['name'];
@@ -57,10 +57,10 @@ function newsletter($method, $group, $subject, $message) {
 			else {
 				$mails		=	join(', ', $mails);
 				$message	=	nl2br($message);
-				$conten = 'Уважаемый <b>'.$author.'!</b><br /><br />'.$message.'<br /><br />-------------<br />Администрация сайта: <a href='.$link.'>'.$title.'</a><br />Это письмо сгенерировано почтовым роботом '.$bot.', пожалуйста, не отвечайте на него!';
+				$conten = str_replace(array ('%author%', '%message%', '%link%', '%title%', '%bot%' ), array ($author, $message, $link, $title, $bot ), $lang['msgk_send_content']);
 				zzMail($mails, $subject, $conten, 'html');
 				msg(['type' => 'error', 'text' => $lang['msgo_sent']]);
-				print_msg( 'info', $lang['newsletter'], 'Было отправлено тема '.$_REQUEST['subject'].' сообщения по E-Mail пользователям', '?mod=newsletter' );
+				print_msg( 'info', $lang['newsletter'], str_replace('%subject%', $_REQUEST['subject'], $lang['msgk_subj_em']), '?mod=newsletter' );
 			}
 		}
 		else {
@@ -83,7 +83,7 @@ function newsletter($method, $group, $subject, $message) {
 					$sql = $mysql->query("INSERT INTO ".uprefix."_pm (from_id, to_id, date, subject, message) values ('$send_to', '$to_id', '".time()."', '$subject', '$message')");
 				}
 				msg(['type' => 'info', 'text' => $lang['msgo_sent']]);
-				print_msg( 'info', $lang['newsletter'], 'Было отправлено тема '.$_REQUEST['subject'].'<br>Выбрана рассылка сообщений по ЛС.', '?mod=newsletter' );
+				print_msg( 'info', $lang['newsletter'], str_replace('%subject%', $_REQUEST['subject'], $lang['msgk_subj_pm']), '?mod=newsletter' );
 			}
 		}
 	}
@@ -98,18 +98,24 @@ if (!getPluginStatusActive('pm')) {
 	$method = '<option value="0" ' . (empty($mesmail) ? 'selected' : '') . '>'.$lang['by_mail'].'</option><option value="1" ' . (!empty($mesmail) ? 'selected' : '') . '>'.$lang['by_pm'].'</option>';
 }
 	
-$mesgroup = '0';
+/* $mesgroup = '0';
 $group = '<option value="0" ' . (empty($mesgroup) ? 'selected' : '') . '>Все группы</option><option value="1" ' . (!empty($mesgroup) ? 'selected' : '') . '>Администратор</option><option value="2" ' . (!empty($mesgroup) ? 'selected' : '') . '>Редактор</option><option value="3" ' . (!empty($mesgroup) ? 'selected' : '') . '>Журналист</option>';
+ */
+
+$group = '<option value="0" ' . (empty($mesgroup) ? 'selected' : '') . '>Все группы</option>';
+foreach ($UGROUP as $k => $v) {
+	$group .= '<option value="'.$k.'" ' . (empty($k) ? 'selected' : '') . '>'.$v['name'].'</option>';
+}
 
 $tVars = [
-    'php_self' => $PHP_SELF,
-	'method' => $method,
-	'group' => $group,
-	'subject' => $subject,
+    'php_self' 	=> $PHP_SELF,
+	'method' 	=> $method,
+	'group' 	=> $group,
+	'subject' 	=> $subject,
 	'quicktags' => QuickTags('', 'pmmes'),
 	'smilies'   => ($config['use_smilies'] == '1') ? InsertSmilies('content', 10) : '',
-	'message' => $message,
-    'flags'   => [
+	'message' 	=> $message,
+    'flags'   	=> [
 		'no_pm'  => $no_pm,
     ],
 

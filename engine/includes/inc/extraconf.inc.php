@@ -111,7 +111,7 @@ function plugin_mark_installed($plugin)
     $activated = getPluginsActiveList();
 	
 	if(!$breadcrumb){
-		$breadcrumb = breadcrumb('<i class="fa fa-exclamation-circle btn-position" style="color: #0a8b00;"></i><span class="text-semibold">Плагин <strong>'.$plugin.'</strong> установлен</span>', array('?mod=extras' => '<i class="fa fa-puzzle-piece btn-position"></i>'.$lang['extras'].'', '<i class="fa fa-thumbs-o-up btn-position"></i>Установлен - '.$plugin.'' ) );
+		$breadcrumb = breadcrumb('<i class="fa fa-exclamation-circle btn-position" style="color: #0a8b00;"></i><span class="text-semibold">'.str_replace('%plugin%', $plugin, $lang['plug_installed']).'</span>', array('?mod=extras' => '<i class="fa fa-puzzle-piece btn-position"></i>'.$lang['extras'].'', '<i class="fa fa-thumbs-o-up btn-position"></i>'.str_replace('%plugin%', $plugin, $lang['plug_installeds']).'' ) );
 	}
 	
 	if(!$main_admin){
@@ -139,7 +139,7 @@ function plugin_mark_deinstalled($plugin)
     // Load activated list
     $activated = getPluginsActiveList();
 	
-	$breadcrumb = breadcrumb('<i class="fa fa-exclamation-triangle btn-position" style="color: #8b1100;"></i><span class="text-semibold">Плагин <strong>'.$plugin.'</strong> удалён</span>', array('?mod=extras' => '<i class="fa fa-puzzle-piece btn-position"></i>'.$lang['extras'].'', '<i class="fa fa-trash-o btn-position"></i>Удалён - '.$plugin.'' ) );
+	$breadcrumb = breadcrumb('<i class="fa fa-exclamation-triangle btn-position" style="color: #8b1100;"></i><span class="text-semibold">'.str_replace('%plugin%', $plugin, $lang['plug_deinstalled']).'</span>', array('?mod=extras' => '<i class="fa fa-puzzle-piece btn-position"></i>'.$lang['extras'].'', '<i class="fa fa-trash-o btn-position"></i>'.str_replace('%plugin%', $plugin, $lang['plug_deinstalleds']).'' ) );
 
 	if(!$main_admin){
 		fixdb_plugin_install($plugin, '', '', false); 

@@ -93,10 +93,10 @@ function ipban_add()
         }
         $mysql->query('insert into '.prefix.'_ipban (addr, atype, addr_start, addr_stop, netlen, flags, createDate, reason, hitcount) values ('.db_squote($ip).', '.db_squote($atype).', '.db_squote(sprintf('%u', $addr_start)).', '.db_squote(sprintf('%u', $addr_stop)).', '.db_squote(sprintf('%u', $net_len)).', '.db_squote($flags).', now(), '.db_squote($reason).', 0)');
         msg(['type' => 'info', 'text' => str_replace('{ip}', $ip, $lang['ipban']['msg.blocked'])]);
-		return print_msg( 'info', 'Блокировка IP-адресов', 'IP адрес '.$ip.' был успешно заблокирован!<br>Активация блокировки прошла успешна.', 'javascript:history.go(-1)' );
+		return print_msg( 'info', $lang['ipban']['ipban_title'], str_replace('%ip%', $ip, $lang['ipban']['msgk.ip_block']), 'javascript:history.go(-1)' );
     } else {
         msg(['type' => 'error', 'text' => $lang['ipban']['msge.fields'], 'info' => $lang['ipban']['msgi.fields']]);
-		return print_msg( 'error', 'Блокировка IP-адресов', 'Убедитесь в правильности заполнения формы IP адреса.<br>IP адрес должен начинаться так (xxx.xxx.xxx.xxx), либо - адрес с маской подсети (xxx.xxx.xxx.xxx/xxx.xxx.xxx.xxx)', 'javascript:history.go(-1)' );
+		return print_msg( 'error', $lang['ipban']['ipban_title'], $lang['ipban']['msgk.ip_erorr'], 'javascript:history.go(-1)' );
     }
 }
 
@@ -130,10 +130,10 @@ function ipban_delete()
         // Record found. Delete it
         $mysql->query('delete from '.prefix.'_ipban where id = '.$id);
         msg(['type' => 'info', 'text' => str_replace('{ip}', $row['addr'], $lang['ipban']['msg.unblocked'])]);
-		return print_msg( 'delete', 'Блокировка IP-адресов', 'IP адрес '.$row['addr'].' был успешно удален!', 'javascript:history.go(-1)' );
+		return print_msg( 'delete', $lang['ipban']['ipban_title'], str_replace('%addr%', $row['addr'], $lang['ipban']['msgk.del_addr']), 'javascript:history.go(-1)' );
     } else {
         msg(['type' => 'error', 'text' => $lang['ipban']['msg.notfound']]);
-		return print_msg( 'warning', 'Блокировка IP-адресов', 'IP адрес к которому Вы ссылаетесь больше не существует в БД.', 'javascript:history.go(-1)' );
+		return print_msg( 'warning', $lang['ipban']['ipban_title'], $lang['ipban']['msgk.ip_er_id'], 'javascript:history.go(-1)' );
     }
 }
 
@@ -188,7 +188,7 @@ function ipban_list()
         $xEntries[] = $xEntry;
     }
 	
-	$breadcrumb = breadcrumb('<i class="fa fa-search btn-position"></i><span class="text-semibold">'.$lang['ipban']['page-title'].'</span>', ''.$lang['ipban']['page-title'].'' );
+	$breadcrumb = breadcrumb('<i class="fa fa-search btn-position"></i><span class="text-semibold">'.$lang['ipban']['ipban_title'].'</span>', '<i class="fa fa-search btn-position"></i>'.$lang['ipban']['page-title'].'' );
 
     $tVars = [
         'php_self' => $PHP_SELF,

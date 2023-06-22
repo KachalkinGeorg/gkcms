@@ -26,23 +26,23 @@
 						<div class="col-lg-9">
 							{% if (flags.isPublished) %}
 								<div class="input-group">
-									<input type="text" name="title" value="{{ data.title }}" placeholder="Введите заголовок..." class="form-control" />
+									<input type="text" name="title" value="{{ data.title }}" placeholder="{{ lang['plac_name'] }}" class="form-control" />
 									<div class="input-group-append">
 										<span class="input-group-text">
 											<a href="{{ data.url }}" target="_blank">
 												<i class="fa fa-external-link"></i>
 											</a>
 										</span>
-										<a class="btn btn-primary" data-toggle="popover" data-placement="top" data-trigger="focus" data-html="true" title="ЗАГОЛОВОК" data-content="Заголовок новости обязателен к заполнению и может содержать не более 200 символов." tabindex="0">
+										<a class="btn btn-primary" data-toggle="popover" data-placement="top" data-trigger="focus" data-html="true" title="{{ lang['header'] }}" data-content="{{ lang['header_info'] }}" tabindex="0">
 											<i class="fa fa-question"></i>
 										</a>
 									</div>
 								</div>
 							{% else %}
 						<div class="input-group">
-							<input id="newsTitle" placeholder="Введите заголовок..." type="text" name="title" value="{{ data.title }}" class="form-control" />
+							<input id="newsTitle" placeholder="{{ lang['plac_name'] }}" type="text" name="title" value="{{ data.title }}" class="form-control" />
 							<div class="input-group-append">
-							<a class="btn btn-outline-primary" data-toggle="popover" data-placement="top" data-trigger="focus" data-html="true" title="ЗАГОЛОВОК" data-content="Заголовок новости обязателен к заполнению и может содержать не более 200 символов." tabindex="0">
+							<a class="btn btn-outline-primary" data-toggle="popover" data-placement="top" data-trigger="focus" data-html="true" title="{{ lang['header'] }}" data-content="{{ lang['header_info'] }}" tabindex="0">
 								<i class="fa fa-question"></i>
 							</a>
 							</div>
@@ -74,7 +74,7 @@
 							<div class="modal-dialog">
 								<div class="modal-content">
 									<div class="modal-header">
-										<h5 id="smiles-modal-label" class="modal-title">Вставить смайл</h5>
+										<h5 id="smiles-modal-label" class="modal-title">{{ lang['ins.smilies'] }}</h5>
 										<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 									</div>
 									<div class="modal-body">
@@ -152,7 +152,7 @@
 			<div class="card mb-4">
 				<div class="card-header">{{ lang['editor.template'] }}
 					<div class="card-header-right">
-						<a class="btn2" data-toggle="popover" data-placement="top" data-trigger="focus" data-html="true" title="ШАБЛОН" data-content="Для каждой статистической страницы существует свой шаблон.<br>Чтобы его выбрать создайте папку в шаблоне Вашего сайта с именим <b>static</b> в нем внутри два файла<br>default.tpl - шаблон<br>default.main.tpl - замена родного main.tpl для default.tpl<br>При выборе чекбокса {{ lang['flag_main'] }} будут активны эти два файла, в противном случая будет использоваться по умолчанию." tabindex="0">
+						<a class="btn2" data-toggle="popover" data-placement="top" data-trigger="focus" data-html="true" title="{{ lang['pattern'] }}" data-content="{{ lang['pattern_info'] }}" tabindex="0">
 							<i class="fa fa-question-circle fa-1x"></i>
 						</a>
 					</div>
@@ -223,7 +223,7 @@
 </form>
 
 <form id="DATA_tmp_storage" name="DATA_tmp_storage" action="">
-	<input type=hidden name="area" value=""/>
+	<input type="hidden" name="area" value=""/>
 </form>
 
 <script type="text/javascript">

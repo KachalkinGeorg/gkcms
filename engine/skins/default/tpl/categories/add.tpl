@@ -28,9 +28,9 @@
 				<label class="col-lg-6 col-form-label">{{ lang['title'] }}</label>
 				<div class="col-lg-6">
 					<div class="input-group">
-						<input placeholder="Введите заголовок..." type="text" name="name" value="" class="form-control" />
+						<input placeholder="{{ lang['place_name'] }}" type="text" name="name" value="" class="form-control" />
 						<div class="input-group-append">
-						<a class="btn btn-outline-primary" data-toggle="popover" data-placement="top" data-trigger="focus" data-html="true" title="ЗАГОЛОВОК" data-content="Заголовок категории обязателен к заполнению и может содержать не более 200 символов." tabindex="0">
+						<a class="btn btn-outline-primary" data-toggle="popover" data-placement="top" data-trigger="focus" data-html="true" title="{{ lang['title'] }}" data-content="{{ lang['title_info'] }}" tabindex="0">
 							<i class="fa fa-question"></i>
 						</a>
 						</div>
@@ -95,7 +95,7 @@
 						{{ tpl_list }}
 					</select>
 					<div class="input-group-append">
-						<a class="btn btn-outline-primary" data-toggle="popover" data-placement="top" data-trigger="focus" data-html="true" title="ШАБЛОН" data-content="Чтобы задать для каждой категории свой шаблон, создайте папку в шаблоне Вашего сайта с именим <b>ncustom</b> в нем еще одну папку с любым названием, которое будет отображаться при выборе шаблона для категории, а в эту папку скопируте необходимые файлы:<br>comments.error.tpl<br>comments.external.tpl<br>comments.form.tpl<br>comments.internal.tpl<br>comments.show.tpl<br>news.full.tpl<br>news.print.tpl<br>news.search.tpl<br>news.short.tpl<br>news.table.tpl<br>Эти файлы будет использовать категория" tabindex="0">
+						<a class="btn btn-outline-primary" data-toggle="popover" data-placement="top" data-trigger="focus" data-html="true" title="{{ lang['pattern'] }}" data-content="{{ lang['pattern_info'] }}" tabindex="0">
 							<i class="fa fa-question"></i>
 						</a>
 					</div>
@@ -141,7 +141,7 @@
 				<div class="input-group">
 					{{ orderlist }}
 					<div class="input-group-append">
-						<a class="btn btn-outline-primary" data-toggle="popover" data-placement="top" data-trigger="focus" data-html="true" title="СОРТИРОВКА" data-content="При выборе режима по умолчанию будут использоваться глобальные настройки системы, в любом другом случая сортировка производится по ID / убыванию" tabindex="0">
+						<a class="btn btn-outline-primary" data-toggle="popover" data-placement="top" data-trigger="focus" data-html="true" title="{{ lang['sorting'] }}" data-content="{{ lang['sorting_info'] }}" tabindex="0">
 							<i class="fa fa-question"></i>
 						</a>
 					</div>

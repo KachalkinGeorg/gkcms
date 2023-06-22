@@ -326,8 +326,8 @@ function manage_showlist($type)
             'id'           => $row['id'],
             'width'        => $row['width'],
             'height'       => $row['height'],
-            'preview_size' => (($type == 'image') && $row['p_width'] && $row['p_height']) ? $row['p_width'].' x '.$row['p_height'] : '',
-            'preview_img'  => (($type == 'image') && $row['preview']) ? '<img src="'.$thumburl.'"/><br/>' : '',
+            'preview_size' => (($type == 'image') && $row['p_width'] && $row['p_height']) ? $row['p_width'].' x '.$row['p_height'] : $row['width'].' x '.$row['height'],
+            'preview_img'  => (($type == 'image') && $row['preview']) ? '<img src="'.$thumburl.'"/><br/>' : '<img src="'.$fileurl.'" style="width: 80px;"/><br/>',
             'p_width'      => $row['p_width'],
             'p_height'     => $row['p_height'],
             'size'         => $fsize,
@@ -659,7 +659,7 @@ function manage_editApply($type, $id)
         $mysql->query('update '.prefix.'_images set description = '.db_squote($_POST['description']).' where id = '.db_squote($irow['id']));
     }
 
-    msg(['type' => 'info', 'text' => 'Изображение отредактировано']);
+    msg(['type' => 'info', 'text' => $lang['msgk_edit_img']]);
     manage_editForm('image', $irow['id']);
 
     // print "<pre>".var_export($_POST, true)."</pre>";

@@ -39,15 +39,14 @@
     {{ lang['static_title'] }}
 	<div class="panel-head-right">
 					{% if (perm.modify) %}
-						<button type="button" class="btn2" onclick="document.location='?mod=static&action=addForm'; return false;" title="{{ lang['addstatic'] }}"><i class="fa fa-plus-circle" aria-hidden="true"></i> {{ lang['addstatic'] }}</button>
+						<button type="button" class="btn2" onclick="document.location='?mod=static&action=addForm'; return false;" data-placement="top" data-popup="tooltip" data-original-title="{{ lang['addstatic'] }}" title="{{ lang['addstatic'] }}"><i class="fa fa-plus-circle" aria-hidden="true"></i> {{ lang['addstatic'] }}</button>
 					{% endif %}
-					<button type="button" class="btn2" data-toggle="collapse" data-target="#collapseStaticFilter" aria-expanded="false" aria-controls="collapseStaticFilter" title="{{ lang['filter'] }}">
+					<button type="button" class="btn2" data-toggle="collapse" data-target="#collapseStaticFilter" aria-expanded="false" aria-controls="collapseStaticFilter" data-placement="top" data-popup="tooltip" data-original-title="{{ lang['filter'] }}" title="{{ lang['filter'] }}">
 						<i class="fa fa-filter"></i>
 					</button>
 	</div>
   </div>
 <div class="panel-body">
-
 
 		<div class="table-responsive">
 			<table class="table table-sm mb-0">
@@ -60,7 +59,7 @@
 						<th width="50">{{ lang['state'] }}</th>
 						{% if (perm.modify) %}
 							<th width="20">
-								<input class="check" type="checkbox" name="master_box" title="{{ lang['select_all'] }}" onclick="javascript:check_uncheck_all(static)" />
+								<input class="check" type="checkbox" name="master_box" data-placement="top" data-popup="tooltip" data-original-title="{{ lang['select_all'] }}" title="{{ lang['select_all'] }}" onclick="javascript:check_uncheck_all(static)" />
 							</th>
 						{% endif %}
 					</tr>
@@ -71,7 +70,7 @@
 							<td nowrap>{{ entry.date }}</td>
 							<td nowrap>
 								{% if (perm.details) %}
-									<a title="ID: {{ entry.id }}" href="{{ php_self }}?mod=static&action=editForm&id={{ entry.id }}">
+									<a href="{{ php_self }}?mod=static&action=editForm&id={{ entry.id }}" data-placement="left" data-popup="tooltip" data-original-title="ID: {{ entry.id }}" title="ID: {{ entry.id }}">
 								{% endif %}
 									{{ entry.title }}
 								{% if (perm.details) %}</a>{% endif %}
@@ -114,7 +113,7 @@
 							<option value="do_mass_forbidden">{{ lang['forbidden'] }}</option>
 						</select>
 						<div class="input-group-append">
-							<button type="submit" class="btn btn-outline-warning">OK</button>
+							<button type="submit" class="btn btn-outline-warning">{{ lang['done'] }}</button>
 						</div>
 					</div>
 					{% endif %}

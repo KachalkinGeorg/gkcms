@@ -17,7 +17,6 @@ if (!defined('NGCMS')) {
 LoadLang('editnews', 'admin');
 LoadLang('editnews', 'admin', 'editnews');
 LoadLang('addnews', 'admin', 'addnews');
-//LoadLang('done', 'admin', 'done');
 
 // ======================================================================================================
 // Edit news form
@@ -97,11 +96,6 @@ function editNewsForm()
 	$title = secure_html($row['title']);
 	
 	$breadcrumb = breadcrumb('<i class="fa fa-pencil-square-o btn-position"></i><span class="text-semibold">'.$lang['editnews']['editnews_title'].'</span>', array('?mod=news' => '<i class="fa fa-file-text-o btn-position"></i>'.$lang['editnews']['news_title'].'', '<i class="fa fa-pencil-square-o btn-position"></i>Редактирование ['.$title.']' ) );
-
-/*     foreach ($UGROUP as $k => $v) {
-        if($k > 1)
-        $acces .= '<div class="form-row mb-3"><label class="col-lg-3 col-form-label">'.$v['name'].'</label><div class="col-lg-9"><select name="acces['.$k.']"><option value="0">-----</option><option value="'.$k.'"'.(($value == $k) ? ' selected="selected"' : '').'>запретить просмотр</option></select></div></div>';
-    } */
 
 	foreach ($UGROUP as $k => $v) {
         if($k > 1)
@@ -220,8 +214,8 @@ function editNewsForm()
 			$imgshort = $config['images_url'] . '/' . $image['folder'] . '/thumb/' . $image['name'];
             $thumbUrl = ($image['thumb']) ? str_replace($config['images_url'].'/','', $config['images_url'] . '/' . $image['folder'] . '/thumb/' . $image['name']) : '';
 
-            $imageLink = '[<a href="#" alt="Вставить изображение" onclick=\'insertext("[img=\"'.$imgfull.'\"]'.$image['id'].'_'.$image['name'].'[/img] ","",currentInputAreaID);return false;\'>Картинка</a>]';
-            $thumbLink = ($thumbUrl) ? '[<a href="#" alt="Вставить миниатюру" onclick=\'insertext("[img=\"'.$imgshort.'\"]'.$image['id'].'_'.$image['name'].'[/img] ", "", currentInputAreaID);return false;\'>Миниатюра</a>] ' : '';
+            $imageLink = '[<a href="#" alt="'.$lang['editnews']['img_ins_link'].'" onclick=\'insertext("[img=\"'.$imgfull.'\"]'.$image['id'].'_'.$image['name'].'[/img] ","",currentInputAreaID);return false;\'>'.$lang['editnews']['img_link'].'</a>]';
+            $thumbLink = ($thumbUrl) ? '[<a href="#" alt="'.$lang['editnews']['img_ins_thumb'].'" onclick=\'insertext("[img=\"'.$imgshort.'\"]'.$image['id'].'_'.$image['name'].'[/img] ", "", currentInputAreaID);return false;\'>'.$lang['editnews']['img_thumb'].'</a>] ' : '';
             $previewImg = $config['images_url']. '/' . (($thumbUrl) ? $thumbUrl : $imgurl);
 
             $tVars['images'][] = [
@@ -586,7 +580,7 @@ function listNewsForm()
 
     $newsEntries = [];
 	
-	$breadcrumb = breadcrumb('<i class="fa fa-files-o btn-position"></i><span class="text-semibold">'.$lang['editnews']['news_title'].'</span>', '<i class="fa fa-files-o"></i>'.$lang['editnews']['news_title'].'' );
+	$breadcrumb = breadcrumb('<i class="fa fa-files-o btn-position"></i><span class="text-semibold">'.$lang['editnews']['news_title'].'</span>', '<i class="fa fa-files-o btn-position"></i>'.$lang['editnews']['news_title'].'' );
 	
     $sqlResult = $sqlQ.' LIMIT '.(($pageNo - 1) * $fRPP).','.$fRPP;
     foreach ($mysql->select($sqlResult) as $row) {
@@ -708,7 +702,6 @@ function listNewsForm()
     $tVars['catmenu'] = $tcRecs;
     $tVars['cat_active'] = ((isset($_REQUEST['category']) && (isset($catmap[intval($_REQUEST['category'])])))) ? intval($_REQUEST['category']) : 0;
 
-    //$xt = $twig->loadTemplate('skins/default/tpl/news/table_catalog.tpl');
     $xt = $twig->loadTemplate('skins/default/tpl/news/table.tpl');
 
     return $xt->render($tVars);
@@ -846,7 +839,7 @@ do {
 	
     if ($action == "uploadimage") {
         if(empty($_FILES)){
-			ajaxError('Файл не загружен');
+			ajaxError(''.$lang['img_upl_er'].'');
         }
 
         newsImageUpload($_FILES, $_POST);
@@ -854,7 +847,7 @@ do {
 
     if ($action == "deleteimage") {
         if(empty($_POST['imageId']) || intval($_POST['imageId']) < 1){
-			ajaxError('Неправильный идентификатор изображения');
+			ajaxError(''.$lang['img_id_er'].'');
         }
 
         newsImageDelete($_POST['imageId']);

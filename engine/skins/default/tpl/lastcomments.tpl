@@ -54,7 +54,7 @@
   <div class="panel-heading">
  {{ lang.lastcomments }}
 		<div class="panel-head-right">
-			<button type="button" class="btn2" data-toggle="collapse" data-target="#collapseCommentFilter" aria-expanded="false" aria-controls="collapseCommentFilter" title="{{ lang.filtr }}">
+			<button type="button" class="btn2" data-toggle="collapse" data-target="#collapseCommentFilter" aria-expanded="false" aria-controls="collapseCommentFilter" data-placement="top" data-popup="tooltip" data-original-title="{{ lang.filtr }}" title="{{ lang.filtr }}">
 				<i class="fa fa-filter"></i>
 			</button>
 		</div>

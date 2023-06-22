@@ -169,8 +169,8 @@
 				</div>
 				<div class="user_content">
 					<ul class="user_stats">
-						<li><h4>{{ news }}<span class="sub-heading">Публикаций</span></h4></li>
-						<li><h4>{{ com }}<span class="sub-heading">Комментариев</span></h4></li>
+						<li><h4>{{ news }}<span class="sub-heading">{{ lang['pupblic'] }}</span></h4></li>
+						<li><h4>{{ com }}<span class="sub-heading">{{ lang['comment'] }}</span></h4></li>
 					</ul>
 				</div>
 			</div>
@@ -187,12 +187,12 @@
 				<div class="col-sm-6">{{ last }}</div>
 			</div>
 			<div class="row mb-0" style="padding:10px">
-				<div class="col-sm-6">Статус</div>
+				<div class="col-sm-6">{{ lang['status'] }}</div>
 				<div class="col-sm-6"><span class="text-success">{{ line }}</span></div>
 			</div>
 			<div class="row mb-0" style="padding:10px">
 				<div class="col-sm-6">{{ lang['last_ip'] }}</div>
-				<div class="col-sm-6">{{ ip }} <a href="https://www.nic.ru/whois/?searchWord={{ ip }}" target="_blank" title="{{ lang['whois'] }}"><i class="fa fa-question-circle"></i></a></div>
+				<div class="col-sm-6">{{ ip }} <a href="https://www.nic.ru/whois/?searchWord={{ ip }}" target="_blank" data-placement="top" data-popup="tooltip" data-original-title="{{ lang['whois'] }}" title="{{ lang['whois'] }}"><i class="fa fa-question-circle"></i></a></div>
 			</div>
 			<div class="row mb-0" style="padding:10px">
 				<div class="col-sm-6">{{ lang['alt_name'] }}</div>

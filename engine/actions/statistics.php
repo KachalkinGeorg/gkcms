@@ -37,7 +37,7 @@ function phpConfigGetBytes($size_str)
     }
 }
 
-$breadcrumb = breadcrumb('<i class="fa fa-bar-chart btn-position"></i><span class="text-semibold">'.$lang['statistics'].'</span>', '<i class="fa fa-bar-chart"></i>'.$lang['statistics'].'' );
+$breadcrumb = breadcrumb('<i class="fa fa-bar-chart btn-position"></i><span class="text-semibold">'.$lang['statistics'].'</span>', '<i class="fa fa-bar-chart"></i>'.$lang['statistics_title'].'' );
 
 // Gather information about directories
 $STATS = [];
@@ -56,7 +56,7 @@ foreach (['backup' => root.'backups', 'avatar' => avatars_dir, 'photo' => photos
 
         // Error - engine can't write into directory
         if (!is_writable($dir)) {
-            $STATS[$id.'_perm'] = '<font color="red"><b>'.$perms.'</b></font> [<a href="#" onclick="showModal('."'Неверные правила'".');">Ошибка</a>]';
+            $STATS[$id.'_perm'] = '<font color="red"><b>'.$perms.'</b></font> [<a href="#" onclick="showModal('."'".$lang['bug_rules']."'".');">'.$lang['bug'].'</a>]';
         } else {
             $STATS[$id.'_perm'] = '<font color="green"><b>'.$perms.'</b></font>';
         }
@@ -146,7 +146,7 @@ $users_unact = ($users_unact == '0') ? $users_unact : '<font color="#ff6600">'.$
 $gkreleas = 'https://api.github.com/repos/KachalkinGeorg/gkcms/releases/latest';
 $gkcommits = 'https://api.github.com/repos/KachalkinGeorg/gkcms/commits';
 
-$gknotfound = "<strong>ERROR!</strong> Оставить <a href='mailto:KachalkinGeorg@yandex.ru' title='отправить письмо по E-Mail'>обратную связь</a>.";
+$gknotfound = '<strong>ERROR!</strong> '.$lang['not_found'].'';
 
 // Display GIT guild version if versionType == GIT
 $displayEngineVersion = (engineVersionType == 'GIT') ?
@@ -158,7 +158,7 @@ $tVars = [
     'php_os'           => PHP_OS,
     'php_version'      => phpversion(),
     'mysql_version'    => $mysql->mysql_version(),
-    'gd_version'       => isset($gd_version) ? $gd_info : '<font color="red"><b>NOT INSTALLED</b></font>',
+    'gd_version'       => isset($gd_version) ? $gd_info : '<font color="red"><b>'.$lang['not_found'].'</b></font>',
     'currentVersion'   => $displayEngineVersion,
     'mysql_size'       => $mysql_size,
     'allowed_size'     => $df,

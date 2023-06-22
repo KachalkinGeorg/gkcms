@@ -15,7 +15,7 @@ if (!defined('NGCMS')) {
 $lang = LoadLang('loadlog', 'admin');
 $lang = LoadLang('configuration', 'admin');
 
-$breadcrumb = breadcrumb('<i class="fa fa-info-circle btn-position"></i><span class="text-semibold">'.$lang['load_log'].'</span>', ''.$lang['load_log'].'' );
+$breadcrumb = breadcrumb('<i class="fa fa-info-circle btn-position"></i><span class="text-semibold">'.$lang['load_log'].'</span>', '<i class="fa fa-info-circle btn-position"></i>'.$lang['load_log'].'' );
 
 if (!$config['load_analytics']) {
 	msg(['type' => 'error', 'text' => $lang['w_loadlogs']]);

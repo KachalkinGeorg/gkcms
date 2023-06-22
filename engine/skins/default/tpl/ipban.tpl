@@ -50,7 +50,7 @@
 		<div class="panel-heading">
 			{{ lang.ipban['hdr.block'] }}
 			<div class="panel-head-right">
-					<button type="button" class="btn2" data-toggle="modal" data-target="#infoModal">
+					<button type="button" class="btn2" data-toggle="modal" data-target="#infoModal" data-placement="top" data-popup="tooltip" data-original-title="{{ lang.ipban['ipban_info'] }}" title="{{ lang.ipban['ipban_info'] }}">
 						<i class="fa fa-question"></i>
 					</button>
 			</div>

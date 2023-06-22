@@ -35,7 +35,7 @@ function showList($grp)
     // ACCESS ONLY FOR ADMIN
     if (!checkPermission(['plugin' => '#admin', 'item' => 'perm'], null, 'details')) {
         msg(['type' => 'error', 'text' => $lang['perm.denied']]);
-		print_msg( 'error', 'Управление правами доступа', $lang['perm.denied'], '?mod=perm' );
+		print_msg( 'error', $lang['permissions'], $lang['perm.denied'], '?mod=perm' );
 
         return;
     }
@@ -131,7 +131,7 @@ function showList($grp)
         $data[] = $dBlock;
     }
 	
-	$breadcrumb = breadcrumb('<i class="fa fa-handshake-o btn-position"></i><span class="text-semibold">'.$lang['permissions'].'</span>', '<i class="fa fa-handshake-o"></i>'.$lang['permissions'].'' );
+	$breadcrumb = breadcrumb('<i class="fa fa-handshake-o btn-position"></i><span class="text-semibold">'.$lang['permissions'].'</span>', '<i class="fa fa-handshake-o"></i>'.$lang['permissions_title'].'' );
 
     //print "<pre><select size='10' multiple='multiple'>".makeCategoryList(array('skipDisabled' => true, 'noHeader' => true))."</select></pre>";
     // Print template
@@ -173,7 +173,7 @@ function updateConfig()
     // ACCESS ONLY FOR ADMIN
     if (!checkPermission(['plugin' => '#admin', 'item' => 'perm'], null, 'modify')) {
         msg(['type' => 'error', 'text' => $lang['perm.denied']]);
-		print_msg( 'error', 'Управление правами доступа', $lang['perm.denied'], '?mod=perm' );
+		print_msg( 'error', $lang['permissions'], $lang['perm.denied'], '?mod=perm' );
 
         return;
     }
@@ -181,7 +181,7 @@ function updateConfig()
     // Check for security token
     if ((!isset($_REQUEST['token'])) || ($_REQUEST['token'] != genUToken('admin.perm'))) {
         msg(['type' => 'error', 'text' => $lang['error.security.token'], 'info' => $lang['error.security.token#desc']]);
-		print_msg( 'error', 'Управление правами доступа', ''.$lang['error.security.token'].''.$lang['error.security.token#desc'].'', '?mod=perm' );
+		print_msg( 'error', $lang['permissions'], ''.$lang['error.security.token'].''.$lang['error.security.token#desc'].'', '?mod=perm' );
 
         return;
     }
@@ -270,7 +270,7 @@ function updateConfig()
         }
     }
 	
-	$breadcrumb = breadcrumb('<i class="fa fa-handshake-o btn-position"></i><span class="text-semibold">'.$lang['permissions'].'</span>', '<i class="fa fa-file-image-o btn-position"></i><a href="?mod=perm">'.$lang['permissions'].'</a> / '.$lang['result'].'' );
+	$breadcrumb = breadcrumb('<i class="fa fa-handshake-o btn-position"></i><span class="text-semibold">'.$lang['permissions'].'</span>', '<i class="fa fa-file-image-o btn-position"></i><a href="?mod=perm">'.$lang['permissions_title'].'</a> / '.$lang['result'].'' );
 
     $execResult = saveUserPermissions();
 
@@ -287,8 +287,8 @@ function updateConfig()
 //
 if (($_SERVER['REQUEST_METHOD'] == 'POST') && isset($_POST['save']) && ($_POST['save'] == 1)) {
     updateConfig();
-	msg(["type" => "info", "info" => "Результат выполнения успешен"]);
-	return print_msg( 'success', 'Управление правами доступа', 'Результат выполнения успешен', 'javascript:history.go(-1)' );
+	msg(["type" => "info", "info" => $lang['msgo_perm_ok']]);
+	return print_msg( 'success', $lang['permissions'], $lang['msgk_perm_ok'], 'javascript:history.go(-1)' );
 } else {
     $main_admin = showList($grp);
     //	showList(array('1' => array('id' => 1, 'title' => 'Администратор')));

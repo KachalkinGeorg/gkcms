@@ -71,7 +71,7 @@ foreach ($UH->hList as $hId) {
     $recno++;
 }
 
-$breadcrumb = breadcrumb('<i class="fa fa-chain-broken btn-position"></i><span class="text-semibold">'.$lang['rewrite'].'</span>', '<i class="fa fa-chain-broken"></i>'.$lang['rewrite'].'' );
+$breadcrumb = breadcrumb('<i class="fa fa-chain-broken btn-position"></i><span class="text-semibold">'.$lang['rewrite'].'</span>', '<i class="fa fa-chain-broken"></i>'.$lang['rewrite_title'].'' );
 
 $xe = $twig->loadTemplate('skins/default/tpl/rewrite/entry.tpl');
 

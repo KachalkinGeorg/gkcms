@@ -527,7 +527,7 @@ function addNews($mode = [])
     // Check title
     if ((!mb_strlen(trim($title))) || ((!mb_strlen(trim($content))) && (!$config['news_without_content']))) {
         msg(['type' => 'error', 'text' => $lang['addnews']['msge_fields'], 'info' => $lang['addnews']['msgi_fields']]);
-		print_msg( 'error', $lang['addnews']['news_title'], ''.$lang['addnews']['msge_fields'].'<br>'.$lang['addnews']['msgi_fields'].'', 'javascript:history.go(-1)' );
+		print_msg( 'error', $lang['addnews']['news_title'], $lang['addnews']['msgk_fields'], 'javascript:history.go(-1)' );
         return 0;
     }
 
@@ -544,7 +544,7 @@ function addNews($mode = [])
     if ($alt_name) {
         if (is_array($mysql->record('select id from '.prefix.'_news where alt_name = '.db_squote($alt_name).' limit 1'))) {
             msg(['type' => 'error', 'text' => $lang['addnews']['msge_alt_name'], 'info' => $lang['addnews']['msgi_alt_name']]);
-			print_msg( 'error', $lang['addnews']['news_title'], ''.$lang['addnews']['msge_alt_name'].'<br>'.$lang['addnews']['msgi_alt_name'].'', 'javascript:history.go(-1)' );
+			print_msg( 'error', $lang['addnews']['news_title'], $lang['addnews']['msgk_alt_name'], 'javascript:history.go(-1)' );
             return 0;
         }
         $SQL['alt_name'] = $alt_name;
@@ -762,7 +762,7 @@ function addNews($mode = [])
 
 	if (!$breadcrumb) {
 		msg($msgInfo);
-		print_msg( 'success', $lang['addnews']['news_title'], str_replace('%title%', $row['title'], $lang['addnews']['addnews_done']), array('?mod=news&action=add' => ''.$lang['addnews']['adds'].'', '?mod=news&action=edit&id='.$id => ''.$lang['addnews']['edits'].'', ''.$link.'' => ''.$lang['addnews']['view'].'' ) );
+		print_msg( 'success', $lang['addnews']['news_title'], str_replace('%title%', $row['title'], $lang['addnews']['addnews_done']), array('?mod=news&action=add' => ''.$lang['add'].'', '?mod=news&action=edit&id='.$id => ''.$lang['edit'].'', ''.$link.'' => ''.$lang['view'].'' ) );
 	}
 
 	return 1;
@@ -833,7 +833,7 @@ function editNews($mode = [])
     // Try to find news that we're trying to edit
     if (!is_array($row = $mysql->record('select * from '.prefix.'_news where id='.db_squote($id)))) {
         msg(['type' => 'error', 'text' => $lang['editnews']['msge_not_found']]);
-		print_msg( 'error', $lang['editnews']['news_title'], $lang['editnews']['msge_not_found'], 'javascript:history.go(-1)' );
+		print_msg( 'error', $lang['editnews']['news_title'], $lang['editnews']['msgk_not_found'], 'javascript:history.go(-1)' );
         return;
     }
 
@@ -908,7 +908,7 @@ function editNews($mode = [])
     // Check if we have content
     if ((!mb_strlen(trim($title))) || ((!mb_strlen(trim($content))) && (!$config['news_without_content']))) {
         msg(['type' => 'error', 'text' => $lang['msge_fields'], 'info' => $lang['msgi_fields']]);
-		print_msg( 'error', $lang['editnews']['news_title'], ''.$lang['msge_fields'].'<br>'.$lang['msgi_fields'].'', 'javascript:history.go(-1)' );
+		print_msg( 'error', $lang['editnews']['news_title'], $lang['msgk_fields'], 'javascript:history.go(-1)' );
 		return;
     }
 
@@ -1162,29 +1162,29 @@ function editNews($mode = [])
 		if(!$breadcrumb){
 			$nlink = newsGenerateLink($row, false, 0, true);
 			msg(['type' => 'info', 'text' => $lang['editnews']['msgo_edited'], 'info' => str_replace('{link}', $nlink, $lang['msgo_edited#link'])]);
-			print_msg( 'update', $lang['editnews']['news_title'], str_replace('%title%', $row['title'], $lang['editnews']['editnews_done']), array('?mod=news&action=add' => ''.$lang['editnews']['adds'].'', '?mod=news&action=edit&id='.$id => ''.$lang['editnews']['edits'].'', ''.$nlink.'' => ''.$lang['editnews']['view'].'' ) );
+			print_msg( 'update', $lang['editnews']['news_title'], str_replace('%title%', $row['title'], $lang['editnews']['editnews_done']), array('?mod=news&action=add' => ''.$lang['add'].'', '?mod=news&action=edit&id='.$id => ''.$lang['edit'].'', ''.$nlink.'' => ''.$lang['view'].'' ) );
 		}
     } else {
         msg(['type' => 'error', 'text' => $lang['editnews']['msge_edited']]);
-		print_msg( 'error', $lang['editnews']['news_title'], str_replace('%title%', $row['title'], $lang['editnews']['editnews_no']), array('?mod=news&action=add' => ''.$lang['editnews']['adds'].'', '?mod=news&action=edit&id='.$id => ''.$lang['editnews']['edits'].'' ) );
+		print_msg( 'error', $lang['editnews']['news_title'], str_replace('%title%', $row['title'], $lang['editnews']['editnews_no']), array('?mod=news&action=add' => ''.$lang['add'].'', '?mod=news&action=edit&id='.$id => ''.$lang['edit'].'' ) );
     }
 	
 	return 1;
 }
 
 function newsImageUpload($files, $post){
-    global $config, $userROW, $mysql;
+    global $config, $userROW, $mysql, $lang;
 
     if( !isAjaxRequest() ){
-		ajaxError('Ошибочный запрос!');
+		ajaxError(''.$lang['editnews']['img_er_img'].'');
     }
 
     if( empty($userROW) ){
-		ajaxError('Ошибка загрузки изображения');
+		ajaxError(''.$lang['editnews']['img_er_load'].'');
     }
 
     if( empty($config['images_dir']) ){
-		ajaxError('Не определена папка для загрузки изображений!');
+		ajaxError(''.$lang['editnews']['img_not_folder'].'');
     }
 
     $uploader = new GKcms\File\ImageUploader();
@@ -1219,8 +1219,8 @@ function newsImageUpload($files, $post){
 	$imgshort = $config['images_url'] . '/' . $uploadInfo['thumb']['path'] . '/' . $imageBasename;
 			
     $imageId = $uploadInfo['image_id'];
-    $imageLink = '[<a href="#" alt="Вставить изображение" onclick=\'insertext("[img=\"'.$imgfull.'\"]'.$imageId.'[/img] ","",currentInputAreaID);return false;\'>Картинка</a>]';
-    $thumbLink = ($thumbUrl) ? '[<a href="#" alt="Вставить миниатюру" onclick=\'insertext("[img=\"'.$imgshort.'\"]'.$imageId.'[/img] ", "", currentInputAreaID);return false;\'>Миниатюра</a>] ' : '';
+    $imageLink = '[<a href="#" alt="'.$lang['editnews']['img_ins_link'].'" onclick=\'insertext("[img=\"'.$imgfull.'\"]'.$imageId.'[/img] ","",currentInputAreaID);return false;\'>'.$lang['editnews']['img_link'].'</a>]';
+    $thumbLink = ($thumbUrl) ? '[<a href="#" alt="'.$lang['editnews']['img_ins_thumb'].'" onclick=\'insertext("[img=\"'.$imgshort.'\"]'.$imageId.'[/img] ", "", currentInputAreaID);return false;\'>'.$lang['editnews']['img_thumb'].'</a>] ' : '';
     $previewImg = $config['images_url']. '/' . (($thumbUrl) ? $thumbUrl : $imageUrl);
 
     ajaxJson([
@@ -1230,15 +1230,15 @@ function newsImageUpload($files, $post){
 }
 
 function newsImageDelete($imageId){
-    global $mysql;
+    global $mysql, $lang;;
 
     if( !isAjaxRequest() ){
-		ajaxError('Ошибочный запрос!');
+		ajaxError(''.$lang['editnews']['img_er_img'].'');
     }
 
     $imageId = (int)$imageId;
     if (!is_array($image = $mysql->record("SELECT name, folder, preview, linked_id FROM " . prefix . "_images WHERE id=" . $imageId))) {
-		ajaxError('Неправильный идентификатор изображения!');
+		ajaxError(''.$lang['editnews']['img_er_id'].'');
     }
 
     try {
@@ -1247,7 +1247,7 @@ function newsImageDelete($imageId){
             $mysql->query("UPDATE " . prefix . "_news SET num_images=num_images-1 WHERE id=".(int)$image['linked_id']);
         }
     } catch (\Exception $e) {
-		ajaxError('Проблема при удалении изображения (БД)');
+		ajaxError(''.$lang['editnews']['img_er_msql'].'');
     }
 
     $fm = new GKcms\File\FileManager();

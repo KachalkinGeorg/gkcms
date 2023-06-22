@@ -44,7 +44,7 @@ function admCategoryList($retMode = 0)
     $permModify = checkPermission(['plugin' => '#admin', 'item' => 'categories'], null, 'modify');
     $permDetails = checkPermission(['plugin' => '#admin', 'item' => 'categories'], null, 'details');
 	
-	$breadcrumb = breadcrumb('<i class="fa fa-folder-open btn-position"></i><span class="text-semibold">'.$lang['categories_title'].'</span>', ''.$lang['categories_title'].'');
+	$breadcrumb = breadcrumb('<i class="fa fa-folder-open btn-position"></i><span class="text-semibold">'.$lang['category'].'</span>', '<i class="fa fa-folder-open btn-position"></i>'.$lang['categories_title'].'');
 
     // Fetch list of categories
     $cList = $mysql->select('select * from '.prefix.'_category order by posorder');

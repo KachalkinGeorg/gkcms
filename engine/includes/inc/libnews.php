@@ -410,7 +410,7 @@ function news_showone($newsID, $alt_name, $callingParams = [])
 		
 	if($access){
 		// Вывод блока если новость закрыта для одной из групп (автоматически и для не зарегестрированного пользователя)
-		$template['vars']['mainblock'] .= 'Данная новость закрыта и недоступна для пользователей!<br/>Обратитесь к системному администратору для разблокировки.';
+		$template['vars']['mainblock'] .= $lang['access_close'];
 	} else {
 		// We are in short or full mode. Add data into {mainblock}
 		$template['vars']['mainblock'] .= $tpl->show($templateName);
@@ -886,12 +886,11 @@ function news_showlist($filterConditions = [], $paginationParams = [], $callingP
             $tvars['vars']['news']['flags']['canDelete'] = true;
             $tvars['vars']['news']['url']['edit'] = admin_url.'/admin.php?mod=news&amp;action=edit&amp;id='.$row['id'];
             $tvars['vars']['news']['url']['delete'] = admin_url.'/admin.php?mod=news&amp;action=manage&amp;subaction=mass_delete&amp;token='.genUToken('admin.news.edit').'&amp;selected_news[]='.$row['id'];
-
             $tvars['vars']['editNewsLink'] = admin_url.'/admin.php?mod=news&amp;action=edit&amp;id='.$row['id'];
+            $tvars['vars']['deleteNewsLink'] = admin_url.'/admin.php?mod=news&amp;action=manage&amp;subaction=mass_delete&amp;token='.genUToken('admin.news.edit').'&amp;selected_news[]='.$row['id'];
             $tvars['vars']['[edit-news]'] = '<a href="'.admin_url.'/admin.php?mod=news&amp;action=edit&amp;id='.$row['id'].'" target="_blank">';
             $tvars['vars']['[/edit-news]'] = '</a>';
             $tvars['vars']['[del-news]'] = "<a onclick=\"confirmit('".admin_url.'/admin.php?mod=news&amp;action=manage&amp;subaction=mass_delete&amp;token='.genUToken('admin.news.edit').'&amp;selected_news[]='.$row['id']."', '".$lang['sure_del']."')\" target=\"_blank\" style=\"cursor: pointer;\">";
-            $tvars['vars']['deleteNewsLink'] = admin_url.'/admin.php?mod=news&amp;action=manage&amp;subaction=mass_delete&amp;token='.genUToken('admin.news.edit').'&amp;selected_news[]='.$row['id'];
             $tvars['vars']['[/del-news]'] = '</a>';
         } else {
             $tvars['news']['flags']['canEdit'] = false;

@@ -12,11 +12,11 @@
 						<div class="input-group mb-3">
 							<div class="input-group-prepend input-group-append">
 								<label class="input-group-text"><i class="fa fa-calendar"></i></label>
-								<label class="input-group-text">с</label>
+								<label class="input-group-text">{{ lang['dr1'] }}</label>
 							</div>
 							<input type="text" id="dr1" name="dr1" value="{{fDateStart}}" pattern="[0-9]{2}\.[0-9]{2}\.[0-9]{4}" placeholder="{{ "now" | date('d.m.Y') }}" autocomplete="off" style="max-width:188px;">
 							<div class="input-group-prepend">
-								<span class="input-group-text">по</span>
+								<span class="input-group-text">{{ lang['dr2'] }}</span>
 							</div>
 							<input type="text" id="dr2" name="dr2" value="{{fDateEnd}}" pattern="[0-9]{2}\.[0-9]{2}\.[0-9]{4}" placeholder="{{ "now" | date('d.m.Y') }}" autocomplete="off" style="max-width:220px;">
 						</div>

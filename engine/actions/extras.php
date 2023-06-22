@@ -39,7 +39,7 @@ function admGeneratePluginList()
             $extra['author_uri'] = '';
         }
         if (!isset($extra['author'])) {
-            $extra['author'] = 'Unknown';
+            $extra['author'] = $lang['author.unknown'];
         }
 
         $tEntry = [
@@ -51,10 +51,10 @@ function admGeneratePluginList()
             'style'       => getPluginStatusActive($id) ? 'pluginEntryActive' : 'pluginEntryInactive',
 			'icon' 		  => isset($extra['icon']) ? $extra['icon'] : '<i class="fa fa-puzzle-piece fa-2x"></i>',
             'logo'        => file_exists(extras_dir.'/'.$id.'/logo.png') && filesize(extras_dir.'/'.$id.'/logo.png') ? ('<img src="'.admin_url.'/plugins/'.$id.'/logo.png" width=70 height=70 />') : '',
-			'info' 		  => $extra['information'] ? ('<a href="#" class="extra_info" data-toggle="modal" data-target="#modal-'.$id.'" title="'.$lang['information'].'"><i class="fa fa-exclamation-circle"></i></a>') : '',
+			'info' 		  => $extra['information'] ? ('<a href="#" class="extra_info" data-toggle="modal" data-target="#modal-'.$id.'" data-placement="left" data-popup="tooltip" data-original-title="'.$lang['information'].'" title="'.$lang['information'].'"><i class="fa fa-exclamation-circle"></i></a>') : '',
 			'information' => isset($extra['information']) ? $extra['information'] : '',
-            'readme'      => file_exists(extras_dir.'/'.$id.'/readme') && filesize(extras_dir.'/'.$id.'/readme') ? ('<a class="extra_readme" href="'.admin_url.'/includes/showinfo.php?mode=plugin&amp;item=readme&amp;plugin='.$id.'" target="_blank" title="'.$lang['entry.readme'].'"><i class="fa fa-question-circle"></i></a>') : '',
-            'history'     => file_exists(extras_dir.'/'.$id.'/history') && filesize(extras_dir.'/'.$id.'/history') ? ('<a class="extra_history" href="'.admin_url.'/includes/showinfo.php?mode=plugin&amp;item=history&amp;plugin='.$id.'" target="_blank" title="'.$lang['entry.history'].'"><i class="fa fa-history"></i></a>') : '',
+            'readme'      => file_exists(extras_dir.'/'.$id.'/readme') && filesize(extras_dir.'/'.$id.'/readme') ? ('<a class="extra_readme" href="'.admin_url.'/includes/showinfo.php?mode=plugin&amp;item=readme&amp;plugin='.$id.'" target="_blank" data-placement="left" data-popup="tooltip" data-original-title="'.$lang['entry.readme'].'" title="'.$lang['entry.readme'].'"><i class="fa fa-question-circle"></i></a>') : '',
+            'history'     => file_exists(extras_dir.'/'.$id.'/history') && filesize(extras_dir.'/'.$id.'/history') ? ('<a class="extra_history" href="'.admin_url.'/includes/showinfo.php?mode=plugin&amp;item=history&amp;plugin='.$id.'" target="_blank" data-placement="left" data-popup="tooltip" data-original-title="'.$lang['entry.history'].'" title="'.$lang['entry.history'].'"><i class="fa fa-history"></i></a>') : '',
             'flags'       => [
                 'isCompatible'  => $extra['isCompatible'],
             ],
@@ -85,17 +85,17 @@ function admGeneratePluginList()
         $tEntry['install'] = '';
         if (getPluginStatusInstalled($extra['id'])) {
             if (isset($extra['deinstall']) && $extra['deinstall'] && is_file(extras_dir.'/'.$extra['dir'].'/'.$extra['deinstall'])) {
-                $tEntry['install'] = '<a href="'.$PHP_SELF.'?mod=extra-config&amp;plugin='.$extra['id'].'&amp;stype=deinstall" title="'.$lang['deinstall'].'"><span class="fa-stack fa-1x"><i class="fa fa-circle fa-stack-2x" style="color: #2e353d;"></i><i class="fa fa-trash fa-stack-1x extra_trash"></i></span></a>';
+                $tEntry['install'] = '<a href="'.$PHP_SELF.'?mod=extra-config&amp;plugin='.$extra['id'].'&amp;stype=deinstall" data-placement="left" data-popup="tooltip" data-original-title="'.$lang['deinstall'].'" title="'.$lang['deinstall'].'"><span class="fa-stack fa-1x"><i class="fa fa-circle fa-stack-2x" style="color: #2e353d;"></i><i class="fa fa-trash fa-stack-1x extra_trash"></i></span></a>';
             }
         } else {
             if (isset($extra['install']) && $extra['install'] && is_file(extras_dir.'/'.$extra['dir'].'/'.$extra['install'])) {
-                $tEntry['install'] = '<a href="'.$PHP_SELF.'?mod=extra-config&amp;plugin='.$extra['id'].'&amp;stype=install" title="'.$lang['install'].'"><span class="fa-stack fa-1x"><i class="fa fa-circle fa-stack-2x" style="color: #2e353d;"></i><i class="fa fa-download fa-stack-1x extra_download"></i></span></a>';
+                $tEntry['install'] = '<a href="'.$PHP_SELF.'?mod=extra-config&amp;plugin='.$extra['id'].'&amp;stype=install" data-placement="left" data-popup="tooltip" data-original-title="'.$lang['install'].'" title="'.$lang['install'].'"><span class="fa-stack fa-1x"><i class="fa fa-circle fa-stack-2x" style="color: #2e353d;"></i><i class="fa fa-download fa-stack-1x extra_download"></i></span></a>';
                 $needinstall = 1;
             }
         }
 
         $tEntry['url'] = (isset($extra['config']) && $extra['config'] && (!$needinstall) && is_file(extras_dir.'/'.$extra['dir'].'/'.$extra['config'])) ? '<a href="'.$PHP_SELF.'?mod=extra-config&amp;plugin='.$extra['id'].'">'.$extra['name'].'</a>' : $extra['name'];
-        $tEntry['link'] = (getPluginStatusActive($id) ? '<a href="'.$PHP_SELF.'?mod=extras&amp;&amp;token='.genUToken('admin.extras').'&amp;disable='.$id.'" title="'.$lang['switch_off'].'"><span class="fa-stack fa-1x"><i class="fa fa-circle fa-stack-2x" style="color: #2e353d;"></i><i class="fa fa-eye fa-stack-1x extra_eye"></i></span></a>' : '<a href="'.$PHP_SELF.'?mod=extras&amp;&amp;token='.genUToken('admin.extras').'&amp;enable='.$id.'" title="'.$lang['switch_on'].'"><span class="fa-stack fa-1x"><i class="fa fa-circle fa-stack-2x" style="color: #2e353d;"></i><i class="fa fa-eye-slash fa-stack-1x" style="color: #7f7f7f;"></i></span></a></a>');
+        $tEntry['link'] = (getPluginStatusActive($id) ? '<a href="'.$PHP_SELF.'?mod=extras&amp;&amp;token='.genUToken('admin.extras').'&amp;disable='.$id.'" data-placement="left" data-popup="tooltip" data-original-title="'.$lang['switch_off'].'" title="'.$lang['switch_off'].'"><span class="fa-stack fa-1x"><i class="fa fa-circle fa-stack-2x" style="color: #2e353d;"></i><i class="fa fa-eye fa-stack-1x extra_eye"></i></span></a>' : '<a href="'.$PHP_SELF.'?mod=extras&amp;&amp;token='.genUToken('admin.extras').'&amp;enable='.$id.'" data-placement="left" data-popup="tooltip" data-original-title="'.$lang['switch_on'].'" title="'.$lang['switch_on'].'"><span class="fa-stack fa-1x"><i class="fa fa-circle fa-stack-2x" style="color: #2e353d;"></i><i class="fa fa-eye-slash fa-stack-1x" style="color: #7f7f7f;"></i></span></a></a>');
 
         if ($needinstall) {
             $tEntry['link'] = '';
@@ -109,7 +109,7 @@ function admGeneratePluginList()
         $tEntries[] = $tEntry;
     }
 
-	$breadcrumb = breadcrumb('<i class="fa fa-puzzle-piece btn-position"></i><span class="text-semibold">'.$lang['extras'].'</span>', ''.$lang['extras'].'' );
+	$breadcrumb = breadcrumb('<i class="fa fa-puzzle-piece btn-position"></i><span class="text-semibold">'.$lang['extras'].'</span>', '<i class="fa fa-puzzle-piece btn-position"></i>'.$lang['extras_title'].'' );
 
     $tVars = [
         'entries'        => $tEntries,
@@ -183,7 +183,7 @@ if (isset($_REQUEST['manageConfig']) && $_REQUEST['manageConfig']) {
     $confLine = json_encode($PLUGINS['config']);
     $confLine = jsonFormatter($confLine);
 	
-	$breadcrumb = breadcrumb('<i class="fa fa-puzzle-piece btn-position"></i><span class="text-semibold">'.$lang['extras'].'</span>', ''.$lang['extras'].'' );
+	$breadcrumb = breadcrumb('<i class="fa fa-puzzle-piece btn-position"></i><span class="text-semibold">'.$lang['extras'].'</span>', '<i class="fa fa-puzzle-piece btn-position"></i>'.$lang['extras_title'].'' );
 
     $tVars = [
         'config' => $confLine,

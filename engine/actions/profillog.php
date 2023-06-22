@@ -15,7 +15,7 @@ if (!defined('NGCMS')) {
 $lang = LoadLang('profillog', 'admin');
 $lang = LoadLang('configuration', 'admin');
 
-$breadcrumb = breadcrumb('<i class="fa fa-info-circle btn-position"></i><span class="text-semibold">'.$lang['profil_log'].'</span>', ''.$lang['profil_log'].'' );
+$breadcrumb = breadcrumb('<i class="fa fa-info-circle btn-position"></i><span class="text-semibold">'.$lang['profil_log'].'</span>', '<i class="fa fa-info-circle btn-position"></i>'.$lang['profilog_title'].'' );
 
 if (!$config['load_profiler']) {
 	msg(['type' => 'error', 'text' => $lang['w_profillogs']]);

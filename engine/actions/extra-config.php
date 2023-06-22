@@ -36,16 +36,10 @@ if(!getPluginStatusActive($plugin) and $stype != 'install' and $stype != 'deinst
 	if (!is_array($extras[$plugin])) {
 		$text = $lang['noplugin'];
 	}else{
-		$text = 'Плагин <strong>'.$plugin.'</strong> не активирован!';
+		$text = str_replace('%plugin%', $plugin, $lang['no_active']);
 	}
-	msg(['type' => 'error', 'title' => 'ВНИМАНИЕ!', 'text' => $text]);
+	msg(['type' => 'error', 'title' => $lang['attention'], 'text' => $text]);
 }
-
-/* По задумке выводить окно, но код сверху лучше
-if (!getPluginStatusInstalled($plugin)) {
-	msg(['type' => 'error', 'text' => 'ВНИМАНИЕ! Плагин '.$plugin.' не установлен!']);
-	return print_msg( 'warning', ''.$plugin.'', 'ВНИМАНИЕ!<br>Плагин '.$plugin.' к которому Вы обратились либо не установлен, возможно поврежден или установлен не корректно.<br>Обратитесь к системному администратору.', 'javascript:history.go(-1)' );
-} */
 
 if (!is_array($extras[$plugin])) {
 

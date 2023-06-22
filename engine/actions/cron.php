@@ -124,10 +124,10 @@ if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'commit') {
     if ($res !== true) {
         // ERROR
         msg(['type' => 'error', 'text' => $lang['cron']['result_err'].var_export($res, true)], 1, 1);
-		return print_msg( "warning", 'Планировщик задач', 'Произошла ошибка! Праверьте правильность ввода заполненных полей.', 'javascript:history.go(-1)' );
+		return print_msg( "warning", $lang['cron']['title'], $lang['cron']['result_gk_err'], 'javascript:history.go(-1)' );
     } else {
         msg(['type' => 'info', 'text' => $lang['cron']['result_ok']]);
-		return print_msg( 'info', 'Планировщик задач', 'Новые значения планировщика задач успешно назначены!', 'javascript:history.go(-1)' );
+		return print_msg( 'info', $lang['cron']['title'], $lang['cron']['result_gk_ok'], 'javascript:history.go(-1)' );
 
     }
 }

@@ -435,9 +435,9 @@ scroll({{ users }},'users',1,2);
 				var engineVersionBuild = '{{ engineVersionBuild }}';
 				var publish = json.published_at;
 				if (currentVersion >= json.tag_name && engineVersionBuild >= publish.split('T')[0]) {
-					$('#needUpdate').html('Обновление не требуется');
+					$('#needUpdate').html('{{ lang['update_no_cms'] }}');
 				} else {
-					$('#needUpdate').html('Обновите CMS');
+					$('#needUpdate').html('{{ lang['update_cms'] }}');
 				}
 				$('#syncLastVersion').html('<a href="' + json.zipball_url + '">' + json.tag_name + '</a> [ ' + json.published_at.slice(0, 10) + ' ]');
 			}
@@ -448,10 +448,10 @@ scroll({{ users }},'users',1,2);
 			if (json.message == "Not Found") {
 				$('#syncGKVersion').html("No Info Found");
 			} else {
-				$('#syncGKVersion').html('<a href="' + json[0].html_url + '" target="_blank">' + json[0].sha.slice(0, 7) + '</a> \
-                <b>@</b> <a href="'+ json[0].committer.html_url + '" target="_blank">' + json[0].committer.login + '</a> [ ' +
+				$('#syncGKVersion').html('<i class="fa fa-git-square"></i> <a href="' + json[0].html_url + '" target="_blank">' + json[0].sha.slice(0, 7) + '</a> \
+                <b><i class="fa fa-github"></i></b> <a href="'+ json[0].committer.html_url + '" target="_blank">' + json[0].committer.login + '</a> [ ' +
 					json[0].commit.author.date.slice(0, 10) + ' ]');
-				/*$('#syncGKVersion').html('<a href="#" id="compare">Обновить до Git</a> [ '+json[0].commit.author.date.slice(0, 10) + ' ]');*/
+				/*$('#syncGKVersion').html('<a href="#" id="compare">{{ lang['update_git'] }}</a> [ '+json[0].commit.author.date.slice(0, 10) + ' ]');*/
 			}
 		});
 

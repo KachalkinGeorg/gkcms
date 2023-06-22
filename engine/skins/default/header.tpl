@@ -9,8 +9,8 @@
 	<script src="{{ skins_url }}/public/js/manifest.js" type="text/javascript"></script>
 	<script src="{{ skins_url }}/public/js/vendor.js" type="text/javascript"></script>
 	<script src="{{ skins_url }}/public/js/app.js" type="text/javascript"></script>
-	<script src="{{ skins_url }}/functions.js"></script>
-	<script src="{{ home }}/lib/notify.js"></script>
+	<script src="{{ skins_url }}/public/js/functions.js"></script>
+	<script src="{{ skins_url }}/public/js/notify.js"></script>
 </head>
 
 <body>

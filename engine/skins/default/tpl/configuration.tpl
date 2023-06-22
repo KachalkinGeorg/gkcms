@@ -26,7 +26,7 @@
 		<div id="userTabs-db" class="tab-pane show active">
 		<div class="panel panel-default">
 		<div class="panel-heading">{{ lang['db'] }}</div>
-		<div class="panel-body" style="font-family: Franklin Gothic Medium;text-transform: uppercase;color: #9f9f9f;">{{ lang['db_connect'] }}</div>
+		<div class="panel-body">{{ lang['db_connect'] }}</div>
 		<div class="table-responsive">
 			<!-- TABLE DB//Connection -->
 			<table class="table table-striped">
@@ -78,7 +78,7 @@
 		<!-- END: TABLE DB//Connection -->
 
 		<!-- TABLE DB//Backup -->
-		<div class="panel-body" style="font-family: Franklin Gothic Medium;text-transform: uppercase;color: #9f9f9f;">{{ lang['db_backup'] }}</div>
+		<div class="panel-body">{{ lang['db_backup'] }}</div>
 		<div class="table-responsive">
 			<table class="table table-striped">
 				<tr>
@@ -90,7 +90,12 @@
 				<tr>
 					<td width="50%">{{ lang['auto_backup_time'] }} <small class="form-text text-muted">{{ lang['auto_backup_time_desc'] }}</small></td>
 					<td width="50%">
-						<input type="text" name="save_con[auto_backup_time]" value="{{ config['auto_backup_time'] }}" class="form-control" maxlength="5" style="max-width:150px; text-align: center;"/>
+						<div class="input-group mb-3">
+							<input type="text" name="save_con[auto_backup_time]" value="{{ config['auto_backup_time'] }}" class="form-control" maxlength="5" style="max-width:150px; text-align: center;"/>
+							<div class="input-group-prepend input-group-append">
+								<label class="input-group-text">h</label>
+							</div>
+						</div>
 					</td>
 				</tr>
 			</table>
@@ -102,7 +107,7 @@
 		<div id="userTabs-security" class="tab-pane">
 		<div class="panel panel-default">
 		<div class="panel-heading">{{ lang['security'] }}</div>
-		<div class="panel-body" style="font-family: Franklin Gothic Medium;text-transform: uppercase;color: #9f9f9f;">{{ lang['logging'] }}</div>
+		<div class="panel-body">{{ lang['logging'] }}</div>
 		<div class="table-responsive">
 			<table class="table table-striped">
 				<tr>
@@ -126,12 +131,17 @@
 				<tr>
 					<td width="50%">{{ lang['load_profiler'] }} <small class="form-text text-muted">{{ lang['load_profiler_desc'] }}</small></td>
 					<td width="50%">
-						<input type="text" name="save_con[load_profiler]" value="{{ config['load_profiler'] }}" class="form-control" style="max-width:150px; text-align: center;"/>
+						<div class="input-group mb-3">
+							<input type="text" name="save_con[load_profiler]" value="{{ config['load_profiler'] }}" class="form-control" style="max-width:150px; text-align: center;"/>
+							<div class="input-group-prepend input-group-append">
+								<label class="input-group-text">s</label>
+							</div>
+						</div>
 					</td>
 				</tr>
 			</table>
 		</div>	
-		<div class="panel-body" style="font-family: Franklin Gothic Medium;text-transform: uppercase;color: #9f9f9f;">{{ lang['security'] }}</div>
+		<div class="panel-body">{{ lang['security'] }}</div>
 		<div class="table-responsive">
 			<table class="table table-striped">
 				<tr>
@@ -167,13 +177,18 @@
 				</tr>
 			</table>
 		</div>	
-		<div class="panel-body" style="font-family: Franklin Gothic Medium;text-transform: uppercase;color: #9f9f9f;">{{ lang['different'] }}</div>
+		<div class="panel-body">{{ lang['different'] }}</div>
 		<div class="table-responsive">
 			<table class="table table-striped">
 				<tr>
 					<td width="50%">{{ lang['use_crypto_salt'] }} <small class="form-text text-muted">{{ lang['use_crypto_salt_desc'] }}</small></td>
 					<td width="50%">
-						<input type="text" name="save_con[crypto_salt]" value="{{ config['crypto_salt'] }}" class="form-control" style="max-width:250px; text-align: center;"/>
+						<div class="input-group mb-3">
+							<input type="text" name="save_con[crypto_salt]" value="{{ config['crypto_salt'] }}" class="form-control" style="max-width:250px; text-align: center;"/>
+							<div class="input-group-prepend input-group-append">
+								<label class="input-group-text"><i class="fa fa-hashtag"></i></label>
+							</div>
+						</div>
 					</td>
 				</tr>
 				<tr>
@@ -188,12 +203,12 @@
 						{{ mkSelectYN({'name' : 'save_con[use_sessions]', 'value' : config['use_sessions'] }) }}
 					</td>
 				</tr>
-				<tr>
+<!-- 				<tr>
 					<td width="50%">{{ lang['ssl_only'] }} <small class="form-text text-muted">{{ lang['ssl_only_desc'] }}</small></td>
 					<td width="50%">
 						{{ mkSelectYN({'name' : 'save_con[ssl_only]', 'value' : config['ssl_only'] }) }}
 					</td>
-				</tr>
+				</tr> -->
 				<tr>
 					<td width="50%">{{ lang['last_modif'] }} <small class="form-text text-muted">{{ lang['last_modif_desc'] }}</small></td>
 					<td width="50%">
@@ -215,7 +230,7 @@
 			</table>
 		</div>
 			
-		<div class="panel-body" style="font-family: Franklin Gothic Medium;text-transform: uppercase;color: #9f9f9f;">{{ lang['debug_generate'] }}</div>
+		<div class="panel-body">{{ lang['debug_generate'] }}</div>
 		<div class="table-responsive">
 			<table class="table table-striped">
 				<tr>
@@ -244,7 +259,7 @@
 		<div id="userTabs-system" class="tab-pane">
 		<div class="panel panel-default">
 		<div class="panel-heading">{{ lang['syst'] }}</div>
-		<div class="panel-body" style="font-family: Franklin Gothic Medium;text-transform: uppercase;color: #9f9f9f;">{{ lang['syst'] }}</div>
+		<div class="panel-body">{{ lang['syst'] }}</div>
 		<div class="table-responsive">
 			<table class="table table-striped">
 				<tr>
@@ -286,7 +301,12 @@
 				<tr>
 					<td width="50%">{{ lang['lock_retry'] }} <small class="form-text text-muted">{{ lang['lock_retry_desc'] }}</small></td>
 					<td width="50%">
-						<input type="number" class="form-control" name="save_con[lock_retry]" value="{{ config['lock_retry'] }}" class="form-control" style="max-width:150px; text-align: center;"/>
+						<div class="input-group mb-3">
+							<input type="number" class="form-control" name="save_con[lock_retry]" value="{{ config['lock_retry'] }}" class="form-control" style="max-width:150px; text-align: center;"/>
+							<div class="input-group-prepend input-group-append">
+								<label class="input-group-text">s</label>
+							</div>
+						</div>
 					</td>
 				</tr>
 				<tr>
@@ -351,7 +371,7 @@
 			</table>
 		</div>
 				
-		<div class="panel-body" style="font-family: Franklin Gothic Medium;text-transform: uppercase;color: #9f9f9f;">{{ lang['email_configuration'] }}</div>
+		<div class="panel-body">{{ lang['email_configuration'] }}</div>
 		<div class="table-responsive">
 			<table class="table table-striped">
 
@@ -382,7 +402,7 @@
 				</tr>
 			</table>
 		</div>	
-		<div class="panel-body useSMTP" style="font-family: Franklin Gothic Medium;text-transform: uppercase;color: #9f9f9f;">{{ lang['smtp_config'] }}</div>
+		<div class="panel-body useSMTP">{{ lang['smtp_config'] }}</div>
 		<div class="table-responsive">
 			<table class="table table-striped">
 				<tr class="useSMTP">
@@ -448,31 +468,46 @@
 		<div id="userTabs-news" class="tab-pane">
 		<div class="panel panel-default">
 		<div class="panel-heading">{{ lang['sn'] }}</div>
-		<div class="panel-body" style="font-family: Franklin Gothic Medium;text-transform: uppercase;color: #9f9f9f;">{{ lang['sn'] }}</div>
+		<div class="panel-body">{{ lang['sn'] }}</div>
 		<div class="table-responsive">
 			<table class="table table-striped">
 				<tr>
 					<td width="50%">{{ lang['number'] }}</td>
 					<td width="50%">
-						<input type="text" name="save_con[number]" value="{{ config['number'] }}" class="form-control" />
+						<div class="input-group mb-3">
+							<input type="text" placeholder="5..." name="save_con[number]" value="{{ config['number'] }}" class="form-control" style="max-width:150px; text-align: center;"/>
+							<div class="input-group-prepend input-group-append">
+								<label class="input-group-text"><i class="fa fa-th-list"></i></label>
+							</div>
+						</div>
 					</td>
 				</tr>
 				<tr>
 					<td width="50%">{{ lang['news_multicat_url'] }} <small class="form-text text-muted">{{ lang['news_multicat_url#desc'] }}</small></td>
 					<td width="50%">
-						{{ mkSelect({'name' : 'save_con[news_multicat_url]', 'value' : config['news_multicat_url'], 'values' : { 0 : lang['news_multicat:0'], 1 : lang['news_multicat:1'] } }) }}
+						{{ mkSelect({'name' : 'save_con[news_multicat_url]', 'value' : config['news_multicat_url'], 'values' : { 0 : lang['news_multicat#0'], 1 : lang['news_multicat#1'] } }) }}
 					</td>
 				</tr>
 				<tr>
 					<td width="50%">{{ lang['nnavigations'] }} <small class="form-text text-muted">{{ lang['nnavigations_desc'] }}</small></td>
 					<td width="50%">
-						<input type="text" name="save_con[newsNavigationsCount]" value="{{ config['newsNavigationsCount'] }}" class="form-control" style="max-width:150px; text-align: center;"/>
+						<div class="input-group mb-3">
+							<input type="text" placeholder="10..." name="save_con[newsNavigationsCount]" value="{{ config['newsNavigationsCount'] }}" class="form-control" style="max-width:150px; text-align: center;"/>
+							<div class="input-group-prepend input-group-append">
+								<label class="input-group-text"><i class="fa fa-th-list"></i></label>
+							</div>
+						</div>
 					</td>
 				</tr>
 				<tr>
 					<td width="50%">{{ lang['nnavigations_admin'] }} <small class="form-text text-muted">{{ lang['nnavigations_admin_desc'] }}</small></td>
 					<td width="50%">
-						<input type="text" name="save_con[newsNavigationsAdminCount]" value="{{ config['newsNavigationsAdminCount'] }}" class="form-control" style="max-width:150px; text-align: center;"/>
+						<div class="input-group mb-3">
+							<input type="text" placeholder="20..." name="save_con[newsNavigationsAdminCount]" value="{{ config['newsNavigationsAdminCount'] }}" class="form-control" style="max-width:150px; text-align: center;"/>
+							<div class="input-group-prepend input-group-append">
+								<label class="input-group-text"><i class="fa fa-th-list"></i></label>
+							</div>
+						</div>
 					</td>
 				</tr>
 				<tr>
@@ -505,6 +540,14 @@
 						{{ mkSelectYN({'name' : 'save_con[news_without_content]', 'value' : config['news_without_content'] }) }}
 					</td>
 				</tr>
+				{% if (pluginIsActive('comments')) %}
+				<tr>
+					<td width="50%">{{ lang['comments'] }} <small class="form-text text-muted">{{ lang['comments_d'] }}</small></td>
+					<td width="50%">
+						<a class="btn btn-light" href="?mod=extra-config&plugin=comments"><i class="fa fa-comments-o"></i> {{ lang['comments_n'] }}</a>
+					</td>
+				</tr>
+				{% endif %}
 				<tr>
 					<td width="50%">{{ lang['news.add.info'] }} <small class="form-text text-muted">{{ lang['news.add.info#desc'] }}</small></td>
 					<td width="50%">
@@ -519,7 +562,7 @@
 				</tr>
 			</table>
 		</div>
-		<div class="panel-body useScrin" style="font-family: Franklin Gothic Medium;text-transform: uppercase;color: #9f9f9f;"><i class="fa fa-imdb"></i> {{ lang['scrin_info'] }}</div>
+		<div class="panel-body useScrin"><i class="fa fa-imdb"></i> {{ lang['scrin_info'] }}</div>
 		<div class="table-responsive">
 			<table class="table table-striped">
 				<tr class="useScrin">
@@ -540,13 +583,18 @@
 				</tr>
 			</table>
 		</div>
-		<div class="panel-body" style="font-family: Franklin Gothic Medium;text-transform: uppercase;color: #9f9f9f;"></div>
+		<div class="panel-body"></div>
 		<div class="table-responsive">
 			<table class="table table-striped">
 				<tr>
 					<td width="50%">{{ lang['date_adjust'] }} <small class="form-text text-muted">{{ lang['date_adjust_desc'] }}</small></td>
 					<td width="50%">
-						<input type="text" name="save_con[date_adjust]" value="{{ config['date_adjust'] }}" class="form-control" style="max-width:100px; text-align: center;"/>
+						<div class="input-group mb-3">
+							<input type="text" name="save_con[date_adjust]" value="{{ config['date_adjust'] }}" class="form-control" style="max-width:100px; text-align: center;"/>
+							<div class="input-group-prepend input-group-append">
+								<label class="input-group-text"><i class="fa fa-clock-o"></i></label>
+							</div>
+						</div>
 					</td>
 				</tr>
 				<tr>
@@ -608,7 +656,7 @@
 			</table>
 		</div>
 
-		<div class="panel-body" style="font-family: Franklin Gothic Medium;text-transform: uppercase;color: #9f9f9f;">{{ lang['favorit_configuration'] }}</div>
+		<div class="panel-body">{{ lang['favorit_configuration'] }}</div>
 		<div class="table-responsive">
 			<table class="table table-striped">
 				<tr>
@@ -661,7 +709,7 @@
 			<!-- TABLE AUTH -->
 		<div class="panel panel-default">
 		<div class="panel-heading">{{ lang['users'] }}</div>
-		<div class="panel-body" style="font-family: Franklin Gothic Medium;text-transform: uppercase;color: #9f9f9f;">{{ lang['auth'] }}</div>
+		<div class="panel-body">{{ lang['auth'] }}</div>
 		<div class="table-responsive">
 			<table class="table table-striped">
 				<tr>
@@ -682,11 +730,26 @@
 						{{ mkSelect({'name' : 'save_con[auth_db]', 'value' : config['auth_db'], 'values' : list['auth_db'] }) }}
 					</td>
 				</tr>
+				<tr>
+					<td width="50%">{{ lang['auth_user'] }} <small class="form-text text-muted">{{ lang['auth_user_d'] }}</small></td>
+					<td width="50%">
+						<small class="form-text text-muted">{{ lang['auth_user_n'] }}</small><br>
+						{% if (pluginIsActive('auth_basic')) %}
+							<a class="btn btn-light" href="?mod=extra-config&plugin=auth_basic"><i class="fa fa-address-card"></i> {{ lang['auth_basic_n'] }}</a>
+						{% endif %}
+						{% if (pluginIsActive('auth_vb')) %}
+							<a class="btn btn-light" href="?mod=extra-config&plugin=auth_vb"><i class="fa fa-address-card"></i> {{ lang['auth_vb_n'] }}</a>
+						{% endif %}
+						{% if (pluginIsActive('auth_punbb')) %}
+							<a class="btn btn-light" href="?mod=extra-config&plugin=auth_punbb"><i class="fa fa-address-card"></i> {{ lang['auth_punbb_n'] }}</a>
+						{% endif %}
+					</td>
+				</tr>
 			</table>
 		</div>
 		<!-- END: TABLE AUTH -->
 
-		<div class="panel-body" style="font-family: Franklin Gothic Medium;text-transform: uppercase;color: #9f9f9f;">{{ lang['users'] }}</div>
+		<div class="panel-body">{{ lang['users'] }}</div>
 		<div class="table-responsive">
 			<table class="table table-striped">
 				<tr>
@@ -710,9 +773,22 @@
 				<tr>
 					<td width="50%">{{ lang['user_aboutsize'] }} <small class="form-text text-muted">{{ lang['user_aboutsize_desc'] }}</small></td>
 					<td width="50%">
-						<input type="text" name="save_con[user_aboutsize]" value="{{ config['user_aboutsize'] }}" class="form-control" style="max-width:100px; text-align: center;"/>
+						<div class="input-group mb-3">
+							<input type="text" name="save_con[user_aboutsize]" value="{{ config['user_aboutsize'] }}" class="form-control" style="max-width:100px; text-align: center;"/>
+							<div class="input-group-prepend input-group-append">
+								<label class="input-group-text"><i class="fa fa-ellipsis-h"></i></label>
+							</div>
+						</div>
 					</td>
 				</tr>
+				{% if (pluginIsActive('uprofile')) %}
+				<tr>
+					<td width="50%">{{ lang['user_profile'] }} <small class="form-text text-muted">{{ lang['user_profile_d'] }}</small></td>
+					<td width="50%">
+						<a class="btn btn-light" href="?mod=extra-config&plugin=uprofile"><i class="fa fa-user-circle-o"></i> {{ lang['user_profile_n'] }}</a>
+					</td>
+				</tr>
+				{% endif %}
 				<tr>
 					<td width="50%">{{ lang['users_on_of_line'] }} <small class="form-text text-muted">{{ lang['users_on_of_line_desc'] }}</small></td>
 					<td width="50%">
@@ -722,7 +798,7 @@
 			</table>
 		</div>	
 		
-		<div class="panel-body" style="font-family: Franklin Gothic Medium;text-transform: uppercase;color: #9f9f9f;">{{ lang['users.avatars'] }}</div>
+		<div class="panel-body">{{ lang['users.avatars'] }}</div>
 		<div class="table-responsive">
 			<table class="table table-striped">
 				<tr>
@@ -774,7 +850,7 @@
 			</table>
 		</div>	
 		
-		<div class="panel-body" style="font-family: Franklin Gothic Medium;text-transform: uppercase;color: #9f9f9f;">{{ lang['users.photos'] }}</div>
+		<div class="panel-body">{{ lang['users.photos'] }}</div>
 		<div class="table-responsive">
 			<table class="table table-striped">
 				<tr>
@@ -826,7 +902,7 @@
 		<div id="userTabs-imgfiles" class="tab-pane">
 		<div class="panel panel-default">
 		<div class="panel-heading">{{ lang['files'] }}/{{ lang['img'] }}</div>
-		<div class="panel-body" style="font-family: Franklin Gothic Medium;text-transform: uppercase;color: #9f9f9f;">{{ lang['files'] }}</div>
+		<div class="panel-body">{{ lang['files'] }}</div>
 		<div class="table-responsive">
 			<table class="table table-striped">
 				<tr>
@@ -873,7 +949,7 @@
 			</table>
 		</div>
 			
-		<div class="panel-body" style="font-family: Franklin Gothic Medium;text-transform: uppercase;color: #9f9f9f;">{{ lang['img'] }}</div>
+		<div class="panel-body">{{ lang['img'] }}</div>
 		<div class="table-responsive">
 			<table class="table table-striped">
 				<tr>
@@ -938,7 +1014,7 @@
 		</div>
 		
 		<!-- IMAGE transform control -->
-		<div class="panel-body" style="font-family: Franklin Gothic Medium;text-transform: uppercase;color: #9f9f9f;">{{ lang['img.thumb'] }}</div>
+		<div class="panel-body">{{ lang['img.thumb'] }}</div>
 		<div class="table-responsive">
 			<table class="table table-striped">
 				<tr>
@@ -968,7 +1044,7 @@
 			</table>
 		</div>
 		
-		<div class="panel-body" style="font-family: Franklin Gothic Medium;text-transform: uppercase;color: #9f9f9f;">{{ lang['img.shadow'] }}</div>
+		<div class="panel-body">{{ lang['img.shadow'] }}</div>
 		<div class="table-responsive">
 			<table class="table table-striped">
 				<tr>
@@ -986,7 +1062,7 @@
 			</table>
 		</div>
 		
-		<div class="panel-body" style="font-family: Franklin Gothic Medium;text-transform: uppercase;color: #9f9f9f;">{{ lang['img.stamp'] }}</div>
+		<div class="panel-body">{{ lang['img.stamp'] }}</div>
 		<div class="table-responsive">
 			<table class="table table-striped">
 				<tr>
@@ -1022,7 +1098,7 @@
 		<div id="userTabs-multi" class="tab-pane">
 		<div class="panel panel-default">
 		<div class="panel-heading">{{ lang['multi'] }}</div>
-		<div class="panel-body" style="font-family: Franklin Gothic Medium;text-transform: uppercase;color: #9f9f9f;">{{ lang['multi_info'] }}</div>
+		<div class="panel-body">{{ lang['multi_info'] }}</div>
 		<div class="table-responsive">
 			<table class="table table-striped">
 				<tr>
@@ -1037,7 +1113,7 @@
 			</table>
 		</div>
 				
-		<div class="panel-body" style="font-family: Franklin Gothic Medium;text-transform: uppercase;color: #9f9f9f;">{{ lang['multisite'] }}</div>
+		<div class="panel-body">{{ lang['multisite'] }}</div>
 		<div class="table-responsive">
 			<table class="table table-striped">
 				<tr>
@@ -1077,7 +1153,7 @@
 		<div id="userTabs-seo" class="tab-pane">
 		<div class="panel panel-default">
 		<div class="panel-heading">{{ lang['seo'] }}</div>
-		<div class="panel-body" style="font-family: Franklin Gothic Medium;text-transform: uppercase;color: #9f9f9f;">{{ lang['meta'] }}</div>
+		<div class="panel-body">{{ lang['meta'] }}</div>
 		<div class="table-responsive">
 			<table class="table table-striped">
 				<tr>
@@ -1107,7 +1183,7 @@
 			</table>
 		</div>
 		
-		<div class="panel-body" style="font-family: Franklin Gothic Medium;text-transform: uppercase;color: #9f9f9f;">{{ lang['canonical_configuration'] }}</div>
+		<div class="panel-body">{{ lang['canonical_configuration'] }}</div>
 		<div class="table-responsive">
 			<table class="table table-striped">
 				<tr>
@@ -1183,7 +1259,7 @@
 		<div id="userTabs-cache" class="tab-pane">
 		<div class="panel panel-default">
 		<div class="panel-heading">{{ lang['cache'] }}</div>
-		<div class="panel-body" style="font-family: Franklin Gothic Medium;text-transform: uppercase;color: #9f9f9f;">Memcached</div>
+		<div class="panel-body">Memcached</div>
 		<div class="table-responsive">
 			<table class="table table-striped">
 				<tr>

@@ -176,7 +176,7 @@ function systemDboModify()
         }
 
         msg(['type' => 'info', 'text' => $lang['dbo']['msgo_cat_recount']]);
-		return print_msg( 'update', 'Управление базой данных', 'Счетчик новостей обновлен!', 'javascript:history.go(-1)' );
+		return print_msg( 'update', $lang['dbo']['title'], $lang['dbo']['msgk_cat_recount'], 'javascript:history.go(-1)' );
     }
 
     // Delete specific backup file
@@ -184,11 +184,11 @@ function systemDboModify()
         $filename = str_replace('/', '', $_REQUEST['filename']);
         if (!$filename) {
             msg(['type' => 'error', 'text' => $lang['dbo']['msge_delbackup']]);
-			return print_msg( 'error', 'Управление базой данных', 'Вы невыбрали ни одной копии таблиц, которую следует удалить!', 'javascript:history.go(-1)' );
+			return print_msg( 'error', $lang['dbo']['title'], $lang['dbo']['msgk_delbackup'], 'javascript:history.go(-1)' );
         } else {
             @unlink(root.'backups/'.$filename.'.gz');
             msg(['type' => 'info', 'text' => sprintf($lang['dbo']['msgo_delbackup'], $filename)]);
-			return print_msg( 'delete', 'Управление базой данных', 'Резервная копия '.$filename.' была успешно удалена!', 'javascript:history.go(-1)' );
+			return print_msg( 'delete', $lang['dbo']['title'], str_replace('%filename%', $filename, $lang['dbo']['msgk_del_ok']), 'javascript:history.go(-1)' );
         }
     }
 
@@ -205,7 +205,7 @@ function systemDboModify()
         $tables = getIsSet($_REQUEST['tables']);
         if (!is_array($tables)) {
             msg(['type' => 'error', 'text' => $lang['dbo']['msge_tables'], 'info' => $lang['dbo']['msgi_tables']]);
-			return print_msg( 'warning', 'Управление базой данных', 'Вы невыбрали ни одной таблицы!', 'javascript:history.go(-1)' );
+			return print_msg( 'warning', $lang['dbo']['title'], $lang['dbo']['msgk_tables'], 'javascript:history.go(-1)' );
         } else {
             $slist = [];
 
@@ -221,7 +221,7 @@ function systemDboModify()
                 }
             }
             msg(['type' => 'info', 'text' => $lang['dbo']['msgo_'.$mode], 'info' => '<small>'.implode("<br/>\n", $slist).'</small>']);
-			return print_msg( 'info', 'Управление базой данных', 'Данное действие прошло успешно!<br/>'.$lang['dbo']['msgo_'.$mode].' '.implode("<br/>\n", $slist).'', 'javascript:history.go(-1)' );
+			return print_msg( 'info', $lang['dbo']['title'], ''.$lang['dbo']['msgk_done'].'<br/>'.$lang['dbo']['msgo_'.$mode].' '.implode("<br/>\n", $slist).'', 'javascript:history.go(-1)' );
         }
     }
 
@@ -230,7 +230,7 @@ function systemDboModify()
         $tables = getIsSet($_REQUEST['tables']);
         if (!$tables) {
             msg(['type' => 'error', 'text' => $lang['dbo']['msge_tables'], 'info' => $lang['dbo']['msgi_tables']]);
-			return print_msg( 'error', 'Управление базой данных', 'Вы невыбрали ни одной таблицы!', 'javascript:history.go(-1)' );
+			return print_msg( 'error', $lang['dbo']['title'], ''.$lang['dbo']['msgk_tables'].'<br>'.$lang['dbo']['msgi_tables'].'', 'javascript:history.go(-1)' );
         } else {
             for ($i = 0, $sizeof = count($tables); $i < $sizeof; $i++) {
                 if ($db->tableExists($tables[$i])) {
@@ -248,7 +248,7 @@ function systemDboModify()
         $tables = getIsSet($_REQUEST['tables']);
         if (!$tables) {
             msg(['type' => 'error', 'text' => $lang['dbo']['msge_tables'], 'info' => $lang['dbo']['msgi_tables']]);
-			return print_msg( 'error', 'Управление базой данных', 'Вы невыбрали ни одной таблицы!', 'javascript:history.go(-1)' );
+			return print_msg( 'error', $lang['dbo']['title'], ''.$lang['dbo']['msgk_tables'].'<br>'.$lang['dbo']['msgi_tables'].'', 'javascript:history.go(-1)' );
         } else {
             $date = date('Y_m_d_H_i', time());
             $date2 = LangDate('d Q Y - H:i', time());
@@ -260,10 +260,10 @@ function systemDboModify()
                 sendEmailMessage($config['admin_mail'], $lang['dbo']['title'], sprintf($lang['dbo']['message'], $date2), $filename);
                 @unlink($filename);
                 msg(['type' => 'info', 'text' => $lang['dbo']['msgo_backup_m']]);
-				return print_msg( 'info', 'Управление базой данных', 'Создана резервная копия Базы Данных выбранных таблиц.<br>Отправлена на email '.$config['admin_mail'].' указанного в настройках системы.', 'javascript:history.go(-1)' );
+				return print_msg( 'info', $lang['dbo']['title'], str_replace('%mail%', $config['admin_mail'], $lang['dbo']['msgk_backup_m']), 'javascript:history.go(-1)' );
             } else {
                 msg(['type' => 'info', 'text' => $lang['dbo']['msgo_backup']]);
-				return print_msg( 'info', 'Управление базой данных', 'Создана резервная копия Базы Данных выбранных таблиц.<br>Чтобы скачать или посмотреть зайдите по <b>FTP</b> в папку <b>engine/backup/</b>', 'javascript:history.go(-1)' );
+				return print_msg( 'info', $lang['dbo']['title'], str_replace('%url%', $config['admin_url'], $lang['dbo']['msgk_backup']), 'javascript:history.go(-1)' );
             }
         }
     }
@@ -279,7 +279,7 @@ function systemDboModify()
             @unlink(root.'backups/'.$bf);
         }
 		msg(['type' => 'info', 'text' => $lang['dbo']['msgo_massdelb']]);
-		return print_msg( 'delete', 'Управление базой данных', 'Все резервная копии в папке backups были успешно удалены!', 'javascript:history.go(-1)' );
+		return print_msg( 'delete', $lang['dbo']['title'], $lang['dbo']['msgk_massdelb'], 'javascript:history.go(-1)' );
 
     }
 
@@ -288,7 +288,7 @@ function systemDboModify()
         $filename = str_replace('/', '', $_REQUEST['filename']);
         if (!$filename) {
             msg(['type' => 'error', 'text' => $lang['dbo']['msge_restore'], 'info' => $lang['dbo']['msgi_restore']]);
-			return print_msg( 'warning', 'Управление базой данных', 'Не выбрана резервная копия, которую следует восстановить!', 'javascript:history.go(-1)' );
+			return print_msg( 'warning', $lang['dbo']['title'], $lang['dbo']['msgk_restore_n'], 'javascript:history.go(-1)' );
         } else {
             $fp = gzopen(root.'backups/'.$filename.'.gz', 'r');
 
@@ -307,7 +307,7 @@ function systemDboModify()
                 }
             }
             msg(['type' => 'info', 'text' => $lang['dbo']['msgo_restore']]);
-			return print_msg( 'update', 'Управление базой данных', 'Резервная копия была успешно восстановленна!', 'javascript:history.go(-1)' );
+			return print_msg( 'update', $lang['dbo']['title'], $lang['dbo']['msgk_restore'], 'javascript:history.go(-1)' );
         }
     }
 
@@ -345,7 +345,7 @@ function systemDboForm()
         $tableList[] = $tableInfo;
     }
 	
-	$breadcrumb = breadcrumb('<i class="fa fa-database btn-position"></i><span class="text-semibold">'.$lang['dbo']['title'].'</span>', '<i class="fa fa-database"></i>'.$lang['dbo']['title'].'' );
+	$breadcrumb = breadcrumb('<i class="fa fa-database btn-position"></i><span class="text-semibold">'.$lang['dbo']['title'].'</span>', '<i class="fa fa-database"></i>'.$lang['dbo']['dbo'].'' );
 
     $tVars = [
         'php_self' => $PHP_SELF,

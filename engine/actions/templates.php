@@ -54,7 +54,7 @@ function loadTemplateVersions()
 // ================================================================== //
 //
 
-$breadcrumb = breadcrumb('<i class="fa fa-paint-brush btn-position"></i><span class="text-semibold">'.$lang['templates']['title'].'</span>', '<i class="fa fa-paint-brush btn-position"></i>'.$lang['templates']['title'].'' );
+$breadcrumb = breadcrumb('<i class="fa fa-paint-brush btn-position"></i><span class="text-semibold">'.$lang['templates']['templates'].'</span>', '<i class="fa fa-paint-brush btn-position"></i>'.$lang['templates']['templates_title'].'' );
 
 $tVars = [
     'home_url' => home,

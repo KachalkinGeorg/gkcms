@@ -177,7 +177,7 @@ function systemConfigEditForm()
         $config['timezone'] = 'Europe/Moscow';
     }
 	
-	$breadcrumb = breadcrumb('<i class="fa fa-cog btn-position"></i><span class="text-semibold">'.$lang['configuration_title'].'</span>', '<i class="fa fa-cog"></i>'.$lang['configuration_title'].'' );
+	$breadcrumb = breadcrumb('<i class="fa fa-cog btn-position"></i><span class="text-semibold">'.$lang['configuration'].'</span>', '<i class="fa fa-cog"></i>'.$lang['configuration_title'].'' );
 
     $tVars = [
         'config'                => $config,
@@ -228,5 +228,5 @@ if (isset($_REQUEST['subaction']) && ($_REQUEST['subaction'] == 'save') && ($_SE
 $main_admin = systemConfigEditForm();
 
 if ($action == 'done') {
-	print_msg( 'info', 'Настройки', $lang['msgo_saved'], 'javascript:history.go(-1)' );
+	print_msg( 'info', $lang['configuration'], $lang['msgo_saved'], 'javascript:history.go(-1)' );
 }

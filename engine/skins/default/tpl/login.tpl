@@ -28,17 +28,25 @@
 
 						<div class="card-body">
 							<div class="form-group">
-								<label for="username" class="control-label">{{ lang['name'] }}</label>
-								<input id="username" name="username" type="text" class="form-control" required>
+								<div class="input-group mb-3">
+									<div class="input-group-prepend input-group-append">
+										<label class="input-group-text"><i class="fa fa-user text-muted"></i></label>
+									</div>
+									<input id="username" name="username" type="text" placeholder="{{ lang['name'] }}..." class="form-control" required>
+								</div>
 							</div>
 
 							<div class="form-group mb-5">
-								<label for="password" class="control-label">{{ lang['password'] }}</label>
-								<input id="password" name="password" type="password" class="form-control" required>
+								<div class="input-group mb-3">
+									<div class="input-group-prepend input-group-append">
+										<label class="input-group-text"><i class="fa fa-lock text-muted"></i></label>
+									</div>
+									<input id="password" name="password" type="password" placeholder="{{ lang['password'] }}..." class="form-control" required>
+								</div>
 							</div>
 
 							<div class="form-group">
-								<button type="submit" class="btn btn-success btn-block">{{ lang['login'] }}</button>
+								<button type="submit" class="btn btn-success btn-block">{{ lang['login'] }} <i class="fa fa-sign-in"></i></button>
 							</div>
 						</div>
 

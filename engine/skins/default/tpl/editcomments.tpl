@@ -24,14 +24,14 @@
 						<div class="modal-dialog">
 							<div class="modal-content">
 								<div class="modal-header">
-									<h5 id="smiles-modal-label" class="modal-title">Вставить смайл</h5>
+									<h5 id="smiles-modal-label" class="modal-title">{l_in_smilies}</h5>
 									<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 								</div>
 								<div class="modal-body">
 									{smilies}
 								</div>
 								<div class="modal-footer">
-									<button type="button" class="btn btn-outline-dark" data-dismiss="modal">Cancel</button>
+									<button type="button" class="btn btn-outline-dark" data-dismiss="modal">{l_cansel}</button>
 								</div>
 							</div>
 						</div>

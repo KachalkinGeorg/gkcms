@@ -11,7 +11,7 @@
 	<table width="1000" border="0" cellspacing="0" cellpadding="0" class="editfilter">
 		<tr>
 			<td valign="top" width="100%">
-				&nbsp; Поиск: <input name="sl" type="text" class="bfsearch" size="60" value="{{ sl }}"/>
+				&nbsp; {{ lang.editnews['header.search'] }}: <input name="sl" type="text" class="bfsearch" size="60" value="{{ sl }}"/>
 				<input type="submit" value="{{ lang.editnews['do_show'] }}"/>
 			</td>
 		</tr>
@@ -27,7 +27,7 @@
 				<table width="250" cellspacing="0" cellpadding="0" border="0" style="margin-right: 2px;">
 					<thead>
 					<tr class="contHead">
-						<td>Категории</td>
+						<td>{{ lang.addnews['categories'] }}</td>
 					</tr>
 					</thead>
 					<tbody>

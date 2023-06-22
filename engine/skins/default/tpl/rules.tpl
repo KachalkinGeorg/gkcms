@@ -8,7 +8,7 @@
 			<div class="form-row mb-3">
 				<label class="col-lg-3 col-form-label">{{ lang['title'] }}</label>
 				<div class="col-lg-9">
-					<input id="newsTitle" placeholder="Введите заголовок..." type="text" name="title" value="{{ data.title }}" class="form-control" />
+					<input id="newsTitle" placeholder="{{ lang['plac_name'] }}" type="text" name="title" value="{{ data.title }}" class="form-control" />
 				</div>
 			</div>
 
@@ -26,7 +26,7 @@
 				<div class="modal-dialog">
 					<div class="modal-content">
 						<div class="modal-header">
-							<h5 id="smiles-modal-label" class="modal-title">Вставить смайл</h5>
+							<h5 id="smiles-modal-label" class="modal-title">{{ lang['ins.smilies'] }}</h5>
 							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 						</div>
 						<div class="modal-body">
@@ -39,7 +39,7 @@
 				</div>
 			</div>
 			{% endif %}
-					
+					{{ lang['rules.descr'] }}
 			<div class="mb-3">
 				<textarea id="rules" name="content" class="form-control" rows="10">{{ data.content }}</textarea>
 			</div>
@@ -70,7 +70,7 @@
 </form>
 
 <div class="stickers stickers-info stickers-styled-left">
-<b>При написании правил используются следующие теги:</b><br><br><b>%home%</b> - название сайта<br><b>%rules%</b> - вывод кнопок 'Принимаю' и 'Не принимаю' при регистрации (обязателен к написанию)<br>
+{{ lang['rules.info'] }}
 </div>
 
 <script type="text/javascript">

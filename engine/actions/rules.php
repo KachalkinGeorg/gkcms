@@ -16,14 +16,14 @@ $lang = LoadLang('rules', 'admin');
 
 if ($config['reg_rules'] == '0') {
 	msg(['type' => 'error', 'text' => $lang['rules.title'], 'info' => $lang['rules_off']]);
-	return print_msg( 'warning', $lang['rules.title'], $lang['rules_off'], 'javascript:history.go(-1)' );
+	return print_msg( 'warning', $lang['rules'], $lang['rules_off'], 'javascript:history.go(-1)' );
 }
 
 function RulesForm()
 {
     global $lang, $parse, $mysql, $config, $twig, $tvars, $userROW, $PHP_SELF, $breadcrumb;
 
-	$breadcrumb = breadcrumb('<i class="fa fa-book btn-position"></i><span class="text-semibold">'.$lang['rules.title'].'</span>', ''.$lang['rules.descr'].'' );
+	$breadcrumb = breadcrumb('<i class="fa fa-book btn-position"></i><span class="text-semibold">'.$lang['rules'].'</span>', '<i class="fa fa-book btn-position"></i>'.$lang['rules.title'].'' );
 
 	$row = $mysql->record( "select * from " . prefix . "_rules WHERE alt_name = 'rules_page' LIMIT 1" );
     $tVars = [
@@ -59,7 +59,7 @@ function doneRules()
 
     if ((!strlen(trim($title))) || (!strlen(trim($content)))) {
 		msg(['type' => 'error', 'title' => $lang['msge_fields'], 'text' => $lang['msgi_fields']]);
-		print_msg( 'error', 'Правила сайта', ''.$lang['msge_fields'].'<br>'.$lang['msgi_fields'].'', 'javascript:history.go(-1)' );
+		print_msg( 'error', $lang['rules'], $lang['msgk_fields'], 'javascript:history.go(-1)' );
         return 0;
     }
 
@@ -76,8 +76,8 @@ function doneRules()
 
     $mysql->query('update '.prefix.'_rules set `title`='.db_squote($title).', `alt_name`='.db_squote($alt_name).', `content`='.db_squote($content).', `description`='.db_squote($description).', `keywords`='.db_squote($keywords).' where id='.db_squote($id));
 
-	msg(['type' => 'info', 'title' => $lang['rules.title'], 'text' => $lang['msg.edited'], 'info' => $lang['msg.edited#descr']]);
-	return print_msg( 'update', 'Правила сайта', '<strong>'.$lang['msg.edited#descr'].'</strong>.', '?mod=rules' );
+	msg(['type' => 'info', 'title' => $lang['rules.title'], 'text' => $lang['msge.edited'], 'info' => $lang['msgi.edited']]);
+	return print_msg( 'update', $lang['rules'], $lang['msgk.edited'], '?mod=rules' );
 
 }
 

@@ -15,7 +15,7 @@ if (!defined('NGCMS')) {
 $lang = LoadLang('syslog', 'admin');
 $lang = LoadLang('configuration', 'admin');
 
-$breadcrumb = breadcrumb('<i class="fa fa-info-circle btn-position"></i><span class="text-semibold">'.$lang['sys_log'].'</span>', ''.$lang['sys_log'].'' );
+$breadcrumb = breadcrumb('<i class="fa fa-info-circle btn-position"></i><span class="text-semibold">'.$lang['sys_log'].'</span>', '<i class="fa fa-info-circle btn-position"></i>'.$lang['sys_log_title'].'' );
 
 if (!$config['syslog']) {
 	msg(['type' => 'error', 'text' => $lang['w_syslogs']]);

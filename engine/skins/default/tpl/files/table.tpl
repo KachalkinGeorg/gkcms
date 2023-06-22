@@ -13,7 +13,7 @@
 				<tr>				
 					<td width="12px" style="display: inline-flex;">
 						<div class="btn-sm btn-default"><input type="checkbox" name="linked_ds" value="0" {ifactiv} class="form-control" style="vertical-align: text-bot;" /></div></td>
-					<td><label> - Отобразить только файлы загруженные на сервер в общаю папку</label></td>
+					<td><label> - {l_file_dir#serv}</label></td>
 				</tr>
 			</table>
 			
@@ -83,14 +83,14 @@
 	<div class="panel panel-default">
 		<div class="panel-heading">{l_files}
 			<div class="panel-head-right">
-				<button type="button" class="btn2" data-toggle="modal" data-target="#uploadnewModal" data-backdrop="static" title="{l_upload_file}"><i class="fa fa-file-text-o"></i> {l_upload_file}</button>
-				<button type="button" class="btn2" data-toggle="modal" data-target="#uploadNewByUrlModal" data-backdrop="static" title="{l_upload_file_url}"><i class="fa fa-file-code-o"></i> {l_upload_file_url}</button>
+				<button type="button" class="btn2" data-toggle="modal" data-target="#uploadnewModal" data-backdrop="static" data-placement="top" data-popup="tooltip" data-original-title="{l_upload_file}" title="{l_upload_file}"><i class="fa fa-file-text-o"></i> {l_upload_file}</button>
+				<button type="button" class="btn2" data-toggle="modal" data-target="#uploadNewByUrlModal" data-backdrop="static" data-placement="top" data-popup="tooltip" data-original-title="{l_upload_file_url}" title="{l_upload_file_url}"><i class="fa fa-file-code-o"></i> {l_upload_file_url}</button>
 				[status]
-				<button type="button" class="btn2" data-toggle="modal" data-target="#categoriesModal" data-backdrop="static" title="{l_categories}">
+				<button type="button" class="btn2" data-toggle="modal" data-target="#categoriesModal" data-backdrop="static" data-placement="top" data-popup="tooltip" data-original-title="{l_categories}" title="{l_categories}">
 					<i class="fa fa-folder-open-o"></i>
 				</button>
 				[/status]
-				<button type="button" class="btn2" data-toggle="collapse" data-target="#collapseFilesFilter" title="{l_filter}">
+				<button type="button" class="btn2" data-toggle="collapse" data-target="#collapseFilesFilter" data-placement="top" data-popup="tooltip" data-original-title="{l_filter}" title="{l_filter}">
 					<i class="fa fa-filter"></i>
 				</button>
 			</div>
@@ -102,11 +102,11 @@
 				<thead>
 					<tr>
 						<th width="5%">#</th>
+						<th>{l_action}</th>
 						<th width="25%">{l_name}</th>
 						<th>{l_size}</th>
 						<th width="15%">{l_category}</th>
 						<th width="10%">{l_author}</th>
-						<th>{l_action}</th>
 						<th width="5%">
 							<input type="checkbox" name="master_box" title="{l_select_all}" onclick="javascript:check_uncheck_all(delform)"/>
 						</th>

@@ -62,8 +62,8 @@ function userEditForm()
 	$avatar = ( isset($row['avatar']) and !empty($row['avatar']) and function_exists('userGetAvatar'))? userGetAvatar($userROW)[1] : $skins_url . '/images/default-avatar.jpg';
 	$photo = ( isset($row['photo']) and !empty($row['photo']) and function_exists('userGetPhoto'))? userGetPhoto($userROW)[1] : $skins_url . '/images/default-avatar.jpg';
 	$group = $UGROUP[$row['status']]['langName'][$config['default_lang']];
-	$line = on_of_line($row['id']) ? on_of_line($row['id']) : 'функция отключена';
-	$alt_name = secure_html($row['alt_name']) ? secure_html($row['alt_name']) : 'не заполнено';
+	$line = on_of_line($row['id']) ? on_of_line($row['id']) : $lang['on_of_line'];
+	$alt_name = secure_html($row['alt_name']) ? secure_html($row['alt_name']) : $lang['alt_name_not'];
 	$userPhoto = userGetPhoto($row);
 	$userAvatar = userGetAvatar($row);
     //	Обрабатываем необходимые переменные для шаблона
@@ -81,11 +81,11 @@ function userEditForm()
 		'line'     	 => $line,
 		'site'       => secure_html($row['site']),
         'mail'       => secure_html($row['mail']),
-        'gender'     => makeDropDown(array('0' => "Нет определения", '1' => "Мужской", '2' => "Женский"), 'gender', $row['gender']),
+        'gender'     => makeDropDown(array('0' => $lang['gender_not'], '1' => $lang['gender_m'], '2' => $lang['gender_w']), 'gender', $row['gender']),
         'icq'        => secure_html($row['icq']),
         'where_from' => secure_html($row['where_from']),
         'info'       => secure_html($row['info']),
-		'inform'     => secure_html($row['info']) ? secure_html($row['info']) : 'Поле о себе не заполнено',
+		'inform'     => secure_html($row['info']) ? secure_html($row['info']) : $lang['inform_not'],
         'id'         => $id,
         'last'       => (empty($row['last'])) ? $lang['no_last'] : LangDate('l, j Q Y - H:i', $row['last']),
         'ip'         => $row['ip'],
@@ -243,7 +243,7 @@ function userEdit()
 
     $mysql->query('update '.uprefix.'_users set `status`='.db_squote($_REQUEST['status']).', `site`='.db_squote($_REQUEST['site']).', `alt_name`='.db_squote($_REQUEST['alt_name']).', `gender`='.db_squote($_REQUEST['gender']).', `icq`='.db_squote($_REQUEST['icq']).', `photo`='.db_squote($photo).', `avatar`='.db_squote($avatar).', `where_from`='.db_squote($_REQUEST['where_from']).', `info`='.db_squote($_REQUEST['info']).', `mail`='.db_squote($_REQUEST['mail']).($pass ? ', `pass`='.db_squote($pass) : '').' where id='.db_squote($row['id']));
     msg(['type' => 'info', 'text' => $lang['msgo_edituser']]);
-	return print_msg( 'update', $lang['users_title'], 'Профиль пользователя '.$row['name'].' успешно отредактирован', array('?mod=users&action=editForm&id='.$row['id'] => 'Редактировать еще', '?mod=users' => 'Вернуться назад' ) );
+	return print_msg( 'update', $lang['users_title'], str_replace('%name%', $row['name'], $lang['msgk_edituser']), array('?mod=users&action=editForm&id='.$row['id'] => $lang['edit'], '?mod=users' => $lang['back'] ) );
 }
 
 function uprofile_manageDelete($type, $userID) {
@@ -303,12 +303,12 @@ function userAdd()
 
     if ((!$regusername) || (!strlen(trim($regpassword))) || (!$regemail)) {
         msg(['type' => 'error', 'text' => $lang['msge_fields'], 'info' => $lang['msgi_fields']]);
-		print_msg( 'warning', $lang['users_title'], ''.$lang['msge_fields'].'<br>'.$lang['msgi_fields'].'', 'javascript:history.go(-1)' );
+		print_msg( 'warning', $lang['users_title'], $lang['msgk_fields'], 'javascript:history.go(-1)' );
         return;
     }
     if ($mysql->record('select * from '.uprefix.'_users where lower(name) = '.db_squote(strtolower($regusername)).' or lower(mail)='.db_squote(strtolower($regemail)))) {
         msg(['type' => 'error', 'text' => $lang['msge_userexists'], 'info' => $lang['msgi_userexists']]);
-		print_msg( 'warning', $lang['users_title'], ''.$lang['msge_userexists'].'<br>'.$lang['msgi_userexists'].'', 'javascript:history.go(-1)' );
+		print_msg( 'warning', $lang['users_title'], $lang['msgk_userexists'], 'javascript:history.go(-1)' );
         return;
     }
 
@@ -320,7 +320,7 @@ function userAdd()
 	
 	$userid = $mysql->lastid('users');
 	
-	return print_msg( 'success', $lang['users_title'], 'Новый пользователь '.$regusername.' был успешно добавлен в Базу Данных', array('?mod=users&action=editForm&id='.$userid => 'Редактировать', '?mod=users' => 'Вернуться назад' ) );
+	return print_msg( 'success', $lang['users_title'], str_replace('%user%', $regusername, $lang['msgk_newuser']), array('?mod=users&action=editForm&id='.$userid => $lang['edit'], '?mod=users' => $lang['back'] ) );
 }
 
 //
@@ -414,7 +414,7 @@ function userMassSetStatus()
     $selected_users = getIsSet($_REQUEST['selected_users']);
     if (!$selected_users) {
         msg(['type' => 'error', 'text' => $lang['msge_select'], 'info' => $lang['msgi_select']]);
-		print_msg( 'error', $lang['users_title'], ''.$lang['msge_select'].'<br>'.$lang['msgi_select'].'', '?mod=users' );
+		print_msg( 'error', $lang['users_title'], $lang['msgk_select'], '?mod=users' );
         return;
     }
 
@@ -432,7 +432,7 @@ function userMassSetStatus()
         $mysql->query('update '.uprefix.'_users set status='.db_squote($status).' where (id='.db_squote($id).') and (status <> 1)');
     }
     msg(['type' => 'info', 'text' => $lang['msgo_status']]);
-	return print_msg( 'update', $lang['users_title'], 'Статус выбранных пользователей был изменен успешно на ИД - '.$status.' статуса', '?mod=users' );
+	return print_msg( 'update', $lang['users_title'], str_replace('%status%', $status, $lang['msgk_status']), '?mod=users' );
 }
 
 //
@@ -458,7 +458,7 @@ function userMassDelete()
     $selected_users = getIsSet($_REQUEST['selected_users']);
     if (!$selected_users || !is_array($selected_users)) {
         msg(['type' => 'error', 'text' => $lang['msge_select'], 'info' => $lang['msgi_select']]);
-		print_msg( 'error', $lang['users_title'], ''.$lang['msge_select'].'<br>'.$lang['msgi_select'].'', '?mod=users' );
+		print_msg( 'error', $lang['users_title'], $lang['msgk_select'], '?mod=users' );
         return;
     }
 
@@ -488,7 +488,7 @@ function userMassDelete()
         }
     }
     msg(['type' => 'info', 'text' => $lang['msgo_deluser']]);
-	return print_msg( 'delete', $lang['users_title'], $lang['msgo_deluser'], '?mod=users' );
+	return print_msg( 'delete', $lang['users_title'], str_replace('%name%', $urow['name'], $lang['msgk_deluser']), '?mod=users' );
 }
 
 //
@@ -515,7 +515,7 @@ function userMassDeleteInactive()
 
     $mysql->query('DELETE FROM '.uprefix."_users WHERE ((last IS NULL) OR (last='')) AND ((reg + 86400) < $today) AND (news < 1)");
     msg(['type' => 'info', 'text' => $lang['msgo_delunact']]);
-	return print_msg( 'delete', $lang['users_title'], $lang['msgo_delunact'], '?mod=users' );
+	return print_msg( 'delete', $lang['users_title'], $lang['msgk_delunact'], '?mod=users' );
 }
 
 //
@@ -676,7 +676,7 @@ function userList()
         $tUgroup[] = $tUge;
     }
 	
-	$breadcrumb = breadcrumb('<i class="fa fa-users btn-position"></i><span class="text-semibold">'.$lang['users_title'].'</span>', '<i class="fa fa-users"></i>'.$lang['users_title'].'' );
+	$breadcrumb = breadcrumb('<i class="fa fa-users btn-position"></i><span class="text-semibold">'.$lang['users'].'</span>', '<i class="fa fa-users"></i>'.$lang['users_title'].'' );
 
     $tVars = [
         'php_self'   => $PHP_SELF,

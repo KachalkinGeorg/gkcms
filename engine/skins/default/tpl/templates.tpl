@@ -51,7 +51,7 @@
 		<div class="row mb-3">
 			<div class="col-lg-3 pr-lg-0">
 				<div id="fileTreeSelector" class="" style="background-color: #ABCDEF; height: 578px; overflow: auto;">
-					TEST CONTENT
+					{{ lang.templates['test_content'] }}
 				</div>
 				<!-- <div style="width: 100%; background-color: #E0E0E0; padding: 3px; ">
 					<input style="width: 150px;" type="button" class="navbutton" value="Create template.."/>
@@ -81,23 +81,23 @@
         <div class="modal-content">
                 
             <div class="modal-header"> 
-                <h4>Помощь</h4>
+                <h4>{{ lang.templates['help'] }}</h4>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
-                <h4>Горячие клавиши для codemirror</h4>
+                <h4>{{ lang.templates['hot_codemir'] }}</h4>
                 <div class="row">
                     <div class="col col-xs-6">
                         
                         <table class="table table-condensed">
                             <tr>
-                                <td><kbd>Ctrl + S</kbd></td><td>save template</td>
+                                <td><kbd>Ctrl + S</kbd></td><td>{{ lang.templates['save'] }}</td>
                             </tr>
                             <tr>
-                                <td><kbd>F11</kbd></td><td>view fullscreen</td>
+                                <td><kbd>F11</kbd></td><td>{{ lang.templates['fullscreen'] }}</td>
                             </tr>
                             <tr>
-                                <td><kbd>Ctrl + E</kbd></td><td>expand abbreviation (<a href="http://docs.emmet.io/cheat-sheet/" target="_blank" title="Emmet cheat sheet" class="">emmet</a>)</td>
+                                <td><kbd>Ctrl + E</kbd></td><td>{{ lang.templates['abbreviation'] }} (<a href="http://docs.emmet.io/cheat-sheet/" target="_blank" title="Emmet cheat sheet" class="">emmet</a>)</td>
                             </tr>
                         </table>
                     </div>
@@ -105,20 +105,14 @@
                     <div class="col col-xs-6">
                         <table class="table table-condensed">
                             <tr>
-                                <td><kbd>Ctrl + F</kbd></td><td>start searching</td>
+                                <td><kbd>Ctrl + F</kbd></td><td>{{ lang.templates['searching'] }}</td>
                             </tr>
                             <tr>
-                                <td><kbd>Ctrl + G</kbd></td><td>find next</td>
+                                <td><kbd>Ctrl + G</kbd></td><td>{{ lang.templates['find_next'] }}</td>
                             </tr>
                             <tr>
-                                <td><kbd>Shift + Ctrl + F</kbd></td><td>replace</td>
+                                <td><kbd>Shift + Ctrl + F</kbd></td><td>{{ lang.templates['replace'] }}</td>
                             </tr>
-                            <!--tr>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                            </tr-->
                         </table>
                     </div>
                 </div>
@@ -131,7 +125,7 @@
                 </div-->
             </div>
             <div class="modal-footer">
-                <button type="cancel" class="btn btn-default" data-dismiss="modal">{{ lang['close'] }}</button>
+                <button type="cancel" class="btn btn-default" data-dismiss="modal">{{ lang.templates['close'] }}</button>
             </div>
         </div>
     </div>

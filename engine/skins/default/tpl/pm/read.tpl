@@ -19,11 +19,11 @@
 				<div class="card-body">
 					<div class="row mb-0" style="padding:10px">
 						<div class="col-sm-6">{{ lang.from }}:</div>
-						<div class="col-sm-6">{{ fromName }} (ИД: {{ fromID }})</div>
+						<div class="col-sm-6">{{ fromName }} (id: {{ fromID }})</div>
 					</div>
 					<div class="row mb-0" style="padding:10px">
 						<div class="col-sm-6">{{ lang.receiver }}:</div>
-						<div class="col-sm-6">{{ toName }} (ИД: {{ toID }})</div>
+						<div class="col-sm-6">{{ toName }} (id: {{ toID }})</div>
 					</div>
 				</div>
 			</div>

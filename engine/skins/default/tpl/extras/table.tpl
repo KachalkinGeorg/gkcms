@@ -7,16 +7,16 @@
 
 <div class="navbar-default navbar-component">
 <ul class="nav nav-tabs nav-fill mb-3 d-md-flex d-block">
-	<li class="nav-item"><a href="#" class="nav-link active" data-filter="pluginEntryActive"><span data-toggle="tooltip" data-placement="top" title="{{ lang['list.active'] }}"><i class="fa fa-eye"></i> {{ lang['list.active'] }}</span> <span class="badge badge-light">{{ cntActive }}</span></a></li>
-	<li class="nav-item"><a href="#" class="nav-link" data-filter="pluginEntryInactive"><span data-toggle="tooltip" data-placement="top" title="{{ lang['list.inactive'] }}"><i class="fa fa-eye-slash"></i> {{ lang['list.inactive'] }}</span> <span class="badge badge-light">{{ cntInactive }}</span></a></li>
-	<li class="nav-item"><a href="#" class="nav-link" data-filter="pluginEntryUninstalled"><span data-toggle="tooltip" data-placement="top" title="{{ lang['list.needinstall'] }}"><i class="fa fa-download"></i> {{ lang['list.needinstall'] }}</span> <span class="badge badge-light">{{ cntUninstalled }}</span></a></li>
-	<li class="nav-item"><a href="#" class="nav-link" data-filter="all"><span data-toggle="tooltip" data-placement="top" title="{{ lang['list.all'] }}"><i class="fa fa-cubes"></i> {{ lang['list.all'] }}</span> <span class="badge badge-light">{{ cntAll }}</span></a></li>
+	<li class="nav-item"><a href="#" class="nav-link active" data-filter="pluginEntryActive"><span data-toggle="popover" data-placement="top" data-trigger="hover focus" data-content="{{ lang['list.active'] }}"><i class="fa fa-eye"></i> {{ lang['list.active'] }}</span> <span class="badge badge-light">{{ cntActive }}</span></a></li>
+	<li class="nav-item"><a href="#" class="nav-link" data-filter="pluginEntryInactive"><span data-toggle="popover" data-placement="top" data-trigger="hover focus" data-content="{{ lang['list.inactive'] }}"><i class="fa fa-eye-slash"></i> {{ lang['list.inactive'] }}</span> <span class="badge badge-light">{{ cntInactive }}</span></a></li>
+	<li class="nav-item"><a href="#" class="nav-link" data-filter="pluginEntryUninstalled"><span data-toggle="popover" data-placement="top" data-trigger="hover focus" data-content="{{ lang['list.needinstall'] }}"><i class="fa fa-download"></i> {{ lang['list.needinstall'] }}</span> <span class="badge badge-light">{{ cntUninstalled }}</span></a></li>
+	<li class="nav-item"><a href="#" class="nav-link" data-filter="all"><span data-toggle="popover" data-placement="top" data-trigger="hover focus" data-content="{{ lang['list.all'] }}"><i class="fa fa-cubes"></i> {{ lang['list.all'] }}</span> <span class="badge badge-light">{{ cntAll }}</span></a></li>
 </ul>
 </div>
 
 <div class="panel panel-default">
   <div class="panel-card">
-    Всего активных плагинов - {{ cntActive }}
+    {{ lang['all.list.plugin'] }} - {{ cntActive }}
   </div>
   <div class="media-bordered">
 
@@ -33,7 +33,7 @@
 				</span><br>
 				<span class="text-muted text-size-small">
 				{{ entry.info }} {{ entry.readme }} {{ entry.history }} 
-				{% if entry.flags.isCompatible %}<i title="{{ lang['compatible1'] }}" class="fa fa-check-circle"></i>{% else %}<i title="{{ lang['compatible2'] }}" class="fa fa-circle"></i>{% endif %} | {{ entry.type }} - 
+				{% if entry.flags.isCompatible %}<i data-placement="left" data-popup="tooltip" data-original-title="{{ lang['compatible1'] }}" title="{{ lang['compatible1'] }}" class="fa fa-check-circle"></i>{% else %}<i data-placement="left" data-popup="tooltip" data-original-title="{{ lang['compatible2'] }}" title="{{ lang['compatible2'] }}" class="fa fa-circle"></i>{% endif %} | {{ entry.type }} - 
 					<span style="color:#6c757d!important;text-shadow:0 0 1px rgb(0 0 0 / 50%);font-size: 10px;">
 						{{ entry.id }} {{ entry.new }} - <span>v{{ entry.version }}</span>
 					</span>

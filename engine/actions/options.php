@@ -46,10 +46,10 @@ function allOptionList()
             'id'          => $extra['id'],
 			'icon' 		  => isset($extra['icon']) ? $extra['icon'] : '<i class="fa fa-puzzle-piece fa-2x"></i>',
             'logo'        => file_exists(extras_dir.'/'.$id.'/logo.png') && filesize(extras_dir.'/'.$id.'/logo.png') ? ('<img src="'.admin_url.'/plugins/'.$id.'/logo.png" width=70 height=70 />') : '',
-			'info' 		  => $extra['information'] ? ('<a href="#" class="extra_info" data-toggle="modal" data-target="#modal-'.$id.'" title="'.$lang['information'].'"><i class="fa fa-exclamation-circle"></i></a>') : '',
+			'info' 		  => $extra['information'] ? ('<a href="#" class="extra_info" data-toggle="modal" data-target="#modal-'.$id.'" data-placement="top" data-popup="tooltip" data-original-title="'.$lang['information'].'" title="'.$lang['information'].'"><i class="fa fa-exclamation-circle"></i></a>') : '',
 			'information' => isset($extra['information']) ? $extra['information'] : '',
-            'readme'      => file_exists(extras_dir.'/'.$id.'/readme') && filesize(extras_dir.'/'.$id.'/readme') ? ('<a class="extra_readme" href="'.admin_url.'/includes/showinfo.php?mode=plugin&amp;item=readme&amp;plugin='.$id.'" target="_blank" title="'.$lang['entry.readme'].'"><i class="fa fa-question-circle"></i></a>') : '',
-            'history'     => file_exists(extras_dir.'/'.$id.'/history') && filesize(extras_dir.'/'.$id.'/history') ? ('<a class="extra_history" href="'.admin_url.'/includes/showinfo.php?mode=plugin&amp;item=history&amp;plugin='.$id.'" target="_blank" title="'.$lang['entry.history'].'"><i class="fa fa-history"></i></a>') : '',
+            'readme'      => file_exists(extras_dir.'/'.$id.'/readme') && filesize(extras_dir.'/'.$id.'/readme') ? ('<a class="extra_readme" href="'.admin_url.'/includes/showinfo.php?mode=plugin&amp;item=readme&amp;plugin='.$id.'" target="_blank" data-placement="top" data-popup="tooltip" data-original-title="'.$lang['entry.readme'].'" title="'.$lang['entry.readme'].'"><i class="fa fa-question-circle"></i></a>') : '',
+            'history'     => file_exists(extras_dir.'/'.$id.'/history') && filesize(extras_dir.'/'.$id.'/history') ? ('<a class="extra_history" href="'.admin_url.'/includes/showinfo.php?mode=plugin&amp;item=history&amp;plugin='.$id.'" target="_blank" data-placement="top" data-popup="tooltip" data-original-title="'.$lang['entry.history'].'" title="'.$lang['entry.history'].'"><i class="fa fa-history"></i></a>') : '',
             'flags'       => [
                 'isCompatible'  => $extra['isCompatible'],
             ],

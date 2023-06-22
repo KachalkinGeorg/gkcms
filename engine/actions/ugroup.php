@@ -35,7 +35,7 @@ function ugroupList()
         $uCount[$row['status']] = $row['cnt'];
     }
 	
-	$breadcrumb = breadcrumb('<i class="fa fa-users btn-position"></i><span class="text-semibold">'.$lang['user_groups'].'</span>', ''.$lang['user_groups'].'' );
+	$breadcrumb = breadcrumb('<i class="fa fa-users btn-position"></i><span class="text-semibold">'.$lang['user_groups'].'</span>', '<i class="fa fa-users btn-position"></i>'.$lang['user_groups_title'].'' );
 
     $tEntries = [];
     foreach ($UGROUP as $id => $grp) {
@@ -99,7 +99,7 @@ function ugroupForm()
     if ($editMode && (!isset($UGROUP[$id]))) {
         ngSYSLOG(['plugin' => '#admin', 'item' => 'ugroup', 'ds_id' => $id], ['action' => 'editForm'], null, [0, 'NOT.FOUND']);
         msg(['type' => 'error', 'text' => $lang['msge_not_found']]);
-
+		print_msg( 'warning', $lang['user_groups'], $lang['msgk_not_found'], 'javascript:history.go(-1)' );
         return;
     }
 
@@ -182,14 +182,14 @@ function ugroupCommit()
     if (($editMode || $deleteMode) && (!isset($UGROUP[$id]))) {
         ngSYSLOG(['plugin' => '#admin', 'item' => 'ugroup', 'ds_id' => $id], ['action' => 'editForm'], null, [0, 'NOT.FOUND']);
         msg(['type' => 'error', 'text' => $lang['msge_not_found']]);
-
+		print_msg( 'warning', $lang['user_groups'], $lang['msgk_not_found'], 'javascript:history.go(-1)' );
         return;
     }
 
     // Check for empty identity [ for ADD/EDIT ]
     if (($addMode || $editMode) && (trim($_REQUEST['identity']) == '')) {
-        msg(['type' => 'error', 'text' => 'Identity is empty']);
-
+        msg(['type' => 'error', 'text' => $lang['msge_not_id']]);
+		print_msg( 'error', $lang['user_groups'], $lang['msgk_not_id'], 'javascript:history.go(-1)' );
         return;
     }
 
@@ -198,7 +198,7 @@ function ugroupCommit()
         $isConflicted = false;
         foreach ($edGroup as $eid => $eval) {
             if ((strtolower($_REQUEST['identity']) == strtolower($eval['identity'])) && ($_REQUEST['id'] != $eid)) {
-                msg(['type' => 'error', 'text' => 'Specified identity is already used for other group']);
+                msg(['type' => 'error', 'text' => $lang['msgi_info']]);
 
                 return;
             }
@@ -241,12 +241,12 @@ function ugroupCommit()
         if (is_array($uCount = $mysql->record($query)) && ($uCount['cnt'] > 0)) {
             // Don't allow to delete groups with users
             msg(['type' => 'error', 'text' => $lang['group_del_users']]);
-			print_msg( 'error', ''.$lang['user_groups'].'', 'ВНИМАНИЕ!<br>Нельзя удалять группу, в которой находятся пользователи!', '?mod=ugroup' );
+			print_msg( 'error', $lang['user_groups'], $lang['msgk_er_gropdel'], '?mod=ugroup' );
 			return;
         }
         unset($edGroup[$id]);
 		msg(['type' => 'info', 'text' => $lang['del_group']]);
-		print_msg( 'delete', ''.$lang['user_groups'].'', 'Данная группа успешно удалена!', '?mod=ugroup' );
+		print_msg( 'delete', $lang['user_groups'], $lang['msgk_gropdel'], '?mod=ugroup' );
     }
 
     // Prepare resulting config content
@@ -270,12 +270,15 @@ function ugroupCommit()
 }
 
 if (($action == 'editForm') || ($action == 'addForm')) {
-    $main_admin = ugroupForm();
+    ugroupForm();
+    if (!$main_admin) {
+        $main_admin = ugroupForm();
+    }
 } else {
     switch ($action) {
         case 'edit':
 			ugroupCommit();
-			return print_msg( 'update', ''.$lang['user_groups'].'', 'Группа успешно отредактирована!', '?mod=ugroup' );
+			return print_msg( 'update', $lang['user_groups'], $lang['msgk_edit_ok'], '?mod=ugroup' );
             break;
         case 'delete':
 			ugroupCommit();
@@ -283,7 +286,7 @@ if (($action == 'editForm') || ($action == 'addForm')) {
             break;
         case 'add':
 			ugroupCommit();
-			return print_msg( 'success', ''.$lang['user_groups'].'', 'Новая группы добавлена!', '?mod=ugroup' );
+			return print_msg( 'success', $lang['user_groups'], $lang['msgk_add_ok'], '?mod=ugroup' );
             break;
     }
     $main_admin = ugroupList();

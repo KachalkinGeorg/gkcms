@@ -55,7 +55,7 @@ function pm_send()
 
 		$db->exec("insert into " . prefix . "_pm (from_id, to_id, date, subject, message, folder) values (" . db_squote($userROW['id']) . ", " . db_squote($torow['id']) . ", " . db_squote($time) . ", " . db_squote($subject) . ", " . db_squote($message) . ", 'inbox')");
         msg(['type' => 'info', 'text' => $lang['msgo_sent']]);
-		return print_msg( 'success', $lang['pm'], str_replace(array ('%user%', '%title%' ), array ($torow['name'], $subject ), $lang['msgo_pmsend']), '?mod=pm' );
+		return print_msg( 'success', $lang['pm'], str_replace(array ('%user%', '%title%' ), array ($torow['name'], $subject ), $lang['msgk_pmsend']), '?mod=pm' );
     } else {
         msg(['type' => 'error', 'text' => $lang['msge_nouser'], 'info' => $lang['msgi_nouser']]);
 		return print_msg( 'error', $lang['pm'], ''.$lang['msge_nouser'].'<br>'.$lang['msgi_nouser'].'', 'javascript:history.go(-1)' );
@@ -72,7 +72,7 @@ function pm_list()
         'token'     => genUToken('pm.token'),
     ];
 
-	$breadcrumb = breadcrumb('<i class="fa fa-envelope-o btn-position"></i><span class="text-semibold">'.$lang['pm'].'</span>', '<i class="fa fa-envelope-open-o btn-position"></i>'.$lang['pm'].'' );
+	$breadcrumb = breadcrumb('<i class="fa fa-envelope-o btn-position"></i><span class="text-semibold">'.$lang['pm'].'</span>', '<i class="fa fa-envelope-open-o btn-position"></i>'.$lang['pm_title'].'' );
 
     $db = NGEngine::getInstance()->getDB();
     foreach ($db->query('select pm.*, u.id as uid, u.name as uname from '.uprefix.'_pm pm left join '.uprefix.'_users u on pm.from_id=u.id where pm.to_id = :id order by id desc limit 0, 30', ['id' => $userROW['id']]) as $row) {
@@ -131,7 +131,7 @@ function pm_read()
             'message'   => $parse->htmlformatter($parse->smilies($parse->bbcodes($row['message']))),
         ];
 		
-		$breadcrumb = breadcrumb('<i class="fa fa-envelope-o btn-position"></i><span class="text-semibold">'.$lang['pm'].'</span>', array('?mod=pm' => '<i class="fa fa-envelope-o btn-position"></i>'.$lang['pm'].'', '<i class="fa fa-envelope-open-o btn-position"></i>'.$row['subject'].'' ) );
+		$breadcrumb = breadcrumb('<i class="fa fa-envelope-o btn-position"></i><span class="text-semibold">'.$lang['pm'].'</span>', array('?mod=pm' => '<i class="fa fa-envelope-o btn-position"></i>'.$lang['pm_title'].'', '<i class="fa fa-envelope-open-o btn-position"></i>'.$row['subject'].'' ) );
 
         if ($row['from_id'] > 0) {
             $r = locateUserById($row['from_id']);
@@ -170,7 +170,7 @@ function pm_reply()
         return;
     }
 	
-	$breadcrumb = breadcrumb('<i class="fa fa-envelope-o btn-position"></i><span class="text-semibold">'.$lang['pm'].'</span>', array('?mod=pm' => '<i class="fa fa-envelope-o btn-position"></i>'.$lang['pm'].'', '<i class="fa fa-paper-plane-o btn-position"></i>Ответить на письмо' ) );
+	$breadcrumb = breadcrumb('<i class="fa fa-envelope-o btn-position"></i><span class="text-semibold">'.$lang['pm'].'</span>', array('?mod=pm' => '<i class="fa fa-envelope-o btn-position"></i>'.$lang['pm_title'].'', '<i class="fa fa-paper-plane-o btn-position"></i>'.$lang['reply_pm'].'' ) );
 	
 	$pmid = $_REQUEST['pmid'];
     $db = NGEngine::getInstance()->getDB();
@@ -218,7 +218,7 @@ function pm_write()
 {
     global $config, $twig, $breadcrumb, $lang;
 	
-	$breadcrumb = breadcrumb('<i class="fa fa-envelope-o btn-position"></i><span class="text-semibold">'.$lang['pm'].'</span>', array('?mod=pm' => '<i class="fa fa-envelope-o btn-position"></i>'.$lang['pm'].'', '<i class="fa fa-paper-plane-o btn-position"></i>Написать письмо' ) );
+	$breadcrumb = breadcrumb('<i class="fa fa-envelope-o btn-position"></i><span class="text-semibold">'.$lang['pm'].'</span>', array('?mod=pm' => '<i class="fa fa-envelope-o btn-position"></i>'.$lang['pm_title'].'', '<i class="fa fa-paper-plane-o btn-position"></i>'.$lang['write_pm'].'' ) );
 
     $tVars = [
         'quicktags' => QuickTags('', 'pmmes'),

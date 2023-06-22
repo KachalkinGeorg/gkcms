@@ -35,7 +35,7 @@ function listSubdirs($dir)
 // ////////////////////////////////////////////////////////////////////////////
 // Processing functions :: form for adding category
 // ///////////////////////////////////////////////////////////////////////////
-//
+
 function admCategoryAddForm()
 {
     global $mysql, $twig, $mod, $PHP_SELF, $config, $lang, $AFILTERS, $breadcrumb;
@@ -43,8 +43,7 @@ function admCategoryAddForm()
     // Check for permissions
     if (!checkPermission(['plugin' => '#admin', 'item' => 'categories'], null, 'modify')) {
         msg(['type' => 'error', 'text' => $lang['perm.denied']]);
-
-        return;
+        return print_msg( 'warning', $lang['category'], $lang['perm.denied'], '?mod=categories');
     }
 
     $tpl_list = '<option value="">* '.$lang['cat_tpldefault']." *</option>\n";
@@ -85,7 +84,7 @@ function admCategoryAddForm()
 // ////////////////////////////////////////////////////////////////////////////
 // Processing functions :: add new category
 // ///////////////////////////////////////////////////////////////////////////
-//
+
 function admCategoryAdd()
 {
     global $mysql, $lang, $mod, $parse, $config, $AFILTERS;
@@ -111,18 +110,18 @@ function admCategoryAdd()
     // Check for permissions
     if (!checkPermission(['plugin' => '#admin', 'item' => 'categories'], null, 'modify')) {
         msg(['type' => 'error', 'text' => $lang['perm.denied']]);
-		return print_msg( 'error', 'Категория', ''.$lang['perm.denied'].'', '?mod=categories');
+		return print_msg( 'error', $lang['category'], ''.$lang['perm.denied'].'', '?mod=categories');
     }
 
     // Check for security token
     if ((!isset($_REQUEST['token'])) || ($_REQUEST['token'] != genUToken('admin.categories'))) {
         msg(['type' => 'error', 'text' => $lang['error.security.token'], 'info' => $lang['error.security.token#desc']]);
-		return print_msg( 'error', 'Категория', ''.$lang['error.security.token'].'<br>'.$lang['error.security.token#desc'].'', '?mod=categories');
+		return print_msg( 'error', $lang['category'], ''.$lang['error.security.token'].'<br>'.$lang['error.security.token#desc'].'', '?mod=categories');
     }
 
     if (!$SQL['name']) {
         msg(['type' => 'error', 'text' => $lang['msge_name'], 'info' => $lang['msgi_name']]);
-		return print_msg( 'error', 'Категория', ''.$lang['msge_name'].'<br>'.$lang['msgi_name'].'', '?mod=categories');
+		return print_msg( 'error', $lang['category'], ''.$lang['msge_name'].'<br>'.$lang['msgi_name'].'', '?mod=categories');
     }
 
     // IF alt name is set:
@@ -131,13 +130,13 @@ function admCategoryAdd()
         if (!$parse->nameCheck($SQL['alt'])) {
             // ERROR
             msg(['type' => 'error', 'text' => $lang['category.err.wrongalt'], 'info' => $lang['category.err.wrongalt#desc']]);
-			return print_msg( 'error', 'Категория', ''.$lang['category.err.wrongalt'].'<br>'.$lang['category.err.wrongalt#desc'].'', '?mod=categories');
+			return print_msg( 'error', $lang['category'], ''.$lang['category.err.wrongalt'].'<br>'.$lang['category.err.wrongalt#desc'].'', '?mod=categories');
         }
 
         // - check for duplicate alt name
         if (is_array($mysql->record('select * from '.prefix.'_category where lower(alt) = '.db_squote($SQL['alt'])))) {
             msg(['type' => 'error', 'text' => $lang['category.err.dupalt'], 'info' => $lang['category.err.dupalt#desc']]);
-			return print_msg( 'error', 'Категория', ''.$lang['category.err.dupalt'].'<br>'.$lang['category.err.dupalt#desc'].'', '?mod=categories');
+			return print_msg( 'error', $lang['category'], ''.$lang['category.err.dupalt'].'<br>'.$lang['category.err.dupalt#desc'].'', '?mod=categories');
         }
     } else {
         // alt name was not set, generate new alt name in automatic mode
@@ -159,7 +158,7 @@ function admCategoryAdd()
     if (is_array($AFILTERS['categories'])) {
         foreach ($AFILTERS['categories'] as $k => $v) {
             if (!($pluginNoError = $v->addCategory($tvars, $SQL))) {
-                msg(['type' => 'error', 'text' => str_replace('{plugin}', $k, $lang['msge_pluginlock'])]);
+                msg(['type' => 'error', 'text' => str_replace('%plugin%', $k, $lang['msge_pluginlock'])]);
                 break;
             }
         }
@@ -229,7 +228,7 @@ function admCategoryAdd()
 	
 	$catid = $mysql->lastid('category');
 	
-	return print_msg( 'success', 'Категория', 'Категория '.$SQL['name'].' успешно добавлена!', array('?mod=categories&action=edit&catid='.$catid.'' => 'Редактировать', '?mod=categories' => 'Вернуться назад' ) );
+	return print_msg( 'success', $lang['category'], str_replace('%cat%', $SQL['name'], $lang['msgk_added']), array('?mod=categories&action=edit&catid='.$catid.'' => $lang['edit'], '?mod=categories' => $lang['back'] ) );
 
 }
 
@@ -247,15 +246,13 @@ function admCategoryEditForm()
 	
     if (!$permModify && !$permDetails) {
         msg(['type' => 'error', 'text' => $lang['perm.denied']]);
-
-        return;
+        return print_msg( 'warning', $lang['category'], $lang['perm.denied'], '?mod=categories');
     }
 
     $catid = intval($_REQUEST['catid']);
     if (!is_array($row = $mysql->record('select nc.*, ni.id as icon_id, ni.name as icon_name, ni.storage as icon_storage, ni.folder as icon_folder, ni.preview as icon_preview, ni.width as icon_width, ni.height as icon_height, ni.p_width as icon_pwidth, ni.p_height as icon_pheight from `'.prefix.'_category` as nc left join `'.prefix.'_images` ni on nc.image_id = ni.id where nc.id = '.db_squote($catid).' order by nc.posorder asc'))) {
         msg(['type' => 'error', 'text' => $lang['msge_id'], 'info' => sprintf($lang['msgi_id'], $PHP_SELF.'?mod=categories')]);
-
-        return;
+		return print_msg( 'warning', $lang['category'], ''.$lang['msge_id'].'<br>'.$lang['msgi_ids'].'', '?mod=categories');
     }
 
     $tpl_list = '<option value="">* '.$lang['cat_tpldefault']." *</option>\n";
@@ -277,7 +274,7 @@ function admCategoryEditForm()
                 generateLink('news', 'by.category', ['category' => $row['alt'], 'catid' => $row['id']], [], false, true) :
                 generateLink('core', 'plugin', ['plugin' => 'news', 'handler' => 'by.category'], ['category' => $row['alt'], 'catid' => $row['id']], false, true));
 
-	$breadcrumb = breadcrumb('<i class="fa fa-pencil" btn-position"></i><span class="text-semibold">Категория '.$row['name'].'</span>', array('?mod=categories' => '<i class="fa fa-folder-open btn-position"></i>'.$lang['categories_title'].'', ''.$row['name'].'' ) );
+	$breadcrumb = breadcrumb('<i class="fa fa-pencil btn-position"></i><span class="text-semibold">'.$lang['category'].' '.$row['name'].'</span>', array('?mod=categories' => '<i class="fa fa-folder-open btn-position"></i>'.$lang['categories_title'].'', ''.$row['name'].'' ) );
 
     $tVars = [
         'php_self'      => $PHP_SELF,
@@ -352,23 +349,23 @@ function admCategoryEdit()
     // Check for permissions
     if (!checkPermission(['plugin' => '#admin', 'item' => 'categories'], null, 'modify')) {
         msg(['type' => 'error', 'text' => $lang['perm.denied']]);
-		return print_msg( 'error', 'Категория', ''.$lang['perm.denied'].'', '?mod=categories');
+		return print_msg( 'error', $lang['category'], ''.$lang['perm.denied'].'', '?mod=categories');
     }
 
     // Check for security token
     if ((!isset($_REQUEST['token'])) || ($_REQUEST['token'] != genUToken('admin.categories'))) {
         msg(['type' => 'error', 'text' => $lang['error.security.token'], 'info' => $lang['error.security.token#desc']]);
-		return print_msg( 'error', 'Категория', ''.$lang['error.security.token'].'<br>'.$lang['error.security.token#desc'].'', '?mod=categories');
+		return print_msg( 'error', $lang['category'], ''.$lang['error.security.token'].'<br>'.$lang['error.security.token#desc'].'', '?mod=categories');
     }
 
     if (!$SQL['name'] || !$catid || (!is_array($SQLold = $catz[$catmap[$catid]]))) {
         msg(['type' => 'error', 'text' => $lang['msge_name'], 'info' => $lang['msgi_name']]);
-		return print_msg( 'error', 'Категория', ''.$lang['msge_name'].'<br>'.$lang['msgi_name'].'', '?mod=categories');
+		return print_msg( 'error', $lang['category'], ''.$lang['msge_name'].'<br>'.$lang['msgi_name'].'', '?mod=categories');
     }
 
     if (!$catid || (!is_array($SQLold = $catz[$catmap[$catid]]))) {
         msg(['type' => 'error', 'text' => $lang['msge_id'], 'info' => $lang['msgi_id']]);
-		return print_msg( 'error', 'Категория', ''.$lang['msge_id'].'<br>'.$lang['msgi_id'].'', '?mod=categories');
+		return print_msg( 'error', $lang['category'], ''.$lang['msge_id'].'<br>'.$lang['msgi_id'].'', '?mod=categories');
     }
 
     // Check alt name in case it was changed
@@ -377,13 +374,13 @@ function admCategoryEdit()
         if (!$parse->nameCheck($SQL['alt'])) {
             // ERROR
             msg(['type' => 'error', 'text' => $lang['category.err.wrongalt'], 'info' => $lang['category.err.wrongalt#desc']]);
-			return print_msg( 'error', 'Категория', ''.$lang['category.err.wrongalt'].'<br>'.$lang['category.err.wrongalt#desc'].'', '?mod=categories');
+			return print_msg( 'error', $lang['category'], ''.$lang['category.err.wrongalt'].'<br>'.$lang['category.err.wrongalt#desc'].'', '?mod=categories');
         }
 
         // - check for duplicate alt name
         if (is_array($mysql->record('select * from '.prefix.'_category where (id <> '.db_squote($catid).') and (lower(alt) = '.db_squote($SQL['alt']).')'))) {
             msg(['type' => 'error', 'text' => $lang['category.err.dupalt'], 'info' => $lang['category.err.dupalt#desc']]);
-			return print_msg( 'error', 'Категория', ''.$lang['category.err.dupalt'].'<br>'.$lang['category.err.dupalt#desc'].'', '?mod=categories');
+			return print_msg( 'error', $lang['category'], ''.$lang['category.err.dupalt'].'<br>'.$lang['category.err.dupalt#desc'].'', '?mod=categories');
         }
     }
 
@@ -445,7 +442,7 @@ function admCategoryEdit()
     if (is_array($AFILTERS['categories'])) {
         foreach ($AFILTERS['categories'] as $k => $v) {
             if (!($pluginNoError = $v->editCategory($catid, $SQLold, $SQL, $tvars))) {
-                msg(['type' => 'error', 'text' => str_replace('{plugin}', $k, $lang['msge_pluginlock'])]);
+                msg(['type' => 'error', 'text' => str_replace('%plugin%', $k, $lang['msge_pluginlock'])]);
                 break;
             }
         }
@@ -464,7 +461,7 @@ function admCategoryEdit()
 
     $mysql->query('update '.prefix.'_category set '.implode(', ', $SQLout).' where id='.db_squote($catid));
     msg(['type' => 'info', 'text' => $lang['msgo_saved']]);
-	return print_msg( 'update', 'Категория', 'Категория '.$SQL['name'].' успешно отредактирована', array('?mod=categories&action=edit&catid='.$catid.'' => 'Редактировать', '?mod=categories' => 'Вернуться назад' ) );
+	return print_msg( 'update', $lang['category'], str_replace('%cat%', $SQL['name'], $lang['msgk_edit']), array('?mod=categories&action=edit&catid='.$catid.'' => 'Редактировать', '?mod=categories' => 'Вернуться назад' ) );
 
 }
 
@@ -474,7 +471,10 @@ function admCategoryEdit()
 //
 
 if ($action == 'edit') {
-    $main_admin = admCategoryEditForm();
+   admCategoryEditForm();
+   if (!$main_admin) {
+      $main_admin = admCategoryEditForm();
+   }
 } elseif ($action == 'add') {
     $main_admin = admCategoryAddForm();
 } else {
@@ -496,5 +496,5 @@ if ($action == 'edit') {
     if ($dosort) {
         admCategoryReorder();
     }
-    //$main_admin = admCategoryList();
+
 }

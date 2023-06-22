@@ -71,8 +71,7 @@ function generate_config_page($module, $params, $values = [])
 	$token = genUToken('admin.extra-config');
 	
 	if(!getPluginStatusActive($module)){
-		//$active = '<center><a href="?mod=extras&token='.$token.'&enable='.$module.'" class="btn btn-outline-success">включить</a></center>';
-		$no_active = '<div class="stickers stickers-danger stickers-styled-left"><b>'.$module.' не активен!</b><br>Чтобы воспользоваться плагином '.$module.', надо его включить!<br></div>';
+		$no_active = '<div class="stickers stickers-danger stickers-styled-left"><b>'.str_replace('%plugin%', $module, $lang['no_active_info']).'</div>';
 	}
 
     $tpl->template('table', tpl_actions.'extra-config');
@@ -183,7 +182,7 @@ function fixdb_plugin_install($module, $params, $mode = 'install', $silent = fal
         $create_mode = 0;
 
         if (!$table['table']) {
-            $publish_result = 'No table name specified';
+            $publish_result = $lang['idbc_specified_m'];
             $publish_error = 1;
             break;
         }
@@ -195,8 +194,8 @@ function fixdb_plugin_install($module, $params, $mode = 'install', $silent = fal
             ($table['action'] != 'modify') &&
             ($table['action'] != 'drop')
         ) {
-            $publish_title = 'Table operations';
-            $publish_result = 'Unknown action type specified ['.$table['action'].']';
+            $publish_title = $lang['idbc_table'];
+            $publish_result = str_replace('%table%', $table['action'], $lang['idbc_table_unknow']);
             $publish_error = 1;
             break;
         }
@@ -219,7 +218,7 @@ function fixdb_plugin_install($module, $params, $mode = 'install', $silent = fal
         }
 
         if (!is_array($table['fields'])) {
-            $publish_result = 'Field list should be specified';
+            $publish_result = $lang['idbc_specified_l'];
             $publish_error = 1;
             break;
         }
@@ -260,19 +259,19 @@ function fixdb_plugin_install($module, $params, $mode = 'install', $silent = fal
             $fieldlist = [];
             foreach ($table['fields'] as $field) {
                 if (!$field['name']) {
-                    $publish_result = 'Field name should be specified';
+                    $publish_result = $lang['idbc_specified_n'];
                     $publish_error = 1;
                     break;
                 }
                 if (($field['action'] == 'create') || ($field['action'] == 'cmodify') || ($field['action'] == 'cleave')) {
                     if (!$field['type']) {
-                        $publish_result = 'Field type should be specified';
+                        $publish_result = $lang['idbc_specified_t'];
                         $publish_error = 1;
                         break;
                     }
                     array_push($fieldlist, $field['name'].' '.$field['type'].' '.$field['params']);
                 } elseif ($field['action'] != 'drop') {
-                    $publish_result = 'Unknown action';
+                    $publish_result = $lang['idbc_not_action'];
                     $publish_error = 1;
                     break;
                 }
@@ -287,18 +286,18 @@ function fixdb_plugin_install($module, $params, $mode = 'install', $silent = fal
         } else {
             foreach ($table['fields'] as $field) {
                 if (!$field['name']) {
-                    $publish_result = 'Field name should be specified';
+                    $publish_result = $lang['idbc_specified_n'];
                     $publish_error = 1;
                     break;
                 }
                 if (($field['action'] == 'create') || ($field['action'] == 'cmodify') || ($field['action'] == 'cleave')) {
                     if (!$field['type']) {
-                        $publish_result = 'Field type should be specified';
+                        $publish_result = $lang['idbc_specified_t'];
                         $publish_error = 1;
                         break;
                     }
                 } elseif ($field['action'] != 'drop') {
-                    $publish_result = 'Unknown action';
+                    $publish_result = $lang['idbc_not_action'];
                     $publish_error = 1;
                     break;
                 }

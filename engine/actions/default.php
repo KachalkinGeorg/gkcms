@@ -54,7 +54,7 @@ foreach (['backup' => root.'backups', 'avatar' => avatars_dir, 'photo' => photos
 
         // Error - engine can't write into directory
         if (!is_writable($dir)) {
-            $STATS[$id.'_perm'] = '<font color="red"><b>'.$perms.'</b></font> [<a href="#" onclick="showModal('."'Неверные правила'".');">Ошибка</a>]';
+            $STATS[$id.'_perm'] = '<font color="red"><b>'.$perms.'</b></font> [<a href="#" onclick="showModal('."'".$lang['bug_rules']."'".');">'.$lang['bug'].'</a>]';
         } else {
             $STATS[$id.'_perm'] = '<font color="green"><b>'.$perms.'</b></font>';
         }
@@ -72,7 +72,7 @@ foreach (['backup' => root.'backups', 'avatar' => avatars_dir, 'photo' => photos
     }
 }
 
-$breadcrumb = breadcrumb('<i class="fa fa-home btn-position"></i><span class="text-semibold">'.$lang['admin_panel'].'</span>', '<i class="fa fa-laptop"></i>'.$lang['admin_panel'].'' );
+$breadcrumb = breadcrumb('<i class="fa fa-home btn-position"></i><span class="text-semibold">'.$lang['admin_panel'].'</span>', '<i class="fa fa-laptop"></i>'.$lang['default_home'].'' );
 
 if (function_exists('gd_info')) {
     $gd_version = gd_info();
@@ -157,7 +157,7 @@ if ( function_exists( 'gd_info' ) ) {
 	
 	}
 
-} else $gdversion = 'Неопределено';
+} else $gdversion = $lang['unknow'];
 
 $news_unapp = $mysql->result('SELECT count(id) FROM '.prefix."_news WHERE approve = '0'");
 $news_unapp = ($news_unapp == '0') ? $news_unapp : '<font color="#ff6600">'.$news_unapp.'</font>';
@@ -166,9 +166,9 @@ $users_unact = ($users_unact == '0') ? $users_unact : '<font color="#ff6600">'.$
 
 if( function_exists( 'apache_get_modules' ) ) {
 	if( array_search( 'mod_rewrite', apache_get_modules() ) !== false) {
-		$mod_rewrite = 'Включен';
+		$mod_rewrite = $lang['enable'];
 	} else {
-		$mod_rewrite = "<span class=\"text-danger\">Выключен</span>";
+		$mod_rewrite = '<span class="text-danger">'.$lang['disable'].'</span>';
 	}
 } else {
 	$mod_rewrite = $lang['undefined'];
@@ -180,19 +180,19 @@ $maxupload = formatsize( $maxupload * 1024 * 1024 );
 $dfs = @disk_free_space( "." );
 $freespace = formatsize( $dfs );
 
-$offline = (!$config['lock']) ? 'Включен' : '<span class="text-danger">Выключен</span>';
-$maxmemory = (@ini_get( 'memory_limit' ) != '') ? @ini_get( 'memory_limit' ) : 'Неизвестно';
+$offline = (!$config['lock']) ? $lang['enable'] : '<span class="text-danger">'.$lang['disable'].'</span>';
+$maxmemory = (@ini_get( 'memory_limit' ) != '') ? @ini_get( 'memory_limit' ) : $lang['unknow'];
 $os_version = @php_uname( "s" ) . " " . @php_uname( "r" );
-$disabledfunctions = (strlen( ini_get( 'disable_functions' ) ) > 1) ? @ini_get( 'disable_functions' ) : 'Неизвестно';
+$disabledfunctions = (strlen( ini_get( 'disable_functions' ) ) > 1) ? @ini_get( 'disable_functions' ) : $lang['unknow'];
 $disabledfunctions = str_replace( ",", ", ", $disabledfunctions );
-$safemode = (@ini_get( 'safe_mode' ) == 1) ? 'Включен' : 'Выключен';
+$safemode = (@ini_get( 'safe_mode' ) == 1) ? $lang['enable'] : $lang['disable'];
 
 $tVars = [
     'php_self'         => $PHP_SELF,
     'php_os'           => PHP_OS,
     'php_version'      => phpversion(),
     'mysql_version'    => $mysql->mysql_version(),
-    'gd_version'       => isset($gd_version) ? $gd_info : '<font color="red"><b>NOT INSTALLED</b></font>',
+    'gd_version'       => isset($gd_version) ? $gd_info : '<font color="red"><b>'.$lang['not_install'].'</b></font>',
     'mysql_size'       => $mysql_size,
 	'maxupload'        => $maxupload,
 	'freespace'        => $freespace,

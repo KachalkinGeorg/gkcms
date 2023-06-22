@@ -49,10 +49,10 @@
 				<label class="col-lg-3 col-form-label">{{ lang.addnews['title'] }}</label>
 					<div class="col-lg-9">
 					<div class="input-group">
-						<input id="newsTitle" placeholder="Введите заголовок..." type="text" name="title" value="" tabindex="1" class="form-control" required />
+						<input id="newsTitle" placeholder="{{ lang.editnews['pop.title#input'] }}..." type="text" name="title" value="" tabindex="1" class="form-control" required />
 						<div class="input-group-append">
-						<span class="input-group-text"><a class="btn2" onclick="searchDouble();" title="Поиск дубликатов"><i class="fa fa-files-o"></i></a></span>
-						<a class="btn btn-outline-primary" data-toggle="popover" data-placement="top" data-trigger="focus" data-html="true" title="ЗАГОЛОВОК" data-content="Заголовок новости обязателен к заполнению и может содержать не более 200 символов." tabindex="0">
+						<span class="input-group-text"><a class="btn2" onclick="searchDouble();" title="{{ lang.editnews['search_double'] }}"><i class="fa fa-files-o"></i></a></span>
+						<a class="btn btn-outline-primary" data-toggle="popover" data-placement="top" data-trigger="focus" data-html="true" title="{{ lang.editnews['pop.title'] }}" data-content="{{ lang.editnews['pop.title#descr'] }}" tabindex="0">
 							<i class="fa fa-question"></i>
 						</a>
 						</div>
@@ -101,14 +101,14 @@
 						<div class="modal-dialog">
 							<div class="modal-content">
 								<div class="modal-header">
-									<h5 id="smiles-modal-label" class="modal-title">Вставить смайл</h5>
+									<h5 id="smiles-modal-label" class="modal-title">{{ lang.editnews['ins.smilies'] }}</h5>
 									<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 								</div>
 								<div class="modal-body">
 									{{ smilies }}
 								</div>
 								<div class="modal-footer">
-									<button type="button" class="btn btn-outline-dark" data-dismiss="modal">Отмена</button>
+									<button type="button" class="btn btn-outline-dark" data-dismiss="modal">{{ lang.addnews['cancel'] }}</button>
 								</div>
 							</div>
 						</div>
@@ -156,7 +156,7 @@
 					{% include localPath(0)~"scrin.tpl" %}
 						<textarea class="form-control form-scrin width-500" rows="3" onkeydown="checkKey(event, this.form)" name="scrin" id="scrin" placeholder="Загрузите картинки"></textarea>
 						<br>
-						<div class="btn btn-default btn-light btn-fileinput"><span><i class="fa fa-file-image-o"></i> Выбрать картинку ...</span>
+						<div class="btn btn-default btn-light btn-fileinput"><span><i class="fa fa-file-image-o"></i> {{ lang.editnews['img.change'] }} ...</span>
 							<input type="file" id="input_img" onchange="fileChange()" accept="image/*">
 						</div>
 					</div>
@@ -251,7 +251,6 @@
 	</div> <!-- panel-tab-content -->
 </div> <!-- panel panel-default -->
 	
-
            <!-- PLUGIN WITH OWNER BLOCK -->
            {% if (extends.owner) %}
                {% for entry in extends.owner %}
@@ -382,15 +381,15 @@
 					
 					<label class="col-form-label d-block">
 						<input id="fixed" type="checkbox" name="fixed" value="1" />
-						Зафиксировать новость
+						{{ lang.addnews['massfixed'] }}
 					</label>
 					<label class="col-form-label d-block">
 						<input id="robots" type="checkbox" name="robots" value="1"/>
-						Запретить индексацию страницы для поисковиков
+						{{ lang.addnews['flag_robots'] }}
 					</label>
 					<label class="col-form-label d-block">
 						<input id="nosearch" type="checkbox" name="nosearch" value="1" />
-						Исключить из поиска по сайту
+						{{ lang.addnews['flag_nosearch'] }}
 					</label>					
 				</div>
 			</div>
@@ -466,15 +465,15 @@
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 id="uplimg-modal-label" class="modal-title">Загрузка изображений</h5>
+					<h5 id="uplimg-modal-label" class="modal-title">{{ lang.addnews['img_upload'] }}</h5>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 				</div>
 				<div class="modal-body">
 					<div>
 					{% if (flags.thumb_create_option) %}
-						<input type="checkbox" id="imageCreateThumb" name="imageCreateThumb" value="" checked="checked"/> Создать миниатюру&nbsp;&nbsp;
+						<input type="checkbox" id="imageCreateThumb" name="imageCreateThumb" value="" checked="checked"/> {{ lang.addnews['img_cr_thumb'] }}&nbsp;&nbsp;
 					{% endif %}
-						<input type="checkbox" id="imageRandomTitle" name="imageRandomTitle" checked="checked"/> Случайное название
+						<input type="checkbox" id="imageRandomTitle" name="imageRandomTitle" checked="checked"/> {{ lang.addnews['img_rand_name'] }}
 					</div>
 					<br />
 					<div class="table-responsive">
@@ -485,11 +484,11 @@
 					<hr>
                     <div>
 						<input type="file" id="uploadimage" name="newsimage" value=""/>
-						<input type="button" value="загрузить" class="button" onclick="return uploadNewsImage();"/>
+						<input type="button" value="загрузить" class="btn btn-sm btn-outline-secondary" onclick="return uploadNewsImage();"/>
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-outline-dark" data-dismiss="modal">{{ lang.editnews['close'] }}</button>
+					<button type="button" class="btn btn-outline-dark" data-dismiss="modal">{{ lang.addnews['close'] }}</button>
 				</div>
 			</div>
 		</div>

@@ -38,7 +38,7 @@
 				<tr>				
 					<td width="12px" style="display: inline-flex;">
 						<div class="btn-sm btn-default"><input type="checkbox" name="linked_ds" value="0" {ifactiv} class="form-control" style="vertical-align: baseline;" /></div></td>
-					<td><label> - Отобразить только файлы загруженные на сервер в общаю папку</label></td>
+					<td><label> - {l_file_dir#serv}</label></td>
 				</tr>
 			</table>
 	
@@ -112,14 +112,14 @@
 				<label for="preview" class="custom-control-label">{l_show_preview}</label>
 			</div>
 		<div class="panel-head-right" style="z-index:10;">
-			<button type="button" class="btn2" data-toggle="modal" data-target="#uploadnewModal" data-backdrop="static" title="{l_upload_img}"><i class="fa fa-file-image-o"></i> {l_upload_img}</button>
-			<button type="button" class="btn2" data-toggle="modal" data-target="#uploadNewByUrlModal" data-backdrop="static" title="{l_upload_img_url}"><i class="fa fa-file-code-o"></i> {l_upload_img_url}</button>
+			<button type="button" class="btn2" data-toggle="modal" data-target="#uploadnewModal" data-backdrop="static" data-placement="top" data-popup="tooltip" data-original-title="{l_upload_img}" title="{l_upload_img}"><i class="fa fa-file-image-o"></i> {l_upload_img}</button>
+			<button type="button" class="btn2" data-toggle="modal" data-target="#uploadNewByUrlModal" data-backdrop="static" data-placement="top" data-popup="tooltip" data-original-title="{l_upload_img_url}" title="{l_upload_img_url}"><i class="fa fa-file-code-o"></i> {l_upload_img_url}</button>
 			[status]
-			<button type="button" class="btn2" data-toggle="modal" data-target="#categoriesModal" data-backdrop="static" title="{l_categories}">
+			<button type="button" class="btn2" data-toggle="modal" data-target="#categoriesModal" data-backdrop="static" data-placement="top" data-popup="tooltip" data-original-title="{l_categories}" title="{l_categories}">
 				<i class="fa fa-folder-open-o"></i>
 			</button>
 			[/status]
-			<button type="button" class="btn2" data-toggle="collapse" data-target="#collapseImagesFilter" aria-expanded="false" aria-controls="collapseImagesFilter" title="{l_filter}">
+			<button type="button" class="btn2" data-toggle="collapse" data-target="#collapseImagesFilter" aria-expanded="false" aria-controls="collapseImagesFilter" data-placement="top" data-popup="tooltip" data-original-title="{l_filter}" title="{l_filter}">
 				<i class="fa fa-filter"></i>
 			</button>
 		</div>
@@ -129,6 +129,7 @@
 			<table id="entries" class="table table-sm mb-0">
 				<thead>
 					<tr>
+						<th width="5%">#</th>
 						<th colspan="3" width="80">{l_header.insert}</th>
 						[preview]
 						<th>{l_show_preview}</th>
@@ -422,7 +423,7 @@
 			fileDesc: '{descExt}',
 			sizeLimit: '{maxSize}',
 			multi: true,
-			buttonText: 'Выбрать изображение ...',
+			buttonText: '{l_select_img} ...',
 			width: 200,
 			// removeCompleted: true,
 			onInit: function() {

@@ -7,7 +7,7 @@
 
 <div class="panel panel-default">
   <div class="panel-heading">
-    Всего активных плагинов - {{ cntActive }}
+    {{ lang['all.list.plugin'] }} - {{ cntActive }}
   </div>
 <div class="panel-body">
 

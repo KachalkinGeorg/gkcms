@@ -25,7 +25,7 @@
 		  <h6 class="media-heading text-semibold">{{ lang['source'] }}</h6>
 		</td>
         <td class="col-xs-6 col-sm-6 col-md-5">
-			<input name="source" type="text" placeholder="Введите текст..." value="{{ source }}" class="form-control" />
+			<input name="source" type="text" placeholder="{{ lang['plac_text'] }}" value="{{ source }}" class="form-control" />
         </td>
       </tr>
 
@@ -34,7 +34,7 @@
 		  <h6 class="media-heading text-semibold">{{ lang['destination'] }}</h6>
 		</td>
         <td class="col-xs-6 col-sm-6 col-md-5">
-			<input name="dest" type="text" placeholder="Введите текст..." value="{{ dest }}" class="form-control" />
+			<input name="dest" type="text" placeholder="{{ lang['plac_text'] }}" value="{{ dest }}" class="form-control" />
         </td>
       </tr>
 	  

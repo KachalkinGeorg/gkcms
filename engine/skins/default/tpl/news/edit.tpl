@@ -149,7 +149,7 @@
 									{{ smilies }}
 								</div>
 								<div class="modal-footer">
-									<button type="button" class="btn btn-outline-dark" data-dismiss="modal">{{ lang.editnews['close'] }}</button>
+									<button type="button" class="btn btn-outline-dark" data-dismiss="modal">{{ lang.editnews['cancel'] }}</button>
 								</div>
 							</div>
 						</div>
@@ -626,15 +626,15 @@
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 id="uplimg-modal-label" class="modal-title">Загрузка изображений</h5>
+					<h5 id="uplimg-modal-label" class="modal-title">{{ lang.editnews['img_upload'] }}</h5>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 				</div>
 				<div class="modal-body">
 					<div>
 					{% if (flags.thumb_create_option) %}
-						<input type="checkbox" id="imageCreateThumb" name="imageCreateThumb" value="" checked="checked"/> Создать миниатюру&nbsp;&nbsp;
+						<input type="checkbox" id="imageCreateThumb" name="imageCreateThumb" value="" checked="checked"/> {{ lang.editnews['img_cr_thumb'] }}&nbsp;&nbsp;
 					{% endif %}
-						<input type="checkbox" id="imageRandomTitle" name="imageRandomTitle" checked="checked"/> Случайное название
+						<input type="checkbox" id="imageRandomTitle" name="imageRandomTitle" checked="checked"/> {{ lang.editnews['img_rand_name'] }}
 					</div>
 					<br />
 					<div class="table-responsive">

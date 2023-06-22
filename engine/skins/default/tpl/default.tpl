@@ -165,7 +165,7 @@
 			<table class="table table-sm mb-0">
 				<tbody>
 					<tr>
-						<td class="col-md-3">Режим работы сайта:</td>
+						<td class="col-md-3">{{ lang['site_regim'] }}</td>
 						<td class="col-md-9">{{ offline }}</td>
 					</tr>
 					<tr>
@@ -203,11 +203,11 @@
 						<td class="col-md-9">{{ mysql_size }}</td>
 					</tr>
 					<tr>
-						<td class="col-md-3">Максимальный размер загружаемого файла:</td>
+						<td class="col-md-3">{{ lang['max_upload'] }}</td>
 						<td class="col-md-9">{{ maxupload }}</td>
 					</tr>
 					<tr>
-						<td class="col-md-3">Размер свободного места на диске:</td>
+						<td class="col-md-3">{{ lang['free_space'] }}</td>
 						<td class="col-md-9">{{ freespace }}</td>
 					</tr>
 					<tr>
@@ -238,23 +238,23 @@
 						<td class="col-md-9">{{ php_os }}</td>
 					</tr>
 					<tr>
-						<td class="col-md-3">Управление под:</td>
+						<td class="col-md-3">{{ lang['management'] }}</td>
 						<td class="col-md-9">{{ os_version }}</td>
 					</tr>
 					<tr>
-						<td class="col-md-3">Выделено оперативной памяти:</td>
+						<td class="col-md-3">{{ lang['allocated'] }}</td>
 						<td class="col-md-9">{{ maxmemory }}</td>
 					</tr>
 					<tr>
-						<td class="col-md-3">Отключенные функции:</td>
+						<td class="col-md-3">{{ lang['off_fun'] }}</td>
 						<td class="col-md-9">{{ disabledfunctions }}</td>
 					</tr>
 					<tr>
-						<td class="col-md-3">Безопасный режим:</td>
+						<td class="col-md-3">{{ lang['save_mode'] }}</td>
 						<td class="col-md-9">{{ safemode }}</td>
 					</tr>
 					<tr>
-						<td class="col-md-3">Модуль mod_rewrite:</td>
+						<td class="col-md-3">{{ lang['mod_rewrite'] }}</td>
 						<td class="col-md-9">{{ mod_rewrite }}</td>
 					</tr>
 					<tr>
@@ -274,7 +274,7 @@
 						<td class="col-md-9">{{ gd_version }}</td>
 					</tr>
 					<tr>
-						<td class="col-md-3">Информация о GD:</td>
+						<td class="col-md-3">{{ lang['gd'] }}</td>
 						<td class="col-md-9">{{ gdversion }}</td>
 					</tr>
 				</tbody>   
@@ -297,7 +297,7 @@
 						$("#cacheFileCount").html(response.numFiles);
 						$("#cacheSize").html(response.size);
 					}
-				ngNotifySticker('Подсчет кэша завершен!', {className: 'stickers-success'});
+				ngNotifySticker('{{ lang['cache.done'] }}', {className: 'stickers-success'});
 				});
 		return false;
 	}
@@ -308,7 +308,7 @@
 		post('admin.statistics.cleanCache', {'token':'{{ token }}'}, false)
 				.then(function(response) {
 					getCacheSize();
-					ngNotifySticker('Кэш системы успешно очищен!', {className: 'stickers-success'});
+					ngNotifySticker('{{ lang['cache.sucs'] }}', {className: 'stickers-success'});
 				});
 		return false;
 	}
