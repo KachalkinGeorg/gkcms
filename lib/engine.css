@@ -1,3 +1,12 @@
+/*---Выпадающее меню кнопки редактировать---*/
+#dropmenudiv { padding: 10px 0; min-width: 140px; width: auto !important; opacity: 1 !important; display: none; font-size: .9em;
+		box-shadow: 0 8px 40px -10px rgba(0,0,0,0.3); border: 1px solid #e6e6e6; border-color: rgba(0,0,0,0.1); background-clip: padding-box;
+	}
+	#dropmenudiv { background-color: #fff; }
+	#dropmenudiv a { text-decoration: none !important; color: inherit; display: block; padding: 3px 20px; border: 0 none; white-space: nowrap; color: inherit; }
+	#dropmenudiv a:hover { background-color: #eeeeef; }
+
+	
 /*CSS-свойства для заднего фона модального окна profile*/
 .profile {
 	opacity: 0;
@@ -44,17 +53,32 @@
     margin-left: 10px;
     margin-right: 10px;
 }
+.profile-titlebar-close {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    margin-top: -16px;
+    height: 32px;
+    width: 32px;
+    border: 0 none !important;
+}
 .profile-close {
     position: absolute;
-    font-size: 10px;
-	color: #fff;
     cursor: pointer;
-    right: 6px;
-    top: 8px;
+    right: 4px;
+    top: 2px;
+    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYBAMAAAASWSDLAAAAG1BMVEUAAAA1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTW7eCkWAAAACHRSTlMA8DiyCsELwNb3saQAAABlSURBVBjTY2AxYoACZQcG10YFCJtJooTBokMIwlHsaAZioBRYAigKJoAAJAghoRIQCiYEoSEiUCmIBFQKLAGTAkvApCASCA6GMoQBGEYjLEV1DopDUbyA4jlUb6ciAiSMgQ0pqAB4linXHtbaoQAAAABJRU5ErkJggg==);
+    width: 12px;
+    height: 12px;
+    margin: 10px auto 0 auto;
+    background-size: 12px auto;
 }
-.profile-close:hover, .profile-close:focus {
-    color: rgb(109 109 109);
-    cursor: pointer;
+.profile-close:after {
+    clear: both;
+    content: ".";
+    display: block;
+    height: 0;
+    visibility: hidden;
 }
 .profile-text {
   padding: .5em 1em;
@@ -135,7 +159,6 @@
     background-color: #fff;
     border: 1px solid #c0d4de;
 }
-
 /*---Userinfo---*/
 .userinfo {
     padding-left: 125px;
@@ -300,7 +323,6 @@ span.swchItemDots span {color: #626268;}
 .toptop:hover {
     background-position: 0 -145px;
 }
-
 /* futu alert окно */
 .futu_alert_outer {
 	position: fixed;
@@ -587,9 +609,13 @@ span.swchItemDots span {color: #626268;}
     display: none;
     z-index: 100;
     background: #eee;
-    padding: 5px;
+    padding: 10px;
     border-radius: 5px;
-    box-shadow: 2px 2px 5px #000000;
+	position: absolute;  
+	overflow: hidden; 
+	-moz-box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3); 
+	-webkit-box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3); 
+	box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
 }
 .modal-header {
   background: #000;
@@ -731,12 +757,32 @@ span.swchItemDots span {color: #626268;}
     margin-left: 10px;
     margin-right: 10px;
 }
+.popup-titlebar-close {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    margin-top: -16px;
+    height: 32px;
+    width: 32px;
+    border: 0 none !important;
+}
 .popup-close {
-  position: absolute;
-  font-size: 10px;
-  cursor: pointer;
-  right: 4px;
-  top: 4px;
+    position: absolute;
+    cursor: pointer;
+    right: 4px;
+    top: 2px;
+    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYBAMAAAASWSDLAAAAG1BMVEUAAAA1NTU1NTU1NTU1NTU1NTU1NTU1NTU1NTW7eCkWAAAACHRSTlMA8DiyCsELwNb3saQAAABlSURBVBjTY2AxYoACZQcG10YFCJtJooTBokMIwlHsaAZioBRYAigKJoAAJAghoRIQCiYEoSEiUCmIBFQKLAGTAkvApCASCA6GMoQBGEYjLEV1DopDUbyA4jlUb6ciAiSMgQ0pqAB4linXHtbaoQAAAABJRU5ErkJggg==);
+    width: 12px;
+    height: 12px;
+    margin: 10px auto 0 auto;
+    background-size: 12px auto;
+}
+.popup-close:after {
+    clear: both;
+    content: ".";
+    display: block;
+    height: 0;
+    visibility: hidden;
 }
 .popup-close:hover, .popup-close:focus {
     color: #fff;
@@ -752,7 +798,6 @@ span.swchItemDots span {color: #626268;}
    }
 }
 /**end.Модальное окно**/
-
 /*  */
 .label {
 	margin: 0 0 15px 0;
