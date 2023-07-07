@@ -896,7 +896,7 @@ function doInstall()
             $dbCreateString .= $charset;
 
             // Получаем имя таблицы
-            if (preg_match('/CREATE TABLE `(.+?)`/', $dbCreateString, $match)) {
+            if (file_exists(root.'trash/tables.sql')) {
                 $tname = str_replace('XPREFIX_', $_POST['reg_dbprefix'].'_', $match[1]);
                 if (isset($SQL_table[$tname])) {
                     array_push($ERROR, 'В БД "'.$_POST['reg_dbname'].'" уже существует таблица "'.$tname.'"<br/>Используйте другой префикс для создания таблиц!');

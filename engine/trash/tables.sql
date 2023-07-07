@@ -238,7 +238,7 @@ CREATE TABLE `XPREFIX_rules` (
 ) ENGINE=InnoDB;
 
 --
--- Дамп данных таблицы `ng_rules`
+-- Дамп данных таблицы `PREFIX_rules`
 --
 
 INSERT INTO `XPREFIX_rules` (`id`, `title`, `content`, `alt_name`, `description`, `keywords`) VALUES
