@@ -1056,7 +1056,7 @@ function doInstall()
             'auth_db'             => 'basic',
             'crypto_salt'         => substr(md5(uniqid(rand(), 1)), 0, 8),
             '404_mode'            => 0,
-			'jsquery'             => 0,
+			'jsquery'             => 1,
 			'reg_rules'           => '0',
 			'iframe'           	  => '0',
             'debug'               => 1,
