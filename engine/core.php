@@ -225,12 +225,13 @@ if (!isset($config['uprefix'])) {
     $config['uprefix'] = $config['prefix'];
 }
 
-if($config['last_modif']) {
+if($config['last_modif'] == 1) {
 	$SYSTEM_FLAGS = [
 		'actions.disabled' => [],
 		'http.headers'     => [
 			'content-type'  => 'text/html; charset=utf-8',
-			'cache-control' => 'private',
+			'cache-control' => 'no-cache, no-store',
+			'expires' => gmdate('D, d M Y H:i:s', time() - 3600) . ' GMT',
 		],
 	];
 }else{	
@@ -238,8 +239,7 @@ if($config['last_modif']) {
 		'actions.disabled' => [],
 		'http.headers'     => [
 			'content-type'  => 'text/html; charset=utf-8',
-			'cache-control' => 'no-cache, no-store',
-			'expires' => gmdate('D, d M Y H:i:s', time() - 3600) . ' GMT',
+			'cache-control' => 'private',
 		],
 	];
 }
