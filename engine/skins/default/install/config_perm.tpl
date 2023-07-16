@@ -131,6 +131,29 @@
 													{chmod}
 												</table>
 											</div>
+											<div class="head">{l_perm.done}</div>
+											<div class="data">
+												<table class="table table-sm">
+													<thead>
+													<tr>
+														<td>{l_perm.done.host}</td>
+														<td>{done_host}</td>
+													</tr>
+													<tr>
+														<td>{l_perm.done.prefix}</td>
+														<td>{done_prefix}</td>
+													</tr>
+													<tr>
+														<td>{l_perm.done.type}</td>
+														<td>{done_type}</td>
+													</tr>
+													<tr>
+														<td>{l_perm.done.name}</td>
+														<td>{done_name}</td>
+													</tr>
+													</thead>							
+												</table>
+											</div>
 										</div>
 									</td>
 								</tr>

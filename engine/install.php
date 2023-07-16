@@ -24,7 +24,6 @@ define('NGCMS', 1);
 @include_once root.'includes/inc/multimaster.php';
 @include_once root . 'includes/inc/DBLoad.php';
 
-
 // ============================================================================
 // Define global directory constants
 // ============================================================================
@@ -364,7 +363,7 @@ function doConfig_db($check)
 		} */
 		
 		if(isset($mysql) != null){
-			$mysql->close($link);
+			@$mysql->close($link);
 		}
 		
 		if (!$error)
@@ -377,10 +376,18 @@ function doConfig_db($check)
              ) as $k) {
         if ($k == 'reg_dbtype') {
             foreach (array('mysql', 'mysqli', 'pdo') as $s) {
-                $tvars['vars'][$k.'_'.$s] = $_POST[$k] == $s ? ' selected' : '';
+                $tvars['vars'][$k.'_'.$s] = isset($_POST[$k]) == $s ? ' selected' : '';
             }
         } else {
-            $tvars['vars'][$k] = htmlspecialchars(isset($_POST[$k]) ? $_POST[$k] : $DEFAULT[$k], ENT_COMPAT | ENT_HTML401, 'UTF-8');
+			if (version_compare(PHP_VERSION, '8.0.0') > 0) {
+				/* Вместо получаемых вхождений из $DEFAULT */
+				$tvars['vars']['reg_dbhost'] = 'localhost';
+				$tvars['vars']['reg_dbprefix'] = 'ng';
+				$bd = isset($DEFAULT[$k]);
+			}else{
+				$bd = $DEFAULT[$k];				
+			}
+			$tvars['vars'][$k] = htmlspecialchars(isset($_POST[$k]) ? $_POST[$k] : $bd, ENT_COMPAT | ENT_HTML401, 'UTF-8');
         }
         if (!isset($tvars['vars']['err:' . $k])) {
             $tvars['vars']['err:' . $k] = '';
@@ -390,6 +397,18 @@ function doConfig_db($check)
         $tvars['vars']['reg_autocreate'] = 'checked="checked"';
     }
 
+    if (isset($_POST['PDO'])) {
+        $tvars['vars']['reg_dbtype_PDO'] = 'checked="checked"';
+    }
+	
+    if (isset($_POST['mysqli'])) {
+        $tvars['vars']['reg_dbtype_MySQLi'] = 'checked="checked"';
+    }
+	
+    if (isset($_POST['mysql'])) {
+        $tvars['vars']['reg_dbtype_MySQL'] = 'checked="checked"';
+    }
+	
     $tvars['vars']['menu_db'] = ' class="hover"';
     printHeader();
 
@@ -440,6 +459,11 @@ function doConfig_perm()
     } else {
         $tvars['vars']['php_version'] = phpversion();
     }
+	
+	$tvars['vars']['done_host'] = $_POST['reg_dbhost'];
+	$tvars['vars']['done_prefix'] = $_POST['reg_dbprefix'];
+	$tvars['vars']['done_type'] = $_POST['reg_dbtype'];
+	$tvars['vars']['done_name'] = $_POST['reg_dbname'];
 
     // SQL Version
     if (!is_array($SQL_VERSION)) {
@@ -545,7 +569,7 @@ function doConfig_plugins()
                 while (!feof($vf)) {
                     $line = fgets($vf);
                     if (preg_match("/^(.+?) *\: *(.+?) *$/i", trim($line), $m)) {
-                        if (in_array(strtolower($m[1]), ['id', 'title', 'information', 'preinstall', 'preinstall_vars', 'install'])) {
+                        if (in_array(strtolower($m[1]), ['id', 'title', 'information', 'icon', 'preinstall', 'preinstall_vars', 'install'])) {
                             $pluginRec[strtolower($m[1])] = $m[2];
                         }
                     }
@@ -569,6 +593,7 @@ function doConfig_plugins()
         $tv = [
             'id'          => $plugin['id'],
             'title'       => $plugin['title'],
+			'icon'        => $plugin['icon'] ? $plugin['icon'] : '<i class="fa fa-puzzle-piece fa-2x"></i>',
             'information' => $plugin['information'] ?? '',
             'enable'      => (in_array(strtolower($plugin['preinstall'] ?? 'no'), ['yes', 'no'])) ? ' disabled="disabled"' : '',
         ];
@@ -896,15 +921,22 @@ function doInstall()
             $dbCreateString .= $charset;
 
             // Получаем имя таблицы
-            if (file_exists(root.'trash/tables.sql')) {
+			if (preg_match('/CREATE TABLE `(.+?)`/',$dbCreateString,$match)) {
                 $tname = str_replace('XPREFIX_', $_POST['reg_dbprefix'].'_', $match[1]);
                 if (isset($SQL_table[$tname])) {
                     array_push($ERROR, 'В БД "'.$_POST['reg_dbname'].'" уже существует таблица "'.$tname.'"<br/>Используйте другой префикс для создания таблиц!');
                     $error = 1;
                     break;
                 }
+/* 			} elseif (preg_match('/INSERT INTO `(.+?)`/',$dbCreateString,$match)) {
+				$tname = str_replace('XPREFIX_', $_POST['reg_dbprefix'].'_', $match[1]);
+                if (isset($SQL_table[$tname])) {
+                    array_push($ERROR, 'В БД "'.$_POST['reg_dbname'].'" не сущесвует таблицы "'.$tname.'"<br/>Для внесения данных нужно "'.$tname.'"!');
+                    $error = 1;
+                    break;
+                } */
             } else {
-                array_push($ERROR, 'Внутренняя ошибка парсера SQL. Обратитесь к автору проект за разъяснениями ['.$dbCreateString.']');
+                array_push($ERROR, 'Внутренняя ошибка парсера SQL. Обратитесь к автору проекта за разъяснениями ['.$dbCreateString.']');
                 $error = 1;
                 break;
             }
@@ -968,9 +1000,12 @@ function doInstall()
         } else {
             array_push($LOG, 'Активация пользователя-администратора ... OK');
         }
+		
         // 1.6 Сохраняем конфигурационные переменные database.engine.version, database.engine.revision
-        @$mysql->query('insert into `'.$_POST['reg_dbprefix']."_config` (name, value) values ('database.engine.version', '0.9.8 RC1')");
+        @$mysql->query('insert into `'.$_POST['reg_dbprefix']."_config` (name, value) values ('database.engine.version', '0.9.8 RC2')");
         @$mysql->query('insert into `'.$_POST['reg_dbprefix']."_config` (name, value) values ('database.engine.revision', '3')");
+
+        @$mysql->query('insert into `'.$_POST['reg_dbprefix']."_rules` (id, title, content, alt_name, description, keywords) values (1, 'Общие правила', '[b]Уважаемые пользователи сайта![/b]\r\n[center]Обращаем Ваше внимание на несколько правил поведения пользования сайта.[/center]\r\n\r\nВсе записи на сайте [b]%home%[/b] после публикации проверяются модератором. Модератор имеет право редактировать или удалить запись при нарушении в ней правил сайта.\r\n\r\n[b]Общие правила на сайте[/b]\r\n\r\n[i]На сайте строго запрещено:[/i]\r\n\r\n- Употребление нецензурной и ненормативной лексики в любом её виде, вне зависимости от языка.\r\n- Размещать контент нарушающий права третьих лиц.\r\n- Спам или активные ссылки на другие ресурсы;\r\n\r\nПри нарушении правил вам может быть дано предупреждение. В некоторых случаях может быть дан бан без предупреждений. По вопросам снятия бана писать администратору.\r\n\r\n[b]Администрация сайта не несет ответственности:[/b]\r\n\r\n[b]•[/b] за материальный и моральный ущерб, нанесенный пользователю, в случае открытия любых ссылок, размещенных другим пользователем;\r\n[b]•[/b] за нарушения авторских и смежных прав, при размещении пользователями информации (публикаций), изображений, стихов, прозы и т.д ;\r\n\r\nМатериалы, представленные на страницах нашего сайта, созданы авторами сайта, присланы пользователями, взяты из открытых источников и представлены на сайте исключительно для ознакомления. Все авторские права на материалы принадлежат их законным авторам.\r\n\r\n[center]%rules%[/center]\r\n', 'rules_page', '', '')");
 
         // Вычищаем лишний перевод строки из 'home_url'
         if (substr($_POST['home_url'], -1, 1) == '/') {
@@ -1054,6 +1089,8 @@ function doInstall()
             'files_max_size'      => '128',
             'auth_module'         => 'basic',
             'auth_db'             => 'basic',
+			'timezone' 			  => 'Europe/Moscow',
+			'last_modif' 		  => '0',
             'crypto_salt'         => substr(md5(uniqid(rand(), 1)), 0, 8),
             '404_mode'            => 0,
 			'jsquery'             => 1,

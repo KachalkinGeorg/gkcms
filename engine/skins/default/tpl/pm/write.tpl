@@ -1,3 +1,7 @@
+<!-- Оставляем эти скрипты и формы так как ими могут пользоваться плагины -->
+<script type="text/javascript" src="{{ home }}/lib/ajax.js"></script>
+<script type="text/javascript" src="{{ home }}/lib/libsuggest.js"></script>
+
 <div class="panel panel-default">
   <div class="panel-heading">
      {{ lang.write_pm }}
@@ -18,14 +22,14 @@
 							{{ lang.receiver }}
 						</label>
 						<div class="col-lg-8">
-							<input type="text" name="sendto" value="" class="form-control" maxlength="70" required />
-							<small class="form-text text-muted">{{ lang.receiver_desc }}</small>
+							<input type="text" id="AutName" name="sendto" value="" placeholder="{{ lang.receiver_desc }}..." class="form-control" maxlength="70" required />
+							<span id="AutNameLoader" style="width: 20px; visibility: hidden;"><img src="{{ skins_url }}/images/loading.gif" /> {{ lang.receiver_desc }}</span>
 						</div>
 					</div>
 					<div class="form-row mb-3">
 						<label class="col-lg-4 col-form-label">{{ lang.title }}</label>
 						<div class="col-lg-8">
-							<input type="text" name="subject" value="" class="form-control" maxlength="50" required />
+							<input type="text" name="subject" value="" placeholder="{{ lang.receiver_title }}..." class="form-control" maxlength="50" required />
 						</div>
 					</div>
 
@@ -63,3 +67,20 @@
 </form>
 </div>
 </div>
+<script language="javascript" type="text/javascript">
+	// INIT NEW SUGGEST LIBRARY [ call only after full document load ]
+	var aSuggest = new ngSuggest('AutName',
+		{
+			'localPrefix': '',
+			'reqMethodName': 'core.author.search',
+			'lId': 'AutNameLoader',
+			'hlr': 'true',
+			'iMinLen': 1,
+			'stCols': 2,
+			'stColsClass': ['cleft', 'cright'],
+			'stColsHLR': [true, false],
+			'listDelimiter': ',',
+		}
+	);
+
+</script>

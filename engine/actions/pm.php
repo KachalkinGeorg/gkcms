@@ -261,10 +261,16 @@ function pm_delete()
 
 switch ($action) {
     case 'read':
-        $main_admin = pm_read();
+        pm_read();
+        if (!$main_admin) {
+            $main_admin = pm_read();
+        }
         break;
     case 'reply':
-        $main_admin = pm_reply();
+        pm_reply();
+        if (!$main_admin) {
+            $main_admin = pm_reply();
+        }
         break;
     case 'send':
         pm_send();

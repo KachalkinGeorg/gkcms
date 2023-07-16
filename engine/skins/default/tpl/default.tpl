@@ -178,10 +178,12 @@
 							<a href="{{ php_self }}?mod=news&status=1">{{ news_draft }}</a> / <a href="{{ php_self }}?mod=news&status=2">{{ news_unapp }}</a> / <a href="{{ php_self }}?mod=news&status=3">{{ news }}</a>
 						</td>
 					</tr>
+					{% if (pluginIsActive('comments')) %}
 					<tr>
 						<td class="col-md-3">{{ lang['all_comments'] }}</td>
 						<td class="col-md-9">{{ comments }}&nbsp;&nbsp;[<a href="{{ php_self }}?mod=lastcomments">{{ lang['showcomments'] }}</a>]</td>
 					</tr>
+					{% endif %}
 					<tr>
 						<td class="col-md-3">{{ lang['all_users'] }}</td>
 						<td class="col-md-9">{{ users }}</td>

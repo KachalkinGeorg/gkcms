@@ -114,24 +114,6 @@ $SUPRESS_MAINBLOCK_SHOW = 0;
 $CurrentHandler = [];
 $TemplateCache = [];
 $lang = [];
-if($config['last_modif']) {
-	$SYSTEM_FLAGS = [
-		'actions.disabled' => [],
-		'http.headers'     => [
-			'content-type'  => 'text/html; charset=utf-8',
-			'cache-control' => 'private',
-		],
-	];
-}else{	
-	$SYSTEM_FLAGS = [
-		'actions.disabled' => [],
-		'http.headers'     => [
-			'content-type'  => 'text/html; charset=utf-8',
-			'cache-control' => 'no-cache, no-store',
-			'expires' => gmdate('D, d M Y H:i:s', time() - 3600) . ' GMT',
-		],
-	];
-}
 
 $twigGlobal = [
     'flags' => [
@@ -241,6 +223,25 @@ include_once confroot.'config.php';
 // [[FIX config variables]]
 if (!isset($config['uprefix'])) {
     $config['uprefix'] = $config['prefix'];
+}
+
+if($config['last_modif']) {
+	$SYSTEM_FLAGS = [
+		'actions.disabled' => [],
+		'http.headers'     => [
+			'content-type'  => 'text/html; charset=utf-8',
+			'cache-control' => 'private',
+		],
+	];
+}else{	
+	$SYSTEM_FLAGS = [
+		'actions.disabled' => [],
+		'http.headers'     => [
+			'content-type'  => 'text/html; charset=utf-8',
+			'cache-control' => 'no-cache, no-store',
+			'expires' => gmdate('D, d M Y H:i:s', time() - 3600) . ' GMT',
+		],
+	];
 }
 
 // Set up default timezone [ default: Europe/Moscow ]

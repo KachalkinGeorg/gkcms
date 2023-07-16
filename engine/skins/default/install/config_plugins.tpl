@@ -50,6 +50,7 @@
 								<thead class="thead-dark">
 									<tr>
 										<th>{l_plugins.activate}</th>
+										<th>{l_plugins.icon}</th>
 										<th>ID</th>
 										<th>{l_plugins.title}</th>
 										<th>{l_plugins.description}</th>
