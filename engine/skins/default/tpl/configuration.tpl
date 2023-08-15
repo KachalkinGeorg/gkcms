@@ -1000,6 +1000,12 @@
 					</td>
 				</tr>
 				<tr>
+					<td width="50%">{{ lang['images_size_quality'] }} <small class="form-text text-muted">{{ lang['images_size_quality#desc'] }}</small></td>
+					<td width="50%">
+						<input type="number" name="save_con[images_size_quality]" value="{{ config['images_size_quality'] }}" class="form-control" style="max-width:80px; text-align: center;"/>
+					</td>
+				</tr>
+				<tr>
 					<td width="50%">{{ lang['images_url_width'] }} <small class="form-text text-muted">{{ lang['images_url_width#desc'] }}</small></td>
 					<td width="50%">
 						<div class="input-group mb-3">

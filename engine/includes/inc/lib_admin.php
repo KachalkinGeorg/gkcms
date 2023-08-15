@@ -1190,13 +1190,13 @@ function newsImageUpload($files, $post){
     $uploader = new GKcms\File\ImageUploader();
     $uploader->setDestination($config['images_dir'], date("Y-m"));
     $uploader->setExtensions( array_map('trim', explode(',', $config['images_ext'])) );
-    $uploader->setMaxDimensions($config['images_max_width'], $config['images_max_height']);
+    $uploader->setMaxDimensions($config['images_max_y'], $config['images_max_x']);
     $uploader->resizeIfBigger(true);
     $uploader->setFilesize($config['images_max_size']);
     $uploader->filenameRandom();
     $uploader->setThumbMode(false);
     if ( $config['thumb_mode'] == 2 || ($config['thumb_mode'] == 0 && $post['imageCreateThumb'] == 'true') ) {
-        $uploader->setThumbMode(true, $config['thumb_size_width']);
+        $uploader->setThumbMode(true, $config['thumb_size_y']);
     }
 
     try {

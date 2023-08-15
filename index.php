@@ -71,9 +71,9 @@ $SYSTEM_FLAGS['info']['title']['header'] = home_title;
             break;
     }
 	
+$headers .= $jsquery;
 $headers .= '<script type="text/javascript" src="'.scriptLibrary.'/functions.js"></script>';
 $headers .= '<script type="text/javascript" src="'.scriptLibrary.'/ajax.js"></script>';
-$headers .= $jsquery;
 $headers .= '<link href="'.scriptLibrary.'/engine.css" type="text/css" rel="stylesheet">';
 
 // Initialize main template array

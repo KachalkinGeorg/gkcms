@@ -48,14 +48,14 @@ class ImageUploader {
 
         $this->maxFilesize = (int)$config['images_max_size'] * 1024;
         $this->filenameMode = 'random';
-        $this->maxWidth = $config['images_max_width'];
-        $this->maxHeight = $config['images_max_height'];
+        $this->maxWidth = $config['images_max_x'];
+        $this->maxHeight = $config['images_max_y'];
 
         $this->resizeIfBigger = $config['images_dim_action'];
-        $this->resizeQuality = $config['images_resized_quality'];
+        $this->resizeQuality = $config['images_size_quality'];
 
         $this->isCreateThumb = 1;
-        $this->thumbWidth = $config['thumb_size_width'];
+        $this->thumbWidth = $config['thumb_size_y'];
         $this->thumbQuality = $config['thumb_quality'];
     }
 
