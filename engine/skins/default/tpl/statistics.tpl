@@ -60,21 +60,6 @@
 		<div class="col-lg-3 col-xs-6">
 			<a href="admin.php?mod=news" class="small-box bg-info">
 				<div class="inner">
-				<script>
-function scroll(val,el,timeout,step){
-var i=0;
-(function(){
-if(i<=val){
-setTimeout(arguments.callee,timeout);
-document.getElementById(el).innerHTML=i;
-i=i+step;
-}else{
-document.getElementById(el).innerHTML=val;
-}
-})();
-}
-scroll({{ news_draft + news_unapp + news }},'shethik-cifra',1,2);
-</script>
 					<h3><div id="shethik-cifra"></div></h3>
 					<p>{{ lang['news'] }}</p>
 				</div>
@@ -84,21 +69,6 @@ scroll({{ news_draft + news_unapp + news }},'shethik-cifra',1,2);
 		<div class="col-lg-3 col-xs-6">
 			<a href="admin.php?mod=images" class="small-box bg-success">
 				<div class="inner">
-					<script>
-function scroll(val,el,timeout,step){
-var i=0;
-(function(){
-if(i<=val){
-setTimeout(arguments.callee,timeout);
-document.getElementById(el).innerHTML=i;
-i=i+step;
-}else{
-document.getElementById(el).innerHTML=val;
-}
-})();
-}
-scroll({{ images }},'images',1,10);
-</script>
 					<h3><div id="images"></div></h3>
 					<p>{{ lang['images'] }}</p>
 				</div>
@@ -108,22 +78,8 @@ scroll({{ images }},'images',1,10);
 		<div class="col-lg-3 col-xs-6">
 			<a href="admin.php?mod=files" class="small-box bg-warning">
 				<div class="inner">
-					<script>
-function scroll(val,el,timeout,step){
-var i=0;
-(function(){
-if(i<=val){
-setTimeout(arguments.callee,timeout);
-document.getElementById(el).innerHTML=i;
-i=i+step;
-}else{
-document.getElementById(el).innerHTML=val;
-}
-})();
-}
-scroll({{ files }},'files',1,2);
-</script>
 					<h3><div id="files"></div></h3>
+
 					<p>{{ lang['files'] }}</p>
 				</div>
 				<i class="fa fa-file-text-o"></i>
@@ -132,21 +88,6 @@ scroll({{ files }},'files',1,2);
 		<div class="col-lg-3 col-xs-6">
 			<a href="admin.php?mod=users" class="small-box bg-danger">
 				<div class="inner">
-					<script>
-function scroll(val,el,timeout,step){
-var i=0;
-(function(){
-if(i<=val){
-setTimeout(arguments.callee,timeout);
-document.getElementById(el).innerHTML=i;
-i=i+step;
-}else{
-document.getElementById(el).innerHTML=val;
-}
-})();
-}
-scroll({{ users }},'users',1,2);
-</script>
 					<h3><div id="users"></div></h3>
 					<p>{{ lang['users'] }}</p>
 				</div>
@@ -392,7 +333,24 @@ scroll({{ users }},'users',1,2);
 		</div>
 	</span>
 </div>
-
+<script>
+	function scroll(val,el,timeout,step){
+		var i=0;
+		(function(){
+			if(i<=val){
+				setTimeout(arguments.callee,timeout);
+				document.getElementById(el).innerHTML=i;
+				i=i+step;
+			}else{
+				document.getElementById(el).innerHTML=val;
+			}
+		})();
+	}
+	scroll({{ news_draft + news_unapp + news }},'shethik-cifra',1,2);
+	scroll({{ images }},'images',1,10);
+	scroll({{ users }},'users',1,2);
+	scroll({{ files }},'files',1,2);
+</script>
 <script type="text/javascript">
 	function getCacheSize() {
 		$("#cacheFileCount").html('-');
