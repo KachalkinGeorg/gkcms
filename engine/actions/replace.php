@@ -21,6 +21,13 @@ if (!getPluginStatusActive('comments')) {
 	return print_msg( 'warning', $lang['replace'], ''.$lang['warning'].'<br>'.$lang['w_com'].'', '?mod=replace' );
 }
 
+if (!checkPermission(['plugin' => '#admin', 'item' => 'replace'], null, 'modify')) {
+	msg(['type' => 'error', 'text' => $lang['perm.denied']], 1, 1);
+	ngSYSLOG(['plugin' => '#admin', 'item' => 'replace'], ['action' => 'modify'], null, [$userROW['status'], 'SECURITY.PERM']);
+
+	return false;
+}
+
 if ($_REQUEST['action'] == 'commit') {
 	$query = '';
 	do {
@@ -53,13 +60,16 @@ if ($_REQUEST['action'] == 'commit') {
 
 	if ($query) {
 		$result = $mysql->select($query);
-		$count = $mysql->affected_rows($mysql->connect);
-		if ($count) {
-			msg(["type" => "info", "text" => str_replace('{count}', $count, $lang['info.done'])]);
-			return print_msg( 'info', $lang['replace'], str_replace('{count}', $count, $lang['info.done']), '?mod=replace' );
+		//$count = $mysql->affected_rows($mysql->connect); // ошибка при выборе PDO заменен ROWCOUNT на ROW_COUNT
+		
+		$count = $mysql->result('select ROW_COUNT()');
+
+		if ($count > 0) {
+			msg(["type" => "info", "text" => str_replace('%count%', $count, $lang['msgo_change'])]);
+			return print_msg( 'info', $lang['replace'], str_replace(array ('%area%', '%source%', '%dest%', '%count%'), array ($area, $source, $dest, $count), $lang['msgo_change_n']), '?mod=replace' );
 		} else {
-			msg(["type" => "info", "text" => $lang['info.nochange']]);
-			return print_msg( 'warning', $lang['replace'], ''.$lang['info.nochange'].'', '?mod=replace' );
+			msg(["type" => "error", "text" => $lang['msgk_nochange']]);
+			return print_msg( 'warning', $lang['replace'], str_replace(array ('%area%', '%source%', '%dest%'), array ($area, $source, $dest), $lang['msgk_nochange_n']), '?mod=replace' );
 		}
 	}
 }
@@ -67,10 +77,10 @@ if ($_REQUEST['action'] == 'commit') {
 $areas = '<option value="" ' . (empty($area) ? 'selected' : '') . '>'.$lang['area.choose'].'</option><option value="news" ' . (!empty($area) ? 'selected' : '') . '>'.$lang['area.news'].'</option><option value="static" ' . (!empty($area) ? 'selected' : '') . '>'.$lang['area.static'].'</option><option value="comments" ' . (!empty($area) ? 'selected' : '') . '>'.$lang['area.comments'].'</option>';
 
 $tVars = [
-	'php_self' => $PHP_SELF,
-	'area'   => $areas,
-	'source'   => $source,
-	'dest'   => $dest,
+	'php_self' 	=> $PHP_SELF,
+	'area'   	=> $areas,
+	'source'   	=> $source,
+	'dest'   	=> $dest,
 ];
 
 $xt = $twig->loadTemplate('skins/default/tpl/replace.tpl');
