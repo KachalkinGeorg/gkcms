@@ -273,8 +273,9 @@ function news_showone($newsID, $alt_name, $callingParams = [])
     // news.embed.imgCount	- count of extracted URL's
     $tvars['vars']['news']['embed'] = ['images' => []];
     if ($callingParams['extractEmbeddedItems']) {
-        // Join short/full news into single line
-        $tempLine = $tvars['vars']['news']['short'].$tvars['vars']['news']['full'];
+        // Join short/full/scrin news into single line
+		$scrin = $config['news.add.scrin'] ? $parse->bbcodes($row['scrin']) : '';
+        $tempLine = $tvars['vars']['news']['short'].$tvars['vars']['news']['full'].$scrin;
         // Scan for <img> tag
         if (preg_match_all("#\<img (.+?)(?: *\/?)\>#", $tempLine, $m)) {
             // Analyze all found <img> tags for parameters
@@ -829,16 +830,16 @@ function news_showlist($filterConditions = [], $paginationParams = [], $callingP
 
         $tvars['vars']['news']['embed'] = ['images' => []];
         if ($callingParams['extractEmbeddedItems']) {
-            // Join short/full news into single line
-            $tempLine = $tvars['vars']['news']['short'].$tvars['vars']['news']['full'];
+            // Join short/full/scrin news into single line
+			$scrin = $config['news.add.scrin'] ? $parse->bbcodes($row['scrin']) : '';
+            $tempLine = $tvars['vars']['news']['short'].$tvars['vars']['news']['full'].$scrin;
             // Scan for <img> tag
-            if (preg_match_all("#\<img (.+?)(?: *\/?)\>#", $tempLine, $m)) {
+            if (preg_match_all("#\<img.*?src=\"(.*?)\".*?/>#", $tempLine, $m)) {
                 // Analyze all found <img> tags for parameters
                 foreach ($m[1] as $kl) {
-                    $klp = $parse->parseBBCodeParams($kl);
-                    // Add record if src="" parameter is set
-                    if (isset($klp['src'])) {
-                        $tvars['vars']['news']['embed']['images'][] = $klp['src'];
+					$info = pathinfo($kl);
+                    if (isset($info['extension'])) {
+						$tvars['vars']['news']['embed']['images'][] = $kl;
                     }
                 }
             }
