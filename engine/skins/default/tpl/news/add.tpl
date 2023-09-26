@@ -3,9 +3,9 @@
 <script type="text/javascript" src="{{ home }}/lib/libsuggest.js"></script>
 
 <!-- Hidden SUGGEST div -->
-<div id="suggestWindow" class="suggestWindow">
+<div id="suggestWindow" class="suggestWindow" style="width:80%">
 	<table id="suggestBlock" cellspacing="0" cellpadding="0" width="100%"></table>
-	<a href="#" align="right" id="suggestClose">close</a>
+	<a href="#" align="right" id="suggestClose">{{ lang.addnews['close'] }}</a>
 </div>
 
 <form name="DATA_tmp_storage" action="" id="DATA_tmp_storage">
