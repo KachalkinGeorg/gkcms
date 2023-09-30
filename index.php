@@ -70,8 +70,8 @@ $SYSTEM_FLAGS['info']['title']['header'] = home_title;
             $jsquery = '<script type="text/javascript" src="'.scriptLibrary.'/jquery-v3.6.0.js"></script>';
             break;
     }
-	
 $headers .= $jsquery;
+if ($config['images_lazy']) $headers .= '<script type="text/javascript" src="'.scriptLibrary.'/lazyload.js"></script>';
 $headers .= '<script type="text/javascript" src="'.scriptLibrary.'/functions.js"></script>';
 $headers .= '<script type="text/javascript" src="'.scriptLibrary.'/ajax.js"></script>';
 $headers .= '<link href="'.scriptLibrary.'/engine.css" type="text/css" rel="stylesheet">';

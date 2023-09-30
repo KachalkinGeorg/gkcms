@@ -2136,15 +2136,17 @@ function newsFillVariables($row, $fullMode, $page = 0, $disablePagination = 0, $
 
 
 	if ($config['news.add.scrin']) {
-		$scrin = $row['scrin'];
+		$scrin = $parse->bbcodes($row['scrin']);
 		$noscrin = $config['scrin_text'];
 	} else {
 		$scrin = '';
 		$noscrin = '';
     }
 	
+	if ($config['images_lazy']) { $scrin = preg_replace_callback ( "#<(img|iframe)(.+?)>#i", "lazyload", $scrin );}
+	
     if ($row['scrin']) {
-        $tvars['vars']['scrin'] = $parse->bbcodes($scrin);
+        $tvars['vars']['scrin'] = $scrin;
     } else {
         $tvars['vars']['scrin'] = $noscrin;
     }
@@ -2222,6 +2224,10 @@ function newsFillVariables($row, $fullMode, $page = 0, $disablePagination = 0, $
         $full = $parse->parseBBAttach($full, $mysql, $TemplateCache['site']['#variables']);
     }
 
+	if ($config['images_lazy'] AND $CurrentHandler['handlerName'] != 'print') { 
+		$short = preg_replace_callback ( "#<(img|iframe)(.+?)>#i", "lazyload", $short );
+		$full = preg_replace_callback ( "#<(img|iframe)(.+?)>#i", "lazyload", $full );
+	}
     // Check if we need to regenerate short news
     if (isset($regenShortNews['mode']) && ($regenShortNews['mode'] != '')) {
         if ((($regenShortNews['mode'] == 'force') || (trim($short) == '')) && (trim($full) != '')) {
@@ -3849,6 +3855,12 @@ function ngCollectTrace($style = 0)
     return true;
 }
 
+function lazyload( $matches=array() ) {
+
+	$matches[0] = str_replace ( 'src="', 'data-src="', $matches[0] );
+	
+	return $matches[0];
+}
 function isAjaxRequest()
 {
     return isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest';

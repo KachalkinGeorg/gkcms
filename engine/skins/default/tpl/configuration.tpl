@@ -1016,6 +1016,12 @@
 						</div>
 					</td>
 				</tr>
+				<tr>
+					<td width="50%">{{ lang['images_lazy'] }} <small class="form-text text-muted">{{ lang['images_lazy#desc'] }}</small></td>
+					<td width="50%">
+						{{ mkSelectYN({'name' : 'save_con[images_lazy]', 'value' : config['images_lazy'] }) }}
+					</td>
+				</tr>
 			</table>
 		</div>
 		

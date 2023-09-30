@@ -110,5 +110,8 @@ on_of_line($row['id']) - $row['id'] обязательный ИД пользов
 ![](images/history/setting_1.13.jpg){.img-fluid}
 Добавлен заголовок Last-Modified настройка для поисковиков ответа сервера 304 (проверить данную настройку можно <a href="https://last-modified.com/">тут</a>)
 
+# Отложенная загрузка изображений
+![](images/history/setting_1.15.jpg){.img-fluid}
+При включении, будет активирована медленная загрузка изображений.
 
 © 2008-2020 Next Generation CMS
