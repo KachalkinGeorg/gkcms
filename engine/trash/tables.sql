@@ -62,6 +62,7 @@ CREATE TABLE `XPREFIX_files` (
   `plugin` char(30) default '',
   `pidentity` char(30) default '',
   `storage` int(1) default 0,
+  `dcount` int(10) NOT NULL default '0',
   PRIMARY KEY  (`id`),
   KEY `link` (`linked_ds`, `linked_id`)
 ) ENGINE=InnoDB;

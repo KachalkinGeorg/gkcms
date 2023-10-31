@@ -18,7 +18,17 @@ if($callingParams['addCanonicalLink']){
 		$SYSTEM_FLAGS['meta']['canonical'] = home.'/';
 	}
 }
-		
+
+if ($config['files_down_count']) {
+	register_plugin_page('download','','news_download');
+}
+
+function news_download($params){
+	global $userROW, $mysql, $config;
+	
+	require_once root.'/includes/classes/downloads.php';
+}
+
 if ($config['favorit_active']) {
 	add_act('index', 'news_favorites');
 }

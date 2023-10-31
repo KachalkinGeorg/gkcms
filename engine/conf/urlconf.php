@@ -251,6 +251,27 @@ $urlLibrary = [
             ],
         ],
     ],
+    'download' => [
+        '' => [
+            'vars' => [
+				'id' => [
+                     'matchRegex' => '\\d{1,4}(?:\\-[0-9\\-]+)?',
+                     'descr' => [
+                        'russian' => 'ID файла',
+                     ],
+                ],
+                'name' => [
+                     'matchRegex' => '.+?',
+                     'descr' => [
+                        'russian' => 'Имя файла',
+                     ],
+                ],
+            ],
+            'descr' => [
+                'russian' => 'Ссылка на файла',
+            ],
+        ],
+    ],
     'rss_export' => [
         '' => [
             'vars' => [

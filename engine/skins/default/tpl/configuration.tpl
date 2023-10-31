@@ -946,6 +946,12 @@
 						</div>
 					</td>
 				</tr>
+				<tr>
+					<td width="50%">{{ lang['files_down_count'] }} <small class="form-text text-muted">{{ lang['files_down_count#desc'] }}</small></td>
+					<td width="50%">
+						{{ mkSelect({'name' : 'save_con[files_down_count]', 'value' : config['files_down_count'], 'values' : {1: lang['yesa'], 0: lang['noa'] } }) }}
+					</td>
+				</tr>
 			</table>
 		</div>
 			

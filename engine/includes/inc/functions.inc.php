@@ -3901,3 +3901,12 @@ function dd($obj)
 
     echo '<pre>'.htmlentities($obj, ENT_QUOTES)."</pre><br>\n";
 }
+
+function download($id, $name){
+
+	$url = checkLinkAvailable('download', '')?
+			generateLink('download', '', array('id' => $id, 'name' => $name)):
+			generateLink('core', 'plugin', array('plugin' => 'download'), array('id' => $id, 'name' => $name));
+
+	return $url;
+}

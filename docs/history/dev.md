@@ -313,4 +313,16 @@ on_of_line($row['id']) - $row['id'] обязательный ИД пользов
 - ```$extends = 'main';``` - подключается к Основному содержанию статьи
 
 
+# Ссылка на скачивания файла
+
+Добавлена новая функция ```download(id, name)``` для активации счетчика скачивания пример использования:
+```
+$row = $db->record('select * from '.prefix.'_files where id = '.db_squote($id));
+
+if ($config['files_down_count']) {
+	$url = download($row['id'], $row['name']);
+} else {
+	$url = ($row['storage'] ? $config['attach_url'] : $config['files_url']).'/'.$row['folder'].'/'.$row['name'];
+}
+```
 © 2008-2022 Next Generation CMS

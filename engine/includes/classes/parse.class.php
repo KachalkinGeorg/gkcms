@@ -815,8 +815,14 @@ class parse
                         $fname = ($rec['storage'] ? $config['attach_dir'] : $config['files_dir']).$rec['folder'].'/'.$rec['name'];
                         $fsize = (file_exists($fname) && ($fsize = @filesize($fname))) ? Formatsize($fsize) : 'n/a';
 
+						if ($config['files_down_count']) {
+							$url = download($rec['id'], $rec['name']);
+						} else {
+							$url = ($rec['storage'] ? $config['attach_url'] : $config['files_url']).'/'.$rec['folder'].'/'.$rec['name'];
+						}
+
                         $params = [
-                            'url'   => ($rec['storage'] ? $config['attach_url'] : $config['files_url']).'/'.$rec['folder'].'/'.$rec['name'],
+							'url'   	=> $url,
                             'title' => ($title == '') ? $rec['orig_name'] : $title,
                             'size'  => $fsize,
                         ];
