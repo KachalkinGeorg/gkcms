@@ -67,6 +67,9 @@
 </form>
 </div>
 </div>
+<script type="text/javascript">
+	var currentInputAreaID = 'message';
+</script>
 <script language="javascript" type="text/javascript">
 	// INIT NEW SUGGEST LIBRARY [ call only after full document load ]
 	var aSuggest = new ngSuggest('AutName',

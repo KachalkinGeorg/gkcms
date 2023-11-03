@@ -189,7 +189,7 @@ function pm_reply()
             'id'        => $row['id'],
             'subject'   => $reTitle,
             'token'     => genUToken('pm.token'),
-            'quicktags' => QuickTags('', 'pmmes'),
+            'quicktags' => QuickTags('currentInputAreaID', 'pmmes'),
             'smilies'   => ($config['use_smilies'] == '1') ? InsertSmilies('content', 10) : '',
             'toID'      => $row['from_id'],
             'fromID'    => $row['to_id'],
@@ -221,7 +221,7 @@ function pm_write()
 	$breadcrumb = breadcrumb('<i class="fa fa-envelope-o btn-position"></i><span class="text-semibold">'.$lang['pm'].'</span>', array('?mod=pm' => '<i class="fa fa-envelope-o btn-position"></i>'.$lang['pm_title'].'', '<i class="fa fa-paper-plane-o btn-position"></i>'.$lang['write_pm'].'' ) );
 
     $tVars = [
-        'quicktags' => QuickTags('', 'pmmes'),
+        'quicktags' => QuickTags('currentInputAreaID', 'pmmes'),
         'smilies'   => ($config['use_smilies'] == '1') ? InsertSmilies('content', 10) : '',
         'token'     => genUToken('pm.token'),
     ];
