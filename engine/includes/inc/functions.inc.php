@@ -545,7 +545,7 @@ function QuickTags(string $area = '', string $template = '')
         'area'     => empty($area) ? "''" : $area,
     ];
 
-    if (!in_array($template, ['pmmes', 'editcom', 'news', 'static'])) {
+    if (!in_array($template, ['pmmes', 'editcom', 'news', 'static', 'plugin'])) {
         return false;
     }
 

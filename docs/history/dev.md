@@ -325,4 +325,16 @@ if ($config['files_down_count']) {
 	$url = ($row['storage'] ? $config['attach_url'] : $config['files_url']).'/'.$row['folder'].'/'.$row['name'];
 }
 ```
+# bbcodes для плагинов
+Известно, что для вывод в шаблон темы сайта используется файл bbcodes.tpl
+Пример использования через ```$tVars```:
+```'bbcodes'  => BBCodes(),```
+А для административной части:
+```'quicktags' => QuickTags('currentInputAreaID', 'news'),```
+Теперь функция QuickTags поддерживается для плагинов. Пример использования через ```$tVars```:
+```'quicktags' => QuickTags('currentInputAreaID', 'plugin'),```
+Результат:
+![](images/history/dev_1.3.jpg){.img-fluid}
+Также добавлена функция скрипта очистки ввода данных (после применения) в bbcode в таких тегах как url, email и img
+
 © 2008-2022 Next Generation CMS
