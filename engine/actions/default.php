@@ -164,6 +164,11 @@ $news_unapp = ($news_unapp == '0') ? $news_unapp : '<font color="#ff6600">'.$new
 $users_unact = $mysql->result('SELECT count(id) FROM '.uprefix."_users WHERE activation != ''");
 $users_unact = ($users_unact == '0') ? $users_unact : '<font color="#ff6600">'.$users_unact.'</font>';
 
+if (getPluginStatusActive('comments')) {
+	$com_unapp = $mysql->result('SELECT count(id) FROM '.prefix."_comments WHERE approve = '0'");
+	$com_unapp = ($com_unapp == '0') ? $com_unapp : '<font color="#ff6600">'.$com_unapp.' <a href="?mod=extra-config&plugin=comments&action=list&approve=1">['.Padeg($com_unapp, $lang['head_com_skl']).']</a></font>';
+}
+
 if( function_exists( 'apache_get_modules' ) ) {
 	if( array_search( 'mod_rewrite', apache_get_modules() ) !== false) {
 		$mod_rewrite = $lang['enable'];
@@ -213,6 +218,7 @@ $tVars = [
     'news_unapp'       => empty($nCount['v_0']) ? 0 : intval($nCount['v_0']),
     'news'             => empty($nCount['v_1']) ? 0 : intval($nCount['v_1']),
     'comments'         => getPluginStatusInstalled('comments') ? $mysql->result('SELECT count(id) FROM '.prefix.'_comments') : '-',
+	'com_unapp'        => $com_unapp,
     'users'            => $mysql->result('SELECT count(id) FROM '.uprefix.'_users'),
     'users_unact'      => $users_unact,
     'images'           => $mysql->result('SELECT count(id) FROM '.prefix.'_images'),

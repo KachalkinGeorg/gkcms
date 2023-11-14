@@ -181,7 +181,7 @@
 					{% if (pluginIsActive('comments')) %}
 					<tr>
 						<td class="col-md-3">{{ lang['all_comments'] }}</td>
-						<td class="col-md-9">{{ comments }}&nbsp;&nbsp;[<a href="{{ php_self }}?mod=lastcomments">{{ lang['showcomments'] }}</a>]</td>
+						<td class="col-md-9">{{ comments }}&nbsp;&nbsp;[<a href="{{ php_self }}?mod=lastcomments">{{ lang['showcomments'] }}</a>]&nbsp;&nbsp;{{ com_unapp }}</td>
 					</tr>
 					{% endif %}
 					<tr>

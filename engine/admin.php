@@ -35,7 +35,7 @@ if (!defined('NGCMS')) {
 @header('Pragma: no-cache');
 
 // Pre-configure required global variables
-global $action, $subaction, $mod;
+global $action, $subaction, $mod, $plugin, $extras;
 $action = isset($_REQUEST['action']) ? $_REQUEST['action'] : '';
 $subaction = isset($_REQUEST['subaction']) ? $_REQUEST['subaction'] : '';
 $mod = isset($_REQUEST['mod']) ? $_REQUEST['mod'] : '';
@@ -191,6 +191,8 @@ if (is_array($userROW)) {
     $newpm = '';
     $unapp1 = '';
     $unapp2 = '';
+	$unapp3 = '';
+	$newcom = '';
 
 	if (getPluginStatusActive('pm')) {
 		$newpm = $mysql->result('SELECT count(id) FROM '.prefix.'_pm WHERE to_id = '.db_squote($userROW['id']).' AND viewed = "0"');
@@ -200,6 +202,14 @@ if (is_array($userROW)) {
 		$newpm_down ='<a class="dropdown-item" href="'.$PHP_SELF.'?mod=pm" data-popup="tooltip" data-original-title="'.$lang['pm_t'].'" title="'.$lang['pm_t'].'"><i class="fa fa-exclamation"></i>'.$newpmText.'</a>';
 	}
 
+	if (getPluginStatusActive('comments')) {
+		$newcom = $mysql->result('SELECT count(id) FROM '.prefix."_comments WHERE  approve = '0'");
+		$comText = ($newcom != '0') ? $newcom.' '.Padeg($newcom, $lang['head_com_skl']) : $lang['head_com_no'];
+
+		$com_nav = '<a class="navigation-item" href="'.$PHP_SELF.'?mod=extra-config&plugin=comments&action=list&approve=1" title="'.$lang['pm_t'].'"><i class="fa fa-envelope-o"></i><span>'.$comText.'</span></a>';
+		$com_down ='<a class="dropdown-item" href="'.$PHP_SELF.'?mod=extra-config&plugin=comments&action=list&approve=1" data-popup="tooltip" data-original-title="'.$lang['pm_t'].'" title="'.$lang['pm_t'].'"><i class="fa fa-exclamation"></i>'.$comText.'</a>';
+	}
+	
     // Calculate number of un-approved news
     if ($userROW['status'] == 1 || $userROW['status'] == 2) {
         $unapp1 = $mysql->result('SELECT count(id) FROM '.prefix."_news WHERE approve = '-1'");
@@ -253,6 +263,8 @@ $tVars = [
     'unapprov_down1'      => $unapprov_down1,
     'unapprov_down2'      => $unapprov_down2,
     'unapprov_down3'      => $unapprov_down3,
+	'com_nav'      		  => $com_nav,
+	'com_down'      	  => $com_down,
     'unnAppText'          => $unnAppText,
     'unnAppLabel'         => $unnAppLabel,
     'newpm_down'          => $newpm_down,

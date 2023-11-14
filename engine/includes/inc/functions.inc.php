@@ -3910,3 +3910,11 @@ function download($id, $name){
 
 	return $url;
 }
+function cDate($date, $format = timestamp, $itemprop = false)
+{
+
+    if (empty($date)) return '&ndash;';
+    $itemprop = ' itemprop="'.($itemprop ? $itemprop : 'datePublished').'"';
+
+    return '<time datetime="' . date('c', $date) . '" data-type="'. $format .'"'. $itemprop . '>' . LangDate($format, $date) . '</time>';
+}

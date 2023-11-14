@@ -319,7 +319,7 @@ $timer->registerEvent('Template engine is activated');
 $UHANDLER->setOptions(['domainPrefix' => $config['home_url']]);
 
 // Check if engine is installed in subdirectory
-if (preg_match('#^http\:\/\/([^\/])+(\/.+)#', $config['home_url'], $match)) {
+if (preg_match('#^(http|https)\:\/\/([^\/])+(\/.+)#', $config['home_url'], $match)) {
     $UHANDLER->setOptions(['localPrefix' => $match[2]]);
 }
 
@@ -465,3 +465,5 @@ $langShortMonths = explode(',', $lang['short_months']);
 $langMonths = explode(',', $lang['months']);
 
 $timer->registerEvent('* CORE.PHP is complete');
+
+$twig->addFilter(new \Twig\TwigFilter('cdate', 'cdate'));

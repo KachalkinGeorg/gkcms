@@ -45,6 +45,7 @@
 				<li>{{ unapprov_down1 }}</li>
 				<li>{{ unapprov_down2 }}</li>
 				<li>{{ unapprov_down3 }}</li>
+				<li>{{ com_down }}</li>
 				<li>{{ newpm_down }}</li>
 			</ul>
 		</div>
@@ -97,6 +98,7 @@
 					<li>{{ unapprov_nav1 }}</li>
 					<li>{{ unapprov_nav2 }}</li>
 					<li>{{ unapprov_nav3 }}</li>
+					<li>{{ com_nav }}</li>
 					<li> {{ newpm_nav }}</li>
 					<li><a class="navigation-item" href="?mod=users&action=editForm&id={{ user_id }}"><i class="fa fa-user-o"></i> {{ lang['loc_profile'] }}</a></li>
 					<li><a class="navigation-item" href="{{ php_self }}?action=logout"><i class="fa fa-sign-out"></i> {{ lang['logout'] }}</a></li>

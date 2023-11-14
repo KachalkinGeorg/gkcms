@@ -44,8 +44,8 @@
 			</tr>
 		</table>
 	</div>
-	<b id="b_url" class="bb-btn" onclick="insertext('[url=]','[/url]', {{ area }})" title="{{ lang['tags.link'] }}"></b>
-	<b id="b_img" class="bb-btn" onclick="insertext('[img=]','[/img]', {{ area }})" title="Картинка"></b>
+	<b id="b_url" class="bb-btn" onclick="insertext('[url]','[/url]', {{ area }})" title="{{ lang['tags.link'] }}"></b>
+	<b id="b_img" class="bb-btn" onclick="insertext('[img]','[/img]', {{ area }})" title="Картинка"></b>
 	<b id="b_color" class="bb-btn" onclick="show_alert(this)" title="{{ lang['tags.color'] }}" tabindex="-1"></b>
 	<div class="modal">
     <div class="modal-close" onclick="this.parentNode.style.display='none';"><i class="fa fa-times-circle fa-2x" aria-hidden="true"></i></div>

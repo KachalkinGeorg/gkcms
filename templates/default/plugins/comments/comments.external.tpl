@@ -1,13 +1,14 @@
-<div class="post">
-	<div class="post-header">
-		<div class="post-title"><a href="{link}">{title}</a></div>
+<div class="body">
+	<div id="comments">
+		<div class="title"><a href="{link}">{title}</a></div>
 	</div>
-	<div style="height: 10px;"></div>
-	<div class="post-text">
-		<p>[comheader]Все комментарии посетителей к данной новости[/comheader]</p>
-	</div>
-	<div class="post-footer">
-		<a class="btn" href="{link}">Назад</a>
+	<div class="content">
+		<div class="body-text">
+			<p>[comheader]Все комментарии посетителей к данной новости[/comheader]</p>
+		</div>
+		<div class="body-footer">
+			<a class="btn" href="{link}">Назад</a>
+		</div>
 	</div>
 </div>
 <div id="comments">

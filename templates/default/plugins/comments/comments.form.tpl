@@ -68,56 +68,53 @@
 		cajax.runAJAX();
 	}
 </script>
-<hr />
-						<div class="body" >
-							<div class="body-text" style="margin-right: 20px;margin-left: 20px;">
-<div id="new_comments"></div>
-<form id="comment" method="post" action="{post_url}" name="form" [ajax]onsubmit="add_comment(); return false;" [/ajax] novalidate>
-<input type="hidden" name="newsid" value="{newsid}"/>
-<input type="hidden" name="referer" value="{request_uri}"/>
-<div class="title">{l_addcomment}</div>
-<div class="bb" style="background-color: azure;">
-	<table border="0" width="100%" cellpadding="0" cellspacing="0">
+<div style="margin-right: 20px;margin-left: 20px;">
+	<div id="new_comments"></div>
+	<form id="comment" method="post" action="{post_url}" name="form" [ajax]onsubmit="add_comment(); return false;" [/ajax] novalidate>
+	<input type="hidden" name="newsid" value="{newsid}"/>
+	<input type="hidden" name="referer" value="{request_uri}"/>
+	<div id="commen">
+		<div class="title" style="color: darkgray;">{l_addcomment}</div>
+		<table border="0" cellpadding="0" cellspacing="0">
 		[not-logged]
-		<tr>
-			<td style="color: #696969;">{l_name}
-				<small>{l_necessary}</small>
-			</td>
-			<td><input class="input" type="text" name="name" value="{savedname}"/></td>
-		</tr>
-		<tr>
-			<td style="color: #696969;">{l_password}
-				<small>{l_ifreg}</small>
-			</td>
-			<td><input class="input" type="password" name="password" value=""/></td>
-		</tr>
-		<tr>
-			<td style="color: #696969;">{l_email}
-				<small>{l_necessary}</small>
-			</td>
-			<td><input class="input" type="text" name="mail" value="{savedmail}"/></td>
-		</tr>
+			<tr>
+				<td style="color: #696969;">{l_name}
+					<small>{l_necessary}</small>
+				</td>
+				<td><input class="input" type="text" name="name" value="{savedname}"/></td>
+			</tr>
+			<tr>
+				<td style="color: #696969;">{l_password}
+					<small>{l_ifreg}</small>
+				</td>
+				<td><input class="input" type="password" name="password" value=""/></td>
+			</tr>
+			<tr>
+				<td style="color: #696969;">{l_email}
+					<small>{l_necessary}</small>
+				</td>
+				<td><input class="input" type="text" name="mail" value="{savedmail}"/></td>
+			</tr>
 		[/not-logged]
-		<tr>
-			<td colspan="2" style="padding-top: 15px;">
-				{bbcodes}<!-- {smilies} -->
-				<textarea class="textarea" name="content" id="content" style="width: 98%;" rows="8"></textarea>
-			</td>
-		</tr>
+			<tr>
+				<td colspan="2" style="padding-top: 15px;">
+					{bbcodes}<!-- {smilies} -->
+					<textarea class="textarea" name="content" id="content" style="width: 98%;" rows="8"></textarea>
+				</td>
+			</tr>
 		[captcha]
-		<tr>
-			<td><img id="img_captcha" onclick="reload_captcha();" src="{captcha_url}?rand={rand}" alt="captcha"/></td>
-			<td><input class="input" type="text" name="vcode" style="width:80px"/></td>
-		</tr>
+			<tr>
+				<td><img id="img_captcha" onclick="reload_captcha();" src="{captcha_url}?rand={rand}" alt="captcha"/></td>
+				<td><input class="input" type="text" name="vcode" style="width:80px"/></td>
+			</tr>
 		[/captcha]
-	</table>
-</div>
-<!-- <input type="submit" value="{l_add}" class="btn"> -->
-<br />
+		</table>
+	</div>
+	<br />
 	<div class="label pull-right">
 		<label for="sendComment" class="default">&nbsp;</label>
-		<input type="submit" id="sendComment" value="Добавить комментарий" class="bbcodes">
+		<input type="submit" id="sendComment" value="{l_add}" class="bbcodes">
 	</div>
 
-</form>
-</div><!-- .body --></div>
+	</form>
+</div>

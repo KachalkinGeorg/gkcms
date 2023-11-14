@@ -190,7 +190,7 @@ function pm_reply()
             'subject'   => $reTitle,
             'token'     => genUToken('pm.token'),
             'quicktags' => QuickTags('currentInputAreaID', 'pmmes'),
-            'smilies'   => ($config['use_smilies'] == '1') ? InsertSmilies('content', 10) : '',
+            'smilies'   => ($config['use_smilies']) ? InsertSmilies('', 20, 'currentInputAreaID') : '',
             'toID'      => $row['from_id'],
             'fromID'    => $row['to_id'],
             'fromName'  => $lang['messaging'],
@@ -222,7 +222,7 @@ function pm_write()
 
     $tVars = [
         'quicktags' => QuickTags('currentInputAreaID', 'pmmes'),
-        'smilies'   => ($config['use_smilies'] == '1') ? InsertSmilies('content', 10) : '',
+        'smilies'   => ($config['use_smilies']) ? InsertSmilies('', 20, 'currentInputAreaID') : '',
         'token'     => genUToken('pm.token'),
     ];
     $xt = $twig->loadTemplate('skins/default/tpl/pm/write.tpl');
