@@ -105,9 +105,14 @@ class captcha
         $image = '';
         $image = imagecreate($this->width, $this->height);
 
-        $bg = imagecolorallocate($image, 255, 255, 255);
-        $fg = imagecolorallocate($image, 0, 0, 0);
-
+		if($config['captcha_color']){
+			$bg = imagecolorallocate($image, 255, 255, 255);
+			$fg = imagecolorallocate($image, 0, 0, 0);
+		}else{
+			$bg = imagecolorallocate($image, 0, 0, 0);
+			$fg = imagecolorallocate($image, 255, 255, 255);
+		}
+		
         imagecolortransparent($image, $bg);
         imageinterlace($image, 1);
 

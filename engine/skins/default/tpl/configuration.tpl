@@ -175,6 +175,12 @@
 						{{ mkSelect({'name' : 'save_con[captcha_font]', 'value' : config['captcha_font'], 'values' : list['captcha_font'] }) }}
 					</td>
 				</tr>
+				<tr>
+					<td width="50%">{{ lang['captcha_color'] }} <small class="form-text text-muted">{{ lang['captcha_color_desc'] }}</small></td>
+					<td width="50%">
+						{{ mkSelect({'name' : 'save_con[captcha_color]', 'value' : config['captcha_color'], 'values' : { 0 : lang['captcha_color_0'], 1 : lang['captcha_color_1'] } }) }}
+					</td>
+				</tr>
 			</table>
 		</div>	
 		<div class="panel-body">{{ lang['different'] }}</div>
