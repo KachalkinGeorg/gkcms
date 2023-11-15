@@ -122,9 +122,9 @@
 			<table class="table table-sm mb-0">
 				<thead>
 					<tr>
-						<th width="40" nowrap>{{ lang.editnews['postid_short'] }}</th>
-						<th width="60" nowrap>{{ lang.editnews['date'] }}</th>
-						<th width="48">&nbsp;</th>
+						<th width="2%" nowrap>{{ lang.editnews['postid_short'] }}</th>
+						<th width="12%" nowrap>{{ lang.editnews['date'] }}</th>
+						<th width="5%">&nbsp;</th>
 						<th width="45%">{{ lang.editnews['title'] }}</th>
 							{% if (pluginIsActive('comments')) %}
 								{% if flags.comments %}
@@ -132,10 +132,10 @@
 								{% endif %}
 							{% endif %}
 						<th width="50"><i class="fa fa-eye"></i></th>
-						<th width="16">{{ lang.editnews['status'] }}</th>
+						<th width="6%">{{ lang.editnews['status'] }}</th>
 						<th width="25%">{{ lang.editnews['category'] }}</th>
 						<th width="10%">{{ lang.editnews['author'] }}</th>
-						<th width="5%">
+						<th width="2%">
 							<input class="check" type="checkbox" name="master_box" title="{{ lang.editnews['select_all'] }}" onclick="javascript:check_uncheck_all(editnews)"/>
 						</th>
 					</tr>
@@ -143,30 +143,31 @@
 				<tbody>
 					{% for entry in entries %}
 						<tr>
-							<td width="30">{{ entry.newsid }}</td>
-							<td width="60">{{ entry.itemdate }}</td>
-							<td width="48" nowrap>
+							<td style="vertical-align: middle;"><span data-placement="top" data-popup="tooltip" data-original-title="{{ lang.editnews['postid_short'] }}" title="{{ lang.editnews['postid_short'] }}"><b>{{ entry.newsid }}</b></span></td>
+							<td style="vertical-align: middle;"><span data-placement="top" data-popup="tooltip" data-original-title="{{ entry.itemdate }}" title="{{ entry.itemdate }}">{{ entry.date|cdate }}</span></td>
+							<td style="vertical-align: middle;" nowrap>
 								{% if entry.flags.mainpage %}<span data-placement="top" data-popup="tooltip" data-original-title="{{ lang['on_main'] }}" title="{{ lang['on_main'] }}"><i class="fa fa-home"></i></span>{% else %}<span data-placement="top" data-popup="tooltip" data-original-title="{{ lang['off_main'] }}" title="{{ lang['off_main'] }}"><i class="fa fa-home text-danger"></i></span>{% endif %}
+								{% if entry.flags.favorite %}<span data-placement="top" data-popup="tooltip" data-original-title="{{ lang['favorite'] }}" title="{{ lang['favorite'] }}"><i class="fa fa-bookmark-o text-dark"></i></span>{% else %}{% endif %}
 								{% if (entry.attach_count > 0) %}<span data-placement="top" data-popup="tooltip" data-original-title="{{ lang['attach.count'] }}: {{ entry.attach_count }}" title="{{ lang['attach.count'] }}: {{ entry.attach_count }}"><i class="fa fa-paperclip"></i></span>{% endif %}
 								{% if (entry.images_count > 0) %}<span data-placement="top" data-popup="tooltip" data-original-title="{{ lang['images.count'] }}: {{ entry.images_count }}" title="{{ lang['images.count'] }}: {{ entry.images_count }}"><i class="fa fa-images"></i></span>{% endif %}
 								{% if entry.flags.fixed %}<span data-placement="top" data-popup="tooltip" data-original-title="{{ lang['on_fixed'] }}" title="{{ lang['on_fixed'] }}"><i class="fa fa-thumb-tack text-dark"></i></span>{% endif %}
 							</td>
-							<td nowrap>
+							<td style="vertical-align: middle;" nowrap>
 								{% if entry.flags.editable %}<a href="{{ php_self }}?mod=news&action=edit&id={{ entry.newsid }}">{% endif %}
 									{{ entry.title }}
 								{% if entry.flags.editable %}</a>{% endif %}
 							</td>
 							{% if (pluginIsActive('comments')) %}
 								{% if entry.flags.comments %}
-									<td>{% if (entry.comments > 0) %}{{ entry.comments }}{% endif %}</td>
+									<td style="vertical-align: middle;">{% if (entry.comments > 0) %}<span data-placement="top" data-popup="tooltip" data-original-title="{{ lang['commentes'] }}" title="{{ lang['commentes'] }}">{{ entry.comments }}</span>{% else %}-{% endif %}</td>
 								{% endif %}
 							{% endif %}
-							<td>
+							<td style="vertical-align: middle;">
 								{% if entry.flags.isActive %}
-								<a href="{{ entry.link }}" target="_blank">{% endif %}{% if (entry.views > 0) %}{{ entry.views }}{% else %}-{% endif %}{% if entry.flags.isActive %}</a>
+								<a href="{{ entry.link }}" data-placement="top" data-popup="tooltip" data-original-title="{{ lang['viewes'] }}" title="{{ lang['viewes'] }}" target="_blank">{% endif %}{% if (entry.views > 0) %}{{ entry.views }}{% else %}-{% endif %}{% if entry.flags.isActive %}</a>
 								{% endif %}
 							</td>
-							<td align="center">
+							<td style="vertical-align: middle;" align="center">
 								{% if (entry.state == 1) %}
 									<span data-placement="top" data-popup="tooltip" data-original-title="{{ lang['state.published'] }}" title="{{ lang['state.published'] }}"><i class="fa fa-check-circle text-success"></i></span>
 								{% elseif (entry.state == 0) %}
@@ -175,18 +176,20 @@
 									<span data-placement="top" data-popup="tooltip" data-original-title="{{ lang['state.draft'] }}" title="{{ lang['state.draft'] }}"><i class="fa fa-times text-danger"></i></span>
 								{% endif %}
 								{% if (pluginIsActive('comments')) %}
-									{% if (entry.com == 1) %}
+									{% if (entry.com == 2) %}
+										<span data-placement="top" data-popup="tooltip" data-original-title="{{ lang['com.unpublished'] }}" title="{{ lang['com.unpublished'] }}"><i class="fa fa-commenting text-muted"></i></span>
+									{% elseif (entry.com == 1) %}
 										<span data-placement="top" data-popup="tooltip" data-original-title="{{ lang['com.published'] }}" title="{{ lang['com.published'] }}"><i class="fa fa-commenting text-info"></i></span>
 									{% elseif (entry.com == 0) %}
 										<span data-placement="top" data-popup="tooltip" data-original-title="{{ lang['com.unpiblished'] }}" title="{{ lang['com.unpiblished'] }}"><i class="fa fa-commenting text-warning"></i></span>
 									{% endif %}
 								{% endif %}
 							</td>
-							<td nowrap>{{ entry.allcats }}</td>
-							<td>
+							<td style="white-space: inherit;vertical-align: middle;" nowrap>{{ entry.allcats }}</td>
+							<td style="vertical-align: middle;">
 								<a href="{{ php_self }}?mod=users&action=editForm&id={{ entry.userid }}" data-placement="top" data-popup="tooltip" data-original-title="{{ entry.username }}" title="{{ entry.username }}">{{ entry.username }}</a>
 							</td>
-							<td>
+							<td style="vertical-align: middle;">
 								<input type="checkbox" name="selected_news[]" value="{{ entry.newsid }}" />
 							</td>
 						</tr>
@@ -225,6 +228,9 @@
 							{% endif %}
 							<option value="mass_fixed">{{ lang.editnews['massfixed'] }}</option>
 							<option value="mass_unfixed">{{ lang.editnews['massunfixed'] }}</option>
+							<option value="" class="bg-light" disabled>===================</option>
+							<option value="mass_favorite">{{ lang.editnews['massfavorite'] }}</option>
+							<option value="mass_unfavorite">{{ lang.editnews['massunfavorite'] }}</option>
 							<option value="" class="bg-light" disabled>===================</option>
 							<option value="mass_delete">{{ lang.editnews['delete'] }}</option>
 						</select>

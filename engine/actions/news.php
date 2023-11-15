@@ -597,6 +597,7 @@ function listNewsForm()
             'attach_count' => $row['num_files'],
             'images_count' => $row['num_images'],
             'itemdate'     => date('d.m.Y', $row['postdate']),
+			'date'     	   => intval($row['postdate']),
             'allcats'      => resolveCatNames($cats).' &nbsp;',
             'title'        => secure_html((mb_strlen($row['title']) > 70) ? mb_substr($row['title'], 0, 70).' ...' : $row['title']),
             'link'         => newsGenerateLink($row, false, 0, true),
@@ -607,6 +608,7 @@ function listNewsForm()
                 'status'   => ($row['approve'] == 1) ? true : false,
 				'fixed'    => ($row['fixed'] == 1) ? true : false,
                 'mainpage' => $row['mainpage'] ? true : false,
+				'favorite' => $row['favorite'] ? true : false,
                 'editable' => ($row['author_id'] == $userROW['id']) && ($perm['personal.view']) || ($row['author_id'] != $userROW['id']) && ($perm['other.view']),
                 'isActive' => ($row['approve'] == 1) ? true : false,
             ],
@@ -934,6 +936,14 @@ do {
                 break;
             case 'mass_unfixed':
                 massNewsModify(['fixed' => 0], 'msgo_unfixed', 'unfixed');
+				return;
+                break;
+            case 'mass_favorite':
+                massNewsModify(['favorite' => 1], 'msgo_favorite', 'favorite');
+				return;
+                break;
+            case 'mass_unfavorite':
+                massNewsModify(['favorite' => 0], 'msgo_unfavorite', 'unfavorite');
 				return;
                 break;
             case 'mass_delete':
