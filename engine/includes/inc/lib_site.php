@@ -463,6 +463,7 @@ function addNews($mode = [])
         'personal.catpinned',
         'personal.favorite',
         'personal.setviews',
+        'personal.setdown',
         'personal.multicat',
         'personal.nocat',
         'personal.customdate',
@@ -768,6 +769,7 @@ function editNews($mode = [])
         'personal.catpinned',
         'personal.favorite',
         'personal.setviews',
+        'personal.setdown',
         'personal.multicat',
         'personal.nocat',
         'personal.customdate',
@@ -788,6 +790,7 @@ function editNews($mode = [])
         'other.catpinned',
         'other.favorite',
         'other.setviews',
+        'other.setdown',
         'other.multicat',
         'other.nocat',
         'other.customdate',
@@ -1008,6 +1011,10 @@ function editNews($mode = [])
     // Load list of attached images/files
     $row['#files'] = $mysql->select("select *, date_format(from_unixtime(date), '%d.%m.%Y') as date from ".prefix.'_files where (linked_ds = 1) and (linked_id = '.db_squote($row['id']).')', 1);
     $row['#images'] = $mysql->select("select *, date_format(from_unixtime(date), '%d.%m.%Y') as date from ".prefix.'_images where (linked_ds = 1) and (linked_id = '.db_squote($row['id']).')', 1);
+
+    if ($perm[$permGroupMode.'.setdown'] && $_REQUEST['setDown']) {
+        $mysql->query('update '.prefix.'_files set dcount='.db_squote(intval($_REQUEST['dcount'])).' where linked_id = '.db_squote($row['id']));
+    }
 
     // Dummy parameter for API call
     $tvars = [];

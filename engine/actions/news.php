@@ -40,6 +40,7 @@ function editNewsForm()
         'personal.catpinned',
         'personal.favorite',
         'personal.setviews',
+		'personal.setdown',
         'personal.multicat',
         'personal.nocat',
         'personal.customdate',
@@ -60,6 +61,7 @@ function editNewsForm()
         'other.catpinned',
         'other.favorite',
         'other.setviews',
+		'other.setdown',
         'other.multicat',
         'other.nocat',
         'other.customdate',
@@ -102,6 +104,25 @@ function editNewsForm()
         $usergrup .= '<strong>'.$v['name'].'</strong> - '.$k.'<br>';
     }
 	
+	if($row['num_files']){
+		foreach ($row['#files'] as $arow) {
+            // Skip files, that are attached by plugins
+            if ($arow['plugin'] != '') {
+                continue;
+            }
+			
+            $filesEntry = [
+                'folder'    => $arow['folder'].'<br>',
+				'name' 	 	=> $arow['orig_name'],
+                'dcount' 	 	=> $arow['dcount'],
+            ];
+			
+			$filesEntries[] = $filesEntry;
+
+		}	
+		
+	}
+	
     $tVars = [
         'php_self'    => $PHP_SELF,
         'cdate'       => date('d.m.Y H:i', $row['postdate']),
@@ -125,6 +146,7 @@ function editNewsForm()
         'editdate'    => ($row['editdate'] > $row['postdate']) ? strftime('%d.%m.%Y %H:%M', $row['editdate']) : '-',
 		'usergrup'	  => $usergrup,
 		'acces'		  => $row['acces'],
+		'filesEntries'  => $filesEntries,
         'author_page' => checkLinkAvailable('uprofile', 'show') ?
             generateLink('uprofile', 'show', ['name' => $row['author'], 'id' => $row['author_id']]) :
             generateLink('core', 'plugin', ['plugin' => 'uprofile', 'handler' => 'show'], ['name' => $row['author'], 'id' => $row['author_id']]),
@@ -180,6 +202,7 @@ function editNewsForm()
 			'robots.disabled' 	  => (!$perm[$permGroupMode.'.robots']) ? true : false,
             'favorite.disabled'   => (!$perm[$permGroupMode.'.favorite']) ? true : false,
             'setviews.disabled'   => (!$perm[$permGroupMode.'.setviews']) ? true : false,
+			'setdown.disabled'   => (!$perm[$permGroupMode.'.setdown']) ? true : false,
             'multicat.disabled'   => (!$perm[$permGroupMode.'.multicat']) ? true : false,
             'altname.disabled'    => (!$perm[$permGroupMode.'.altname']) ? true : false,
             'mondatory_cat'       => (!$perm[$permGroupMode.'.nocat']) ? true : false,
@@ -370,7 +393,9 @@ function massCommentDelete()
 //
 function massNewsModify($setValue, $langParam, $auto = false)
 {
-    global $mysql, $lang, $PFILTERS, $catmap;
+    global $mysql, $lang, $PFILTERS, $catmap, $langPara;
+	
+	$langPara = $langParam;
 
     $selected_news = getIsSet($_REQUEST['selected_news']);
 
@@ -381,8 +406,7 @@ function massNewsModify($setValue, $langParam, $auto = false)
     }
 
     $result = massModifyNews(['id' => $selected_news], $setValue, true);
-    msg(['type' => 'info', 'text' => $lang[$langParam], 'info' => implode("<br/>\n", $result)]);
-	return print_msg( 'info', $lang['msgi_info'], ''.$lang[$langParam].'<br/>'.implode("<br/>\n", $result).'', '?mod=news' );
+
 }
 
 //
@@ -742,6 +766,7 @@ function addNewsForm($retry = '')
         'personal.catpinned',
         'personal.favorite',
         'personal.setviews',
+		'personal.setdown',
         'personal.multicat',
         'personal.nocat',
         'personal.customdate',

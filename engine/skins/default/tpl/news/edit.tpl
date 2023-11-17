@@ -394,9 +394,30 @@
 			<div class="card mb-4">
 				<div class="card-header">{{ lang['editor.comminfo'] }}</div>
 				<table class="table table-condensed">
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th><i class="fa fa-calendar"></i> {{ lang['editor.dcreate'] }}</th>
+							<th><i class="fa fa-calendar-check-o"></i> {{ lang['editor.dedit'] }}</th>
+						</tr>
+					</thead>
 					<tbody>
 						<tr>
-							<td>{{ lang['editor.author'] }}</td>
+							<td><span data-placement="top" data-popup="tooltip" data-original-title="ID {{ lang.editnews['news_title'] }}" title="ID {{ lang.editnews['news_title'] }}"><b>{{ id }}</b></span></td>
+							<td>{{ createdate }}</td>
+							<td>{{ editdate }}</td>
+						</tr>
+					</tbody>
+				</table>
+				<table class="table table-condensed">
+					<thead>
+						<tr>
+							<th><i class="fa fa-user-circle-o"></i> {{ lang['editor.author'] }}</th>
+							<th><i class="fa fa-retweet"></i> {{ lang['news_status'] }}</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
 							<td>
 								<b><span id="news-author">{{ author }}</span></b>
 								<div class="pull-right">
@@ -406,32 +427,35 @@
 								<a href="{{ php_self }}?mod=users&action=editForm&id={{ authorid }}" target="_blank" class="btn-sm btn-default"><i class="fa fa-pencil"></i></a>&nbsp;
 								</div>
 							</td>
-						</tr>
-						<tr>
-							<td>{{ lang['editor.dcreate'] }}</td>
-							<td>{{ createdate }}</td>
-						</tr>
-						<tr>
-							<td>ID {{ lang.editnews['news_title'] }}</td>
-							<td>{{ id }}</td>
-						</tr>
-						<tr>
-							<td>{{ lang['editor.dedit'] }}</td>
-							<td>{{ editdate }}</td>
-						</tr>
-						<tr>
-							<td>{{ lang['news_status'] }}</td>
-							<td>{% if (approve == -1) %}<b>
-									<i class="fa fa-check-circle text-warning"></i>&nbsp;<span class="text-danger text-size-small">{{ lang['state.draft'] }}</span>
-								{% elseif (approve == 0) %}
-									<i class="fa fa-ban text-warning"></i>&nbsp;<span class="text-danger text-size-small">{{ lang['state.unpublished'] }}</span>
-								{% else %}
-									<i class="fa fa-check-circle text-success"></i>&nbsp;<span class="text-success text-size-small">{{ lang['state.published'] }}</span>
-								</b>{% endif %}
+							<td>
+							{% if (approve == -1) %}
+								<i class="fa fa-check-circle text-warning"></i>&nbsp;<span class="text-danger text-size-small">{{ lang['state.draft'] }}</span>
+							{% elseif (approve == 0) %}
+								<i class="fa fa-ban text-warning"></i>&nbsp;<span class="text-danger text-size-small">{{ lang['state.unpublished'] }}</span>
+							{% else %}
+								<i class="fa fa-check-circle text-success"></i>&nbsp;<span class="text-success text-size-small">{{ lang['state.published'] }}</span>
+							{% endif %}
 							</td>
 						</tr>
 					</tbody>
 				</table>
+				{% for entry in filesEntries %}
+				<table class="table table-condensed">
+					<thead>
+						<tr>
+							<th><i class="fa fa-paperclip"></i> {{ lang.editnews['attach_name'] }}</th>
+							<th><i class="fa fa-folder-o"></i> {{ lang.editnews['attach_folder'] }}</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td style="display: block; white-space: nowrap;overflow: hidden;text-overflow: ellipsis;width: 240px;">{{ entry.name }}</td>
+							<td>{{ entry.folder }}</td>
+						</tr>
+					</tbody>
+				</table>
+				{% endfor %}
+
 			</div>
 			{% if flags['multicat.show'] %}
 			<div class="card mb-4">
@@ -527,10 +551,32 @@
 							</div>
 						</div>
 						<input type="number" name="views" value="{{ views }}" class="form-control" {% if (flags['setviews.disabled']) %}disabled{% endif %} autocomplete="off">
+						<div class="input-group-prepend input-group-append">
+							<label class="input-group-text"><i class="fa fa-eye"></i></label>
+						</div>
 					</div>
 				</div>
 			</div>
 
+			{% for entry in filesEntries %}
+			<div class="card mb-4">
+				<div class="card-header">{{ lang.editnews['set_down'] }}</div>
+				<div class="card-body">
+					<div class="input-group">
+						<div class="input-group-prepend">
+							<div class="input-group-text">
+								<input type="checkbox" name="setDown" class="" value="1" {% if (flags['setdown.disabled']) %}disabled{% endif %}>
+							</div>
+						</div>
+						<input type="number" name="dcount" value="{{ entry.dcount }}" class="form-control" {% if (flags['setdown.disabled']) %}disabled{% endif %} autocomplete="off">
+						<div class="input-group-prepend input-group-append">
+							<label class="input-group-text"><i class="fa fa-download"></i></label>
+						</div>
+					</div>
+				</div>
+			</div>
+			{% endfor %}
+			
 			{% if not flags['customdate.disabled'] %}
 				<div class="card mb-4">
 					<div class="card-header">{{ lang.editnews['custom_date'] }}</div>
@@ -545,8 +591,11 @@
 							{{ lang.editnews['date.setdate'] }}
 						</label>
 
-						<div class="form-group">
+						<div class="input-group">
 							<input id="cdate" type="text" name="cdate" value="{{ cdate }}" class="form-control" pattern="[0-9]{2}\.[0-9]{2}\.[0-9]{4} [0-9]{2}:[0-9]{2}" placeholder="{{ "now" | date('d.m.Y H:i') }}" autocomplete="off">
+							<div class="input-group-prepend input-group-append">
+								<label class="input-group-text"><i class="fa fa-calendar"></i></label>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -556,11 +605,16 @@
 				<div class="card mb-4">
 					<div class="card-header">{{ lang['comments:mode.header'] }}</div>
 					<div class="card-body">
+					<div class="input-group">
 						<select name="allow_com" class="custom-select">
 							<option value="0" {{ plugin.comments['acom:0'] }}>{{ lang['comments:mode.disallow'] }}</option>
 							<option value="1" {{ plugin.comments['acom:1'] }}>{{ lang['comments:mode.allow'] }}</option>
 							<option value="2" {{ plugin.comments['acom:2'] }}>{{ lang['comments:mode.default'] }}</option>
 						</select>
+						<div class="input-group-prepend input-group-append">
+							<label class="input-group-text"><i class="fa fa-commenting-o"></i></label>
+						</div>
+					</div>
 					</div>
 				</div>
 			{% endif %}
