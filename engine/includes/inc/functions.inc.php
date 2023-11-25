@@ -2319,6 +2319,7 @@ function newsFillVariables($row, $fullMode, $page = 0, $disablePagination = 0, $
     $tvars['vars']['php-self'] = $PHP_SELF;
 
     $tvars['vars']['date'] = LangDate(timestamp, $row['postdate']);
+	$tvars['vars']['datePublished'] = date('Y-m-d', $row['postdate']);
     $tvars['vars']['views'] = $row['views'];
 
     // [TWIG] news.date, news.dateStamp, news.views
