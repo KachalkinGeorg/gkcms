@@ -202,7 +202,7 @@ if (is_array($userROW)) {
 		$newpm_down ='<a class="dropdown-item" href="'.$PHP_SELF.'?mod=pm" data-popup="tooltip" data-original-title="'.$lang['pm_t'].'" title="'.$lang['pm_t'].'"><i class="fa fa-exclamation"></i>'.$newpmText.'</a>';
 	}
 
-	if (getPluginStatusActive('comments')) {
+	if (getPluginStatusActive('comments') && pluginGetVariable('comments', 'moderate') ) {
 		$newcom = $mysql->result('SELECT count(id) FROM '.prefix."_comments WHERE  approve = '0'");
 		$comText = ($newcom != '0') ? $newcom.' '.Padeg($newcom, $lang['head_com_skl']) : $lang['head_com_no'];
 
