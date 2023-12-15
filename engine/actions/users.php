@@ -238,10 +238,30 @@ function userEdit()
 		}
 	}
 	
+	if (getPluginStatusActive('xfields')) {
 	
-    ngSYSLOG(['plugin' => '#admin', 'item' => 'users', 'ds_id' => $id], ['action' => 'editForm', 'list' => $cList], null, [1]);
+		$xf = xf_configLoad();
 
-    $mysql->query('update '.uprefix.'_users set `status`='.db_squote($_REQUEST['status']).', `site`='.db_squote($_REQUEST['site']).', `alt_name`='.db_squote($_REQUEST['alt_name']).', `gender`='.db_squote($_REQUEST['gender']).', `icq`='.db_squote($_REQUEST['icq']).', `photo`='.db_squote($photo).', `avatar`='.db_squote($avatar).', `where_from`='.db_squote($_REQUEST['where_from']).', `info`='.db_squote($_REQUEST['info']).', `mail`='.db_squote($_REQUEST['mail']).($pass ? ', `pass`='.db_squote($pass) : '').' where id='.db_squote($row['id']));
+		$rcall = $_REQUEST['xfields'];
+		if (!is_array($rcall)) $rcall = array();
+
+		$xdata = array();
+		foreach ($xf['users'] as $id => $data) {
+			if ($rcall[$id] != '') {
+				$xdata[$id] = $rcall[$id];
+			} else if ($data['required']) {
+				msg(array("type" => "error", "text" => str_replace('%field%', $id, $lang['xf_msge_emptyrequired'])));
+				print_msg( 'error', $lang['users_title'], str_replace('%field%', $id, $lang['xf_msge_emptyrequired']), '?mod=users' );
+				return;
+			}
+		}
+
+	    $xfields   = xf_encode($xdata);
+	}
+	
+    ngSYSLOG(['plugin' => '#admin', 'item' => 'users', 'ds_id' => $id], ['action' => 'editForm', 'list' => $cList], null, [$userROW['status'], 'editupdateuser']);
+
+    $mysql->query('update '.uprefix.'_users set `status`='.db_squote($_REQUEST['status']).', `site`='.db_squote($_REQUEST['site']).', `alt_name`='.db_squote($_REQUEST['alt_name']).', `gender`='.db_squote($_REQUEST['gender']).', `icq`='.db_squote($_REQUEST['icq']).', `photo`='.db_squote($photo).', `avatar`='.db_squote($avatar).', `where_from`='.db_squote($_REQUEST['where_from']).', `info`='.db_squote($_REQUEST['info']).', `mail`='.db_squote($_REQUEST['mail']).($pass ? ', `pass`='.db_squote($pass) : '').($xfields ? ', `xfields`='.db_squote($xfields) : '').' where id='.db_squote($row['id']));
     msg(['type' => 'info', 'text' => $lang['msgo_edituser']]);
 	return print_msg( 'update', $lang['users_title'], str_replace('%name%', $row['name'], $lang['msgk_edituser']), array('?mod=users&action=editForm&id='.$row['id'] => $lang['edit'], '?mod=users' => $lang['back'] ) );
 }
