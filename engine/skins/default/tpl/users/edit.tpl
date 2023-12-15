@@ -203,34 +203,17 @@
 		</div>
 	</div>
 
-	<div class="row">
-		<div class="col col-lg-8">
-			<div class="row">
-				{% if (perm.modify) %}
-					<div class="col-md-6 mb-4">
-						<button type="button" class="btn btn-outline-dark" onclick="history.back();">
-							{{ lang['cancel'] }}
-						</button>
-					</div>
-
-					<div class="col-md-6 mb-4 text-right">
-						<button type="submit" class="btn btn-outline-success">
-							<span class="d-xl-none"><i class="fa fa-floppy-o"></i></span>
-							<span class="d-none d-xl-block">{{ lang['save'] }}</span>
-						</button>
-					</div>
-				{% endif %}
-			</div>
-		</div>
-	</div>
-</form>
-
 {% if (pluginIsActive('xfields')) %}
-<div class="row my-5">
+<div class="row">
 	<div class="col-lg-8">
 		<div class="panel panel-default">
-			<div class="panel-heading">{{ lang['xf_prof'] }}</div>
-			<div class="panel-body">
+			<div id="headingTwo" class="panel-heading">
+				<a href="#" class="btn-block collapsed" data-toggle="collapse" data-target="#collapseNewsXfields" aria-expanded="false" aria-controls="collapseNewsXfields">
+					{{ lang['xf_prof'] }}
+				</a>
+			</div>
+			<div class="panel-body" style="padding:0px">
+			<div id="collapseNewsXfields" class="collapse" aria-labelledby="headingTwo" style="padding:10px">
 			<table class="table table-sm">
 				<thead>
 					<tr>
@@ -256,7 +239,31 @@
 				</tbody>
 			</table>
 			</div>
+			</div>
 		</div>
 	</div>
 </div>
 {% endif %}
+
+	<div class="row">
+		<div class="col col-lg-8">
+			<div class="row">
+				{% if (perm.modify) %}
+					<div class="col-md-6 mb-4">
+						<button type="button" class="btn btn-outline-dark" onclick="history.back();">
+							{{ lang['cancel'] }}
+						</button>
+					</div>
+
+					<div class="col-md-6 mb-4 text-right">
+						<button type="submit" class="btn btn-outline-success">
+							<span class="d-xl-none"><i class="fa fa-floppy-o"></i></span>
+							<span class="d-none d-xl-block">{{ lang['save'] }}</span>
+						</button>
+					</div>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+
+</form>

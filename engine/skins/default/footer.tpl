@@ -1,10 +1,19 @@
-{{ notify }}
-{{ breadcrumb }}
-<div class="content">{{ main_admin }}</div>
+		{{ notify }}
+		{{ breadcrumb }}
+		<div class="content">{{ main_admin }}</div>
 		</main>
 		<footer class="border-top mt-5">
 			<p class="text-right text-muted py-4 my-0">2008-{{ year }} © <a href="http://ngcms.ru" target="_blank">Next Generation CMS</a></p>
 		</footer>
+		
+		<div id="modal-dialog" class="modal fade" tabindex="-1" role="dialog">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+				
+				</div>
+			</div>
+		</div>
+		
 	</div>
 
 </div>

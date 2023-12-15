@@ -1,3 +1,59 @@
+function showModal(textOrID, header, footer, size) {
+    var withID = document.getElementById(textOrID);
+    if (withID && !header && !footer) { // Show modal with ID
+        $(withID).modal('show');
+        return;
+    }
+    var modalContent = '';
+    if (header) {
+        if (textOrID) {
+            modalContent = '<div class="modal-header">\
+								<h5 class="modal-title">' + header + '</h5>\
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">\
+                                    <span aria-hidden="true">&times;</span>\
+                                </button>\
+                            </div>';
+        } else {
+            modalContent = '<div class="modal-header">\
+								<h5 class="modal-title">Info</h5>\
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">\
+                                    <span aria-hidden="true">&times;</span>\
+                                </button>\
+                            </div>';
+        }
+    } else {
+        modalContent = '<div class="modal-header">\
+                            <h5 class="modal-title">Error</h5>\
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">\
+                                <span aria-hidden="true">&times;</span>\
+                            </button>\
+                        </div>';
+    }
+    if (textOrID)
+        modalContent += '<div class="modal-body">' + textOrID + '</div>';
+    else
+        modalContent += '<div class="modal-body">Unable to load content . . .</div>';
+    
+    if (footer) {
+        modalContent += '<div class="modal-footer">' + footer + '</div>';
+    } else {
+        modalContent += '<div class="modal-footer">\
+                            <button type="button" class="btn btn-default btn-secondary" data-dismiss="modal">\
+                            Close\
+                            </button>\
+                        </div>';
+    }
+    if (size == 'modal-lg')
+        $('#modal-dialog .modal-dialog').addClass('modal-lg');
+    else
+        $('#modal-dialog .modal-dialog').removeClass('modal-lg');
+
+    $('#modal-dialog .modal-content').html(modalContent); // #modal-dialog isset in html document'е
+    $('#modal-dialog').modal('show');
+
+    return;
+}
+
 function insertfortext(teg,val,field){
 	try{
 		var msgfield=document.getElementById((field=='')?'content':field);
