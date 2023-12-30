@@ -1,3 +1,4 @@
+<script type="text/javascript">var pm_content = 'pm_content';</script>
 <form method=post name=form action="{{ php_self }}?action=send">
 	<input type="hidden" name="title" value="{{ title }}">
 	<input type="hidden" name="to_username" value="{{ to_username }}">

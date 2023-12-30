@@ -1,4 +1,5 @@
 <script type="text/javascript" src="{{ scriptLibrary }}/libsuggest.js"></script>
+<script type="text/javascript">var pm_content = 'pm_content';</script>
 <style>
 	.suggestWindow {
 		background: #ecf1f7;
