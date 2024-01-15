@@ -296,6 +296,14 @@ function massDeleteNews($list, $permCheck = true)
             $mysql->query("DELETE FROM " . prefix . "_images WHERE plugin='gk' AND linked_id=" . (int)$nrow['id']);
         }
 
+        if( $nrow['num_files'] > 0 ){
+            foreach ($mysql->select("SELECT folder, name FROM " . prefix . "_files WHERE plugin='gk' AND linked_id=" . $nrow['id']) as $flRow) {
+                $fm = new GKcms\File\FileManager();
+                $fm->fileNewsDelete($flRow);
+            }
+            $mysql->query("DELETE FROM " . prefix . "_files WHERE plugin='gk' AND linked_id=" . (int)$nrow['id']);
+        }
+		
         $mysql->query('delete from '.prefix.'_news where id='.db_squote($nrow['id']));
         $mysql->query('delete from '.prefix.'_news_map where newsID = '.db_squote($nrow['id']));
 
@@ -1200,7 +1208,13 @@ function newsImageUpload($files, $post){
     $uploader->setMaxDimensions($config['images_max_y'], $config['images_max_x']);
     $uploader->resizeIfBigger(true);
     $uploader->setFilesize($config['images_max_size']);
-    $uploader->filenameRandom();
+	if ( $post['imageRandomTitle'] == 'true' ) {
+		$uploader->filenameRandom('random');
+	}
+	if ( $post['imageRandomTitle'] == 'false') {
+		$uploader->filenameRandom('original');
+	}
+
     $uploader->setThumbMode(false);
     if ( $config['thumb_mode'] == 2 || ($config['thumb_mode'] == 0 && $post['imageCreateThumb'] == 'true') ) {
         $uploader->setThumbMode(true, $config['thumb_size_y']);
@@ -1226,13 +1240,13 @@ function newsImageUpload($files, $post){
 	$imgshort = $config['images_url'] . '/' . $uploadInfo['thumb']['path'] . '/' . $imageBasename;
 			
     $imageId = $uploadInfo['image_id'];
-    $imageLink = '[<a href="#" alt="'.$lang['editnews']['img_ins_link'].'" onclick=\'insertext("[img=\"'.$imgfull.'\"]'.$imageId.'[/img] ","",currentInputAreaID);return false;\'>'.$lang['editnews']['img_link'].'</a>]';
-    $thumbLink = ($thumbUrl) ? '[<a href="#" alt="'.$lang['editnews']['img_ins_thumb'].'" onclick=\'insertext("[img=\"'.$imgshort.'\"]'.$imageId.'[/img] ", "", currentInputAreaID);return false;\'>'.$lang['editnews']['img_thumb'].'</a>] ' : '';
+    $imageLink = '[<a href="#" title="'.$lang['editnews']['img_ins_link'].'" alt="'.$lang['editnews']['img_ins_link'].'" onclick=\'insertext("[img=\"'.$imgfull.'\"]'.$imageId.'[/img] ","",currentInputAreaID);return false;\'>'.$lang['editnews']['img_link'].'</a>]';
+    $thumbLink = ($thumbUrl) ? '[<a href="#" title="'.$lang['editnews']['img_ins_thumb'].'" alt="'.$lang['editnews']['img_ins_thumb'].'" onclick=\'insertext("[img=\"'.$imgshort.'\"]'.$imageId.'[/img] ", "", currentInputAreaID);return false;\'>'.$lang['editnews']['img_thumb'].'</a>] ' : '';
     $previewImg = $config['images_url']. '/' . (($thumbUrl) ? $thumbUrl : $imageUrl);
 
     ajaxJson([
         'id' => $imageId,
-        'data' => "<img width='50px' height='50px' src='".$previewImg."'>&nbsp;&nbsp;{$thumbLink}{$imageLink} - " . $imageBasename . " [{$uploadInfo['width']}x{$uploadInfo['height']}, " . \GKcms\File\FileHelper::formatSize($uploadInfo['size']) . "] ",
+        'data' => "<img width='50px' height='50px' src='".$previewImg."'>&nbsp;&nbsp;{$thumbLink}{$imageLink} - " . $imageBasename . (bool)$post['imageRandomTitle']." [{$uploadInfo['width']}x{$uploadInfo['height']}, " . \GKcms\File\FileHelper::formatSize($uploadInfo['size']) . "] ",
     ]);
 }
 
@@ -1259,6 +1273,87 @@ function newsImageDelete($imageId){
 
     $fm = new GKcms\File\FileManager();
     $fm->imageNewsDelete($image);
+
+    ajaxOk();
+}
+
+function newsFileUpload($files, $post){
+    global $config, $userROW, $mysql;
+
+    if( !isAjaxRequest() ){
+		ajaxError(''.$lang['editnews']['data_er_data'].'');
+    }
+
+    if( empty($userROW) ){
+		ajaxError(''.$lang['editnews']['data_er_load'].'');
+    }
+
+    if( empty($config['files_dir']) ){
+		ajaxError(''.$lang['editnews']['data_not_folder'].'');
+    }
+
+    $uploader = new GKcms\File\FileUploader();
+    $uploader->setDestination($config['files_dir'], date("Y-m"));
+    $uploader->setExtensions( array_map('trim', explode(',', $config['files_ext'])) );
+    $uploader->setFilesize($config['files_max_size']);
+
+	if ( $post['fileRandomTitle'] == 'true' ) {
+		$uploader->filenameRandom('random');
+	}
+	if ( $post['fileRandomTitle'] == 'false') {
+		$uploader->filenameRandom('original');
+	}
+	
+    try {
+		$ids = $mysql->lastid('news')+1;
+		if(!$post['newsId']){
+			$postfl = $ids;
+		}else{
+			$postfl = $post['newsId'];
+		}
+        $uploadInfo = $uploader->uploadNewsMode($files, 'newsfile', $postfl);
+    } catch (\Exception $e) {
+		ajaxError($e->getMessage());
+    }
+
+    $fileBasename = $uploadInfo['filename'] . '.' . $uploadInfo['mime'];
+	$fname = $config['files_url'] . '/' . $uploadInfo['path'] . '/' . $fileBasename;
+    $fileId = $uploadInfo['file_id'];
+    $fileLink = '[<a href="#" title="'.$lang['editnews']['data_ins_link'].'" alt="'.$lang['editnews']['data_ins_link'].'" onclick=\'insertext("[attach#'.$fileId.']'.$fileBasename.'[/attach] ","",currentInputAreaID);return false;\'>Файл</a>]';
+
+	$path_info = pathinfo($fname);
+	$format = $path_info['extension'];
+	$icon = skins_url.'/images/filetypes/'.$format.'.png';
+				
+    ajaxJson([
+        'id' => $fileId,
+        'data' => "<img width='50px' height='50px' src='".$icon."'>&nbsp;&nbsp;{$fileLink} - " . $fileBasename . " [" . \GKcms\File\FileHelper::formatSize($uploadInfo['size']) . "] ",
+    ]);
+}
+
+function newsFileDelete($fileId){
+    global $mysql;
+
+    if( !isAjaxRequest() ){
+		ajaxError(''.$lang['editnews']['data_er_data'].'');
+    }
+
+    $fileId = (int)$fileId;
+    if (!is_array($file = $mysql->record("SELECT name, folder, linked_id FROM " . prefix . "_files WHERE id=" . $fileId))) {
+		ajaxError(''.$lang['editnews']['data_id_er'].'');
+    }
+
+    try {
+        $mysql->query("DELETE FROM " . prefix . "_files WHERE id=" . $fileId);
+        if($file['linked_id']) {
+            $mysql->query("UPDATE " . prefix . "_news SET num_files=num_files-1 WHERE id=".(int)$file['linked_id']);
+        }
+    } catch (\Exception $e) {
+		ajaxError(''.$lang['editnews']['data_er_msql'].'');
+    }
+
+    $fm = new GKcms\File\FileManager();
+    $fm->fileNewsDelete($file);
 
     ajaxOk();
 }

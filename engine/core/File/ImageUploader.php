@@ -41,13 +41,12 @@ class ImageUploader {
         $this->extensions = $imageExts;
 
         if($config['images_dir']){
-            /* $this->imagePath = date("Y/m/d");  */
 			$this->imagePath = date("Y-d"); 
             $this->destination = $config['images_dir'] . $this->imagePath;
         }
 
         $this->maxFilesize = (int)$config['images_max_size'] * 1024;
-        $this->filenameMode = 'random';
+        $this->filenameMode = 'original';
         $this->maxWidth = $config['images_max_x'];
         $this->maxHeight = $config['images_max_y'];
 
@@ -105,8 +104,8 @@ class ImageUploader {
         if ($thumbQuality !== null) $this->thumbQuality = $thumbQuality;
     }
 
-    public function filenameRandom($length = 10){
-        $this->filenameMode = 'random';
+    public function filenameRandom($filename, $length = 10){
+        $this->filenameMode = $filename;
 
         $length = (int)$length;
         if($length < 1) $length = 10;
@@ -141,12 +140,14 @@ class ImageUploader {
     }
 
     public function upload($files, $fileInputName, $formatResults = 'array'){
+		global $config;
+		
         $image = new \Bulletproof\Image($files);
         if( !$image[$fileInputName] ){
             throw new \Exception('Не выбрано изображение для загрузки');
         }
 
-        $image->setLanguage('ru');
+        $image->setLanguage($config['default_lang']);
         $image->setDebugMode($this->getDebugMode());
         $image->setLocation($this->destination, 0775);
         if($image->getError()){
@@ -180,6 +181,8 @@ class ImageUploader {
         list($this->imageWidth, $this->imageHeight) = getimagesize($image->getFullPath());
         $this->originalWidth = $this->imageWidth;
         $this->originalHeight = $this->imageHeight;
+		
+		$mimeTypes = $this->extensions;
 
         if( $isScaling ){
             $this->scalingBigger($image->getWidth(), $image->getHeight(), $image->getMime(), $image->getFullPath());
@@ -242,6 +245,7 @@ class ImageUploader {
 
         $SQL = [
             'name' => $uploadInfo['filename'] . '.' . $uploadInfo['mime'],
+			'orig_name' => $uploadInfo['filename'] . '.' . $uploadInfo['mime'],
 			'description' => '',
 			'user' => $userROW['name'],
             'folder' => $uploadInfo['path'],

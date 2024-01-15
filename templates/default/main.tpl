@@ -175,13 +175,13 @@
 			{% endif %}
 		</div>
 		<div id="sidebar-3">
-			{% if pluginIsActive('k_online') %}
+			{% if pluginIsActive('block_online') %}
 				<div class="block stats">
 					<div class="block-title">
 						<span class="icon-stats"></span> {{ lang.theme.statistic }}
 					</div>
 					<div class="block-stats">
-						{{ k_online }}
+						{ block_online }
 					</div>
 				</div>
 			{% endif %}

@@ -677,20 +677,25 @@
 	{% endif %}
 	
 	<div id="modal-uplimg" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="uplimg-modal-label" aria-hidden="true">
-		<div class="modal-dialog">
+		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 id="uplimg-modal-label" class="modal-title">{{ lang.editnews['img_upload'] }}</h5>
+					<h5 id="uplimg-modal-label" class="modal-title">{{ lang.editnews['loading'] }}</h5>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 				</div>
 				<div class="modal-body">
-					<div>
-					{% if (flags.thumb_create_option) %}
-						<input type="checkbox" id="imageCreateThumb" name="imageCreateThumb" value="" checked="checked"/> {{ lang.editnews['img_cr_thumb'] }}&nbsp;&nbsp;
-					{% endif %}
-						<input type="checkbox" id="imageRandomTitle" name="imageRandomTitle" checked="checked"/> {{ lang.editnews['img_rand_name'] }}
-					</div>
-					<br />
+				
+				<ul class="nav nav-tabs nav-fill" role="tablist">
+					<li class="nav-item"><a href="#upl-img" class="nav-link active" data-toggle="tab">{{ lang.editnews['img_upload'] }}</a></li>
+					<li class="nav-item"><a href="#upl-data" class="nav-link" data-toggle="tab">{{ lang.editnews['data_upload'] }}</a></li>
+				</ul>
+				
+				<div class="form-group"></div>
+				
+				<!-- Tab panes -->
+				<div id="upl" class="tab-content">
+					<!-- img -->
+					<div id="upl-img" class="tab-pane show active">
 					<div class="table-responsive">
 					<table id="newsimage-area" class="table table-sm mb-0">
 						{% for image in images %}
@@ -698,11 +703,42 @@
 						{% endfor %}
 					</table>
 					</div>
-					<hr>
-                    <div>
+					<div>
+					<text style="color:#c2c0bd"><i><b>{{ lang.editnews['extra_setting'] }}</b></i></text><hr style="display:inline-block;position:relative;width:250px;top: -4px;margin: 0 6px;height: 1px;">
+					<div class="form-group"></div>
+
+					{% if (flags.thumb_create_option) %}
+						<input type="checkbox" id="imageCreateThumb" name="imageCreateThumb" value="" checked="checked"/> {{ lang.editnews['img_cr_thumb'] }}&nbsp;&nbsp;
+					{% endif %}
+						<input type="checkbox" id="imageRandomTitle" name="imageRandomTitle" checked="checked"/> {{ lang.editnews['rand_name'] }}
+					<div style="float: right;">
 						<input type="file" id="uploadimage" name="newsimage" value=""/>
-						<input type="button" value="Загрузить" class="btn btn-sm btn-outline-secondary" onclick="return uploadNewsImage();"/>
+						<a class="btn btn-primary" data-placement="top" data-popup="tooltip" data-original-title="{{ lang.editnews['download'] }}" title="{{ lang.editnews['download'] }}" onclick="return uploadNewsImage();"><i class="fa fa-download"></i></a>
 					</div>
+					</div>
+					</div>
+					
+					<!-- data -->
+					<div id="upl-data" class="tab-pane">
+					<div class="table-responsive">
+					<table id="newsfile-area" class="table table-sm mb-0">
+						{% for file in files %}
+							<tr id="newsfile-item-{{ file.id }}"><td style="margin: 10px 0;">{{ file.entry }}</td> <td style="vertical-align: middle;"><a href="#" onclick="if(confirm('Удалить')) deleteNewsFile({{ file.id }}); return false;" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a></td></tr>
+						{% endfor %}
+					</table>
+					</div>
+					<div>
+					<text style="color:#c2c0bd"><i><b>{{ lang.editnews['extra_setting'] }}</b></i></text><hr style="display:inline-block;position:relative;width:250px;top: -4px;margin: 0 6px;height: 1px;">
+					<div class="form-group"></div>
+					<input type="checkbox" id="fileRandomTitle" name="fileRandomTitle" checked="checked"/> {{ lang.editnews['rand_name'] }}
+					<div style="float: right;">
+						<input type="file" id="uploadfile" name="newsfile" value=""/>
+						<a class="btn btn-primary" data-placement="top" data-popup="tooltip" data-original-title="{{ lang.editnews['download'] }}" title="{{ lang.editnews['download'] }}" onclick="return uploadNewsFile();"><i class="fa fa-download"></i></a>
+					</div>
+					</div>
+					
+					</div>
+				</div>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-outline-dark" data-dismiss="modal">{{ lang.editnews['close'] }}</button>
@@ -928,6 +964,74 @@ insertselcat();
 
                 $("#newsimage-item-"+imageId).css('background-color', '#da7b7b');
                 setTimeout(function() { $("#newsimage-item-"+imageId).remove(); }, 2000);
+            },
+            error: function (data) {
+				$.notify({message:'Ошибка удаления изображения'},{type: 'error'});
+            }
+        });
+    }
+</script>
+<script language="javascript" type="text/javascript">
+    function uploadNewsFile() {
+        var $input = $("#uploadfile");
+        var fd = new FormData;
+
+        if(!$input.val()) {
+			$.notify({message:'Выберите изображение!'},{type: 'error'});
+            return;
+        }
+
+        fd.append('newsfile', $input.prop('files')[0]);
+        fd.append('newsId', {{id}});
+        fd.append('fileRandomTitle', $("#fileRandomTitle").is(':checked'));
+
+        $.ajax({
+            url: '{{php_self}}?mod=news&action=uploadfile',
+            data: fd,
+            processData: false,
+            contentType: false,
+            type: 'POST',
+            dataType: 'json',
+            success: function (result) {
+                if(result.error) {
+					$.notify({message:result.error},{type: 'error'});
+                    return;
+                }
+                $("#newsfile-area").append('<li id="newsfile-item-'+result.id+'" style="margin: 10px 0;">'+result.data+' <a href="#" onclick="if(confirm(\'Удалить изображение?\')) deleteNewsFile('+result.id+'); return false;" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></a></li>');
+                $input.val('');
+                $("#newsfile-item-"+result.id).css('background-color', '#b4d8b2');
+                setTimeout(function() { $("#newsfile-item-"+result.id).css('background-color', '#ffffff') }, 3000);
+            },
+            error: function (result) {
+				$.notify({message:'Ошибка загрузки изображения'},{type: 'error'});
+            }
+        });
+    }
+
+    function deleteNewsFile(fileId) {
+        if(fileId < 1) {
+			$.notify({message:'Неправильный идентификатор!'},{type: 'error'});
+            return;
+        }
+
+        var fd = new FormData;
+        fd.append('fileId', fileId);
+
+        $.ajax({
+            url: '{{php_self}}?mod=news&action=deletefile',
+            data: fd,
+            processData: false,
+            contentType: false,
+            type: 'POST',
+            dataType: 'json',
+            success: function (data) {
+                if(data.error) {
+					$.notify({message:data.error},{type: 'error'});
+                    return;
+                }
+
+                $("#newsfile-item-"+fileId).css('background-color', '#da7b7b');
+                setTimeout(function() { $("#newsfile-item-"+fileId).remove(); }, 2000);
             },
             error: function (data) {
 				$.notify({message:'Ошибка удаления изображения'},{type: 'error'});

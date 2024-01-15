@@ -1,0 +1,93 @@
+#hintbox{
+	position:absolute;
+	top: 0;
+	background-color: white;
+	width: 200px;
+	padding: 3px;
+	font:normal 10px Tahoma;
+	line-height:18px;
+	z-index:100;
+	visibility: hidden;
+	border:1px solid #8c8c8c;
+}
+.ionline {position:relative; display: block;}
+#ionline_vis {
+    display:none; 
+    position:absolute; 
+    top:0; 
+    left: 20px;
+    margin:-65px -100px 0 0;
+    background:rgba(0,0,0,0.5); 
+    padding:5px 5px; 
+    color:#fff; 
+    font-size:10px;
+    overflow:hidden;
+    z-index:999; 
+    -moz-box-shadow:0px 1px 5px rgba(0,0,0,0.5);
+    -webkit-box-shadow:0px 1px 5px rgba(0,0,0,0.5);
+    box-shadow:0px 1px 5px rgba(0,0,0,0.5);
+}
+#ionline_vis .hints {border: 1px solid #000000;border-radius: 5px; -moz-border-radius:5px; -webkit-border-radius:5px;filter:progid:DXImageTransform.Microsoft.Alpha(opacity=80);-moz-opacity:0.80;-khtml-opacity:0.80;opacity: 0.80; overflow:hidden; padding:0 0 0 120px; background:#fff;}
+#ionline_vis .hintbox {border: 1px solid #000000;border-radius: 5px; -moz-border-radius:5px; -webkit-border-radius:5px;filter:progid:DXImageTransform.Microsoft.Alpha(opacity=80);-moz-opacity:0.80;-khtml-opacity:0.80;opacity: 0.80; overflow:hidden; padding:0 0 0 120px; background:#000;}
+#ionline_vis .lcol {overflow:hidden; color:#454545; text-align:center; margin:0 0 0 -119px;  padding:4px 3px 5px 4px; height:100% !important;}
+#ionline_vis .lcol img { max-width:100px;max-height:100px;}
+#ionline_vis .lcol span{display:block; padding:5px 5px 0 5px; font-size: 1.2em; font-weight: 700; color: #328EB9;}
+#ionline_vis .rcol {overflow:hidden; float:left; color:#454545; padding:10px 10px;}
+.statonline, .statoffline { background: #97b312; height: 18px; color: #fff; border: 1px solid #649712; font-weight: bold; font-size: 11px; text-align: center; }
+        .statoffline { background: #7e7e7e; border-color: #6e6e6e; }
+        .avatar { border: 1px solid #d6d6d6; background: #fff; overflow: hidden; }
+        .avatar img {width: 100px;}
+
+
+.online_out1 { /* Вывод в строку*/
+    float:left;
+    display: inline;
+    margin: 0px;
+    padding: 0px;
+    overflow: hidden;
+}
+.online_out2 { /* Вывод в 2 столбца*/
+    float:left;
+    width:49%;
+    text-align: left;
+    overflow: hidden;
+	font-size:12px;
+}
+.online_out3 { /* Вывод в 3 столбца*/
+    float:left;
+    width:33%;
+    text-align: left;
+    overflow: hidden;
+}
+.online_out4 { /* Вывод в 4 столбца*/
+    float:left;
+    width:24%;
+    text-align: left;
+    overflow: hidden;
+}
+.online_out5 { /* Вывод в 5 столбцов*/
+    float:left;
+    width:19%;
+    text-align: left;
+    overflow: hidden;
+}
+
+.online_user {
+    overflow: hidden;
+}
+.online_user a{
+    text-decoration:none;
+}
+.online_user a:hover{
+    text-decoration: underline;
+    cursor: pointer;
+}
+.lcol, .rcol {
+    display: inline;
+}
+.lcol {
+    float: left;
+}
+.rcol {
+    float: right;
+}

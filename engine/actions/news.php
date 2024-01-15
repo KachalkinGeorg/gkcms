@@ -235,10 +235,10 @@ function editNewsForm()
             $imgurl = str_replace($config['images_url'].'/','', $config['images_url'] . '/' . $image['folder'] . '/' . $image['name']);
 			$imgfull = $config['images_url'] . '/' . $image['folder'] . '/' . $image['name'];
 			$imgshort = $config['images_url'] . '/' . $image['folder'] . '/thumb/' . $image['name'];
-            $thumbUrl = ($image['thumb']) ? str_replace($config['images_url'].'/','', $config['images_url'] . '/' . $image['folder'] . '/thumb/' . $image['name']) : '';
+            $thumbUrl = ($image['preview']) ? str_replace($config['images_url'].'/','', $config['images_url'] . '/' . $image['folder'] . '/thumb/' . $image['name']) : '';
 
-            $imageLink = '[<a href="#" alt="'.$lang['editnews']['img_ins_link'].'" onclick=\'insertext("[img=\"'.$imgfull.'\"]'.$image['id'].'_'.$image['name'].'[/img] ","",currentInputAreaID);return false;\'>'.$lang['editnews']['img_link'].'</a>]';
-            $thumbLink = ($thumbUrl) ? '[<a href="#" alt="'.$lang['editnews']['img_ins_thumb'].'" onclick=\'insertext("[img=\"'.$imgshort.'\"]'.$image['id'].'_'.$image['name'].'[/img] ", "", currentInputAreaID);return false;\'>'.$lang['editnews']['img_thumb'].'</a>] ' : '';
+            $imageLink = '[<a href="#" title="'.$lang['editnews']['img_ins_link'].'" alt="'.$lang['editnews']['img_ins_link'].'" onclick=\'insertext("[img=\"'.$imgfull.'\"]'.$image['id'].'_'.$image['name'].'[/img] ","",currentInputAreaID);return false;\'>'.$lang['editnews']['img_link'].'</a>]';
+            $thumbLink = ($thumbUrl) ? '[<a href="#" title="'.$lang['editnews']['img_ins_thumb'].'" alt="'.$lang['editnews']['img_ins_thumb'].'" onclick=\'insertext("[img=\"'.$imgshort.'\"]'.$image['id'].'_'.$image['name'].'[/img] ", "", currentInputAreaID);return false;\'>'.$lang['editnews']['img_thumb'].'</a>] ' : '';
             $previewImg = $config['images_url']. '/' . (($thumbUrl) ? $thumbUrl : $imgurl);
 
             $tVars['images'][] = [
@@ -248,6 +248,25 @@ function editNewsForm()
         }
     }
 	
+    $tVars['files'] = [];
+    $files = $mysql->select("SELECT * FROM " . prefix . "_files WHERE plugin = 'gk' AND linked_id = " . (int)$row['id'], 1);
+
+    if(!empty($files)) {
+        foreach($files as $file) {
+			$fname = $config['files_url'] . '/' . $file['folder'] . '/' . $file['name'];
+			$fileLink = '[<a href="#" title="'.$lang['editnews']['data_ins_link'].'" alt="'.$lang['editnews']['data_ins_link'].'" onclick=\'insertext("[attach#'.$file['id'].']'.$file['name'].'[/attach] ","",currentInputAreaID);return false;\'>Файл</a>]';
+
+			$path_info = pathinfo($fname);
+			$format = $path_info['extension'];
+			$icon = skins_url.'/images/filetypes/'.$format.'.png';
+	
+            $tVars['files'][] = [
+                'id' => $file['id'],
+                'entry' => "<img width='50px' height='50px' src='".$icon."'>&nbsp;&nbsp;{$fileLink} - ".$file['name']."",
+            ];
+        }
+    }
+
     // Generate data for content input fields
     if ($config['news.edit.split']) {
         $tVars['content']['delimiter'] = '';
@@ -406,7 +425,8 @@ function massNewsModify($setValue, $langParam, $auto = false)
     }
 
     $result = massModifyNews(['id' => $selected_news], $setValue, true);
-
+    msg(['type' => 'info', 'text' => $lang[$langParam], 'info' => implode("<br/>\n", $result)]);
+	return print_msg( 'info', $lang['msgi_info'], ''.$lang[$langParam].'<br/>'.implode("<br/>\n", $result).'', '?mod=news' );
 }
 
 //
@@ -842,6 +862,48 @@ function addNewsForm($retry = '')
         ],
     ];
 
+    $tVars['images'] = [];
+	$postimg = $mysql->lastid('news')+1;
+    $images = $mysql->select("SELECT * FROM " . prefix . "_images WHERE plugin = 'gk' AND linked_id = " . (int)$postimg, 1);
+
+    if(!empty($images)) {
+        foreach($images as $image) {
+            $imgurl = str_replace($config['images_url'].'/','', $config['images_url'] . '/' . $image['folder'] . '/' . $image['name']);
+			$imgfull = $config['images_url'] . '/' . $image['folder'] . '/' . $image['name'];
+			$imgshort = $config['images_url'] . '/' . $image['folder'] . '/thumb/' . $image['name'];
+            $thumbUrl = ($image['preview']) ? str_replace($config['images_url'].'/','', $config['images_url'] . '/' . $image['folder'] . '/thumb/' . $image['name']) : '';
+
+            $imageLink = '[<a href="#" title="'.$lang['editnews']['img_ins_link'].'" alt="'.$lang['editnews']['img_ins_link'].'" onclick=\'insertext("[img=\"'.$imgfull.'\"]'.$image['id'].'_'.$image['name'].'[/img] ","",currentInputAreaID);return false;\'>'.$lang['editnews']['img_link'].'</a>]';
+            $thumbLink = ($thumbUrl) ? '[<a href="#" title="'.$lang['editnews']['img_ins_thumb'].'" alt="'.$lang['editnews']['img_ins_thumb'].'" onclick=\'insertext("[img=\"'.$imgshort.'\"]'.$image['id'].'_'.$image['name'].'[/img] ", "", currentInputAreaID);return false;\'>'.$lang['editnews']['img_thumb'].'</a>] ' : '';
+            $previewImg = $config['images_url']. '/' . (($thumbUrl) ? $thumbUrl : $imgurl);
+
+            $tVars['images'][] = [
+                'id' => $image['id'],
+                'entry' => "<img width='50px' height='50px' src='".$previewImg."'>&nbsp;&nbsp;{$thumbLink}{$imageLink} - ".$image['name']." [{$image['width']}x{$image['height']}, ".Formatsize($image['filesize'])."] ",
+            ];
+        }
+    }
+	
+    $tVars['files'] = [];
+	$postdata = $mysql->lastid('news')+1;
+    $files = $mysql->select("SELECT * FROM " . prefix . "_files WHERE plugin = 'gk' AND linked_id = " . (int)$postdata, 1);
+
+    if(!empty($files)) {
+        foreach($files as $file) {
+			$fname = $config['files_url'] . '/' . $file['folder'] . '/' . $file['name'];
+			$fileLink = '[<a href="#" title="'.$lang['editnews']['data_ins_link'].'" alt="'.$lang['editnews']['data_ins_link'].'" onclick=\'insertext("[attach#'.$file['id'].']'.$file['name'].'[/attach] ","",currentInputAreaID);return false;\'>Файл</a>]';
+
+			$path_info = pathinfo($fname);
+			$format = $path_info['extension'];
+			$icon = skins_url.'/images/filetypes/'.$format.'.png';
+	
+            $tVars['files'][] = [
+                'id' => $file['id'],
+                'entry' => "<img width='50px' height='50px' src='".$icon."'>&nbsp;&nbsp;{$fileLink} - ".$file['name']."",
+            ];
+        }
+    }
+	
     // Run interceptors
     if (is_array($PFILTERS['news'])) {
         foreach ($PFILTERS['news'] as $k => $v) {
@@ -879,6 +941,22 @@ do {
 
         newsImageDelete($_POST['imageId']);
     }
+    if ($action == "uploadfile") {
+        if(empty($_FILES)){
+			ajaxError(''.$lang['data_upl_er'].'');
+        }
+
+        newsFileUpload($_FILES, $_POST);
+    }
+
+    if ($action == "deletefile") {
+        if(empty($_POST['fileId']) || intval($_POST['fileId']) < 1){
+			ajaxError(''.$lang['data_id_er'].'');
+        }
+
+        newsFileDelete($_POST['fileId']);
+    }
+	
     // Manage "ADD" mode
     if ($action == 'add') {
         $replay = false;

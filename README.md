@@ -13,8 +13,8 @@ GK NGCMS
 - Новые уведомления системы после каждого действия
 ![](https://github.com/KachalkinGeorg/gkcms/blob/main/docs/images/history/notif_2.jpg?raw=true)
 
-- Новая система загрузки изображений
-![](https://github.com/KachalkinGeorg/gkcms/blob/main/docs/images/history/public_3.0.jpg?raw=true)
+- Новая система загрузки изображений и файлов
+![](https://github.com/KachalkinGeorg/gkcms/blob/main/docs/images/history/public_3.0_new.jpg?raw=true)
 
 Все изменения в движке доступны в разделе документации - Новые изменения
 
