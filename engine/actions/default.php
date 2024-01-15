@@ -164,7 +164,7 @@ $news_unapp = ($news_unapp == '0') ? $news_unapp : '<font color="#ff6600">'.$new
 $users_unact = $mysql->result('SELECT count(id) FROM '.uprefix."_users WHERE activation != ''");
 $users_unact = ($users_unact == '0') ? $users_unact : '<font color="#ff6600">'.$users_unact.'</font>';
 
-if (getPluginStatusActive('comments')) {
+if (getPluginStatusActive('comments') && pluginGetVariable('comments', 'moderate') ) {
 	$com_unapp = $mysql->result('SELECT count(id) FROM '.prefix."_comments WHERE approve = '0'");
 	$com_unapp = ($com_unapp == '0') ? $com_unapp : '<font color="#ff6600">'.$com_unapp.' <a href="?mod=extra-config&plugin=comments&action=list&approve=1">['.Padeg($com_unapp, $lang['head_com_skl']).']</a></font>';
 }
